@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: none;
+    font-family: sans-serif;
+}
+
+body {
+    background-color: white;
+    color: #333333;
+}
+
+a {
+    text-decoration: none;
+}
+
+.folder {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    min-width: 400px;
+    border-radius: 0.8rem;
+    background-color: #0074EF;
+    padding: 1.5rem;
+}
+
+.footer {
+    background-color: #073b4c;
+    padding: 20px;
+}
+
+.logo {
+    font-family: Roboto;
+    font-size: 2.5rem;
+    font-weight: 900;
+}
+
+.paragraph {
+    font-family: Roboto;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.paragraph2 {
+    font-family: Roboto;
+
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.pontuation {
+    font-family: Roboto;
+    font-size: 3rem;
+    font-weight: 900;
+    color: #fff;
+}
+
+.cabecalho {
+    background-color: #ccc;
+    padding: 1rem;
+}
+
+.ranking {
+    display: flex;
+    justify-content: center;
+    width: 12rem;
+    height: 12rem;
+    align-items: end;
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 0.8rem;
+}
+
+.position {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.n1 {
+    padding-top: 0.5rem;
+    display: flex;
+    justify-content: center; 
+    height: 7rem;
+    width: 2rem;
+    border-radius: 0.2rem;
+    background-color: #ffd100;
+}
+
+.n2 {
+    padding-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    height: 5.5rem;
+    width: 2rem;
+    border-radius: 0.2rem;
+    background-color: #e5e5e5;
+}
+
+.n3 {
+    padding-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    height: 4rem;
+    width: 2rem;
+    border-radius: 0.2rem;
+    background-color: #e0afa0;
+}
+
+.image{
+    margin-bottom: 0.5rem;
+    border-radius: 200rem;
+    width: 2rem;
+    height: 2rem;
+    background-color: #ccc ;
+}
+
+.center {
+    align-content: center;
+}
