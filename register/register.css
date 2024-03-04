@@ -4,6 +4,7 @@
     box-sizing: border-box;
     font-family: "Roboto", sans-serif;
     color: var(--text-color);
+    text-decoration: none;
 }
 
 body {
@@ -67,6 +68,7 @@ input, button {
     width: 100%;
     padding: 0.5em;
     border-radius: 0.3em;
+    height: 3em;
 }
 
 input {
@@ -83,7 +85,7 @@ button {
     background-color: var(--primary-color);
     border: none;
     color: #ffffff;
-    padding: 0.8em 0;
+    padding: 0.8em;
     margin-top: 1.5em;
 }
 
@@ -113,7 +115,7 @@ button {
     }
 }
 
-/*Footer*/
+/*--------------------Footer--------------------*/
 
 .footer {
     display: flex;
@@ -132,12 +134,13 @@ button {
 
 .link:hover {
     color: var(--hover-color);
+    text-decoration: underline;
 }
 
-/*Nav*/
+/*--------------------Nav--------------------*/
 
 .back {
-    position: absolute;
+    position: fixed;
     justify-content: left;
     align-content: start;
     height: 3em;

@@ -1,0 +1,49 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games</title>
+    <!--preSets--> <link rel="stylesheet" href="../preSets.css">
+    <!--Fonts--> <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!--Icons--> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"/>
+
+    <link rel="stylesheet" href="style.css"/>
+</head>
+
+------------------------------------------------------------------------------------------------------------------------
+
+/*--------------------PreSets--------------------*/
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+body {
+    background-color: var(--background-color);
+}
+
+/*--------------------Nav--------------------*/
+
+.back {
+    position: fixed;
+    justify-content: left;
+    align-content: start;
+    height: 3em;
+    width: 3em;
+    margin: 1em;
+    background-color: var(--background-color);
+}
+
+.back:hover {
+    background-color: var(--background-hover-color);
+}
+
+#icon {
+    display: flex;
+    justify-content: center;
+    font-size: 1.2em;
+}
