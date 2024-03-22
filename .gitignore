@@ -1,3 +1,9 @@
-# Ignorar as chaves de api
+# Environments
 .env
-.json
+.venv
+env/
+venv/
+
+
+# Ignorar as chaves de api
+*.json
