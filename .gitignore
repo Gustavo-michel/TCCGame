@@ -1,3 +1,12 @@
-# Ignorar as chaves de api
+# Environments
 .env
-.json
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Ignorar as chaves de api
+*.json
+firebase_key.json
