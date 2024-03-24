@@ -7,3 +7,6 @@ venv/
 
 # Ignorar as chaves de api
 *.json
+
+#config app
+Backend/app.config
