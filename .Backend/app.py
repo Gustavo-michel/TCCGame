@@ -1,6 +1,7 @@
 from firebase_admin import auth
-from flask import Flask, request, render_template, redirect, url_for, session, flash
+from flask import Flask, request, render_template, redirect, url_for, session, flash, send_from_directory
 import config
+import os
 
 config.connection
 
