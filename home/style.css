@@ -71,3 +71,34 @@ a:hover {
     background-color: var(--alternative-color);
     border-radius: 100%;
 }
+
+
+
+
+.card {
+    width: 200px;
+    height: 200px;
+    background-color: white;
+    border-radius: 0px;
+    box-shadow: 10px 10px  rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.icon {
+    font-size: 50px;
+    color: #ffcc00;
+}
+
+.text {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #333;
+}
