@@ -1,16 +1,13 @@
-
 FROM python:3.10-slim
 
 WORKDIR /app
 
 COPY requirements.txt .
 
-
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY . .
 
-COPY Backend/ .
+EXPOSE 8000
 
-EXPOSE 5000
-
-CMD ["waitress-serve", "--port=5000", "--call", "app:create_app"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

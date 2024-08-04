@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -5,11 +6,11 @@
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!--preSets--> <link rel="stylesheet" href="../preSets.css">
+    <!--preSets--> <link rel="stylesheet" href="{% static 'preSets.css' %}">
     <!--Fonts--> <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <!--Icons--> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"/>
 
-    <link rel="stylesheet" href="login.css"/>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 
 <body>
@@ -36,14 +37,14 @@
         
         <div class="footer">
             <p>Ainda não possui uma conta? </p>
-            <a class="link" href="{{url_for('register')}}">Registrar</a>
+            <a class="link" href="{% url 'register' %}">Registrar</a>
         </div>
     </div> 
 
         <button class="back" onclick="history.back()">
             <i class="iconoir-arrow-left" id="icon"></i>
         </button> 
-    <script src="register.js"></script>
+    <script src="{% static 'js/login.js' %}"></script>
 </body>
 
 </html>

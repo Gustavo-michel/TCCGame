@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -5,19 +6,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Games</title>
-    <!--preSets--> <link rel="stylesheet" href="../preSets.css">
+    <!--preSets--> <link rel="stylesheet" href="{% static 'css/preSets.css' %}">
     <!--Fonts--> <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <!--Icons--> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"/>
-    <!--CSS--> <link rel="stylesheet" href="style.css"/>
+    <!--CSS--> <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
 
 <body>
     <header class="header">
         <h4>Games</h4>
         <div class="header-menu">
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}"><button>Registrar</button></a>
-            <a href="{{ url_for('account') }}"><div class="profile"></div></a>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}"><button>Registrar</button></a>
+            <a href="{% url 'account' %}"><div class="profile"></div></a>
         </div>
         <!-- <a href="/logout">Logout</a> -->
     </header>
