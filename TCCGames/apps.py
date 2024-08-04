@@ -1,4 +1,4 @@
 from django.apps import AppConfig
 
-class MyAppConfig(AppConfig):
+class TCCGamesConfig(AppConfig):
     name = 'TCCGames'
