@@ -12,18 +12,18 @@ let secondCard = false;
 
 //Items array
 const items = [
-  { name: "c#", image: `${STATIC_URL}js/gameMemory/images/csharp.svg` },
-  { name: "c++", image: `${STATIC_URL}js/gameMemory/images/c++.svg` },
-  { name: "css", image: `${STATIC_URL}js/gameMemory/images/css.svg` },
-  { name: "html", image: `${STATIC_URL}js/gameMemory/images/html.svg` },
-  { name: "java", image: `${STATIC_URL}js/gameMemory/images/java.svg` },
-  { name: "js", image: `${STATIC_URL}js/gameMemory/images/javascript.svg` },
-  { name: "json", image: `${STATIC_URL}js/gameMemory/images/json.svg` },
-  { name: "python", image: `${STATIC_URL}js/gameMemory/images/python.svg` },
-  { name: "ruby", image: `${STATIC_URL}js/gameMemory/images/ruby.svg` },
-  { name: "react-native", image: `${STATIC_URL}js/gameMemory/images/react-native.svg` },
-  { name: "swift", image: `${STATIC_URL}js/gameMemory/images/swift.svg` },
-  { name: "typescript", image: `${STATIC_URL}js/gameMemory/images/typescript.svg` },
+  { name: "c#", image: `${STATIC_URL}images/csharp.svg` },
+  { name: "c++", image: `${STATIC_URL}images/c++.svg` },
+  { name: "css", image: `${STATIC_URL}images/css.svg` },
+  { name: "html", image: `${STATIC_URL}images/html.svg` },
+  { name: "java", image: `${STATIC_URL}images/java.svg` },
+  { name: "js", image: `${STATIC_URL}images/javascript.svg` },
+  { name: "json", image: `${STATIC_URL}images/json.svg` },
+  { name: "python", image: `${STATIC_URL}images/python.svg` },
+  { name: "ruby", image: `${STATIC_URL}images/ruby.svg` },
+  { name: "react-native", image: `${STATIC_URL}images/react-native.svg` },
+  { name: "swift", image: `${STATIC_URL}images/swift.svg` },
+  { name: "typescript", image: `${STATIC_URL}images/typescript.svg` },
 ];
 
 
