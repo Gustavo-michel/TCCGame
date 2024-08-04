@@ -5,9 +5,11 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.urls import reverse
 from firebase_admin import auth
 
+
 def home(request):
     return render(request, 'home/index.html')
 
+# Usuarios
 def register(request):
     if request.method == 'POST':
         name = request.POST['name']
@@ -76,3 +78,14 @@ def account(request):
 def logout(request):
     auth_logout(request)
     return redirect(reverse('login'))
+
+# Games
+
+def gameHangman(request):
+    return render(request, 'gameHangman/hangman.html')
+
+def gameMemory(request):
+    return render(request, 'gameMemory/memory.html')
+
+def gameWordle(request):
+    return render(request, 'gameWordle/wordle.html')

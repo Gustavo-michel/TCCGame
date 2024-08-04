@@ -20,6 +20,9 @@
       <p id="result"></p>
       <button id="start">Começar</button>
     </div>
-    <script src="memory.js"></script>
+    <script>
+      const STATIC_URL = "{% static '' %}";
+    </script>
+    <script src="{% static 'js/memory.js' %}"></script>
   </body>
 </html>

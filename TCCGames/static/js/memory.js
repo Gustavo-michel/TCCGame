@@ -12,19 +12,21 @@ let secondCard = false;
 
 //Items array
 const items = [
-  { name: "c#", image: "images/csharp.svg" },
-  { name: "c++", image: "images/c++.svg" },
-  { name: "css", image: "images/css.svg" },
-  { name: "html", image: "images/html.svg" },
-  { name: "java", image: "images/java.svg" },
-  { name: "js", image: "images/javascript.svg" },
-  { name: "json", image: "images/json.svg" },
-  { name: "python", image: "images/python.svg" },
-  { name: "ruby", image: "images/ruby.svg" },
-  { name: "react-native", image: "images/react-native.svg" },
-  { name: "swift", image: "images/swift.svg" },
-  { name: "typescript", image: "images/typescript.svg" },
+  { name: "c#", image: `${STATIC_URL}js/gameMemory/images/csharp.svg` },
+  { name: "c++", image: `${STATIC_URL}js/gameMemory/images/c++.svg` },
+  { name: "css", image: `${STATIC_URL}js/gameMemory/images/css.svg` },
+  { name: "html", image: `${STATIC_URL}js/gameMemory/images/html.svg` },
+  { name: "java", image: `${STATIC_URL}js/gameMemory/images/java.svg` },
+  { name: "js", image: `${STATIC_URL}js/gameMemory/images/javascript.svg` },
+  { name: "json", image: `${STATIC_URL}js/gameMemory/images/json.svg` },
+  { name: "python", image: `${STATIC_URL}js/gameMemory/images/python.svg` },
+  { name: "ruby", image: `${STATIC_URL}js/gameMemory/images/ruby.svg` },
+  { name: "react-native", image: `${STATIC_URL}js/gameMemory/images/react-native.svg` },
+  { name: "swift", image: `${STATIC_URL}js/gameMemory/images/swift.svg` },
+  { name: "typescript", image: `${STATIC_URL}js/gameMemory/images/typescript.svg` },
 ];
+
+
 
 //Initial Time
 let seconds = 0,
