@@ -5,6 +5,11 @@ env/
 venv/
 
 
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
 # Ignorar as chaves de api
 *.json
 
