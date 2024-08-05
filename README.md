@@ -1,14 +1,24 @@
 ## Para executar o projeto no seu computador, siga os passos abaixo:
 
-Clone o repositório do GitHub(caso não tenha).
+1. Clone o repositório do GitHub(caso não tenha).
 
-Instale as dependências necessárias:
+2. Instale as dependências necessárias:
 ```bash
 pip install -r requirements.txt
 ```
-Execute o app.py para iniciar a aplicação web:
+3. Execute o django para a aplicação web:
 ```bash
-python .Backend app.py
+python manage.py runserver
 ```
 
-Em breve um container no docker.
+## Usando container docker
+
+1. puxar container:
+```bash
+docker pull gustavomichelads/tccgamesapp
+```
+
+2. rodar container:
+```bash
+docker run -p 8000:8000 gustavomichelads/tccgamesapp
+```
