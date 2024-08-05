@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games</title>
+    <!--preSets--> <link rel="stylesheet" href="../preSets.css">
+    <!--Fonts--> <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!--Icons--> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"/>
+    <!--CSS--> <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+    <header class="header">
+        <h4>Games</h4>
+        <div class="header-menu">
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}"><button>Registrar</button></a>
+            <a href="{{ url_for('account') }}"><div class="profile"></div></a>
+        </div>
+        <!-- <a href="/logout">Logout</a> -->
+    </header>
+
+
+
+
+    <section class="folder">
+        <div>
+            <p class="paragraph">Sua pontuação</p>
+            <h1 class="pontuation">185</h1>
+        </div>
+        <div class="ranking">
+            <div>
+                <div class="image"></div>
+                <div class="n2">
+                    <p class="paragraph2">2º</p>
+                </div>
+            </div>
+            <div class="position">
+                <div class="image"></div>
+                <div class="n1">
+                    <p class="paragraph2">1º</p>
+                </div>
+            </div>
+            <div>
+                <div class="image"></div>
+                <div class="n3">
+                    <p class="paragraph2">3º</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section>
+        <p>Selecione um jogo</p>
+        <div>
+            <div class="card">
+                <div class="icon">&#9733;</div>
+                <div class="text">Texto do Card</div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+
+    </footer>
+</body>
+
+</html>
