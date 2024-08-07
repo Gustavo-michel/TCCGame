@@ -83,3 +83,21 @@ submitButton.addEventListener("click", () => {
   }
 });
 
+firebase.auth().signInWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    userCredential.user.getIdToken().then((idToken) => {
+      fetch('/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idToken: idToken }),
+      }).then(response => response.json())
+        .then(data => {
+          // Manipular a resposta do backend
+        });
+    });
+  })
+  .catch((error) => {
+    // Manipular erros
+  });
