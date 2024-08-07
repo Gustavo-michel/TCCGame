@@ -1,12 +1,21 @@
 ## Para executar o projeto no seu computador, siga os passos abaixo:
-
+676 68
 1. Clone o repositório do GitHub(caso não tenha).
 
-2. Instale as dependências necessárias:
+2. Inicialize um ambiente virtual (opcional):
+```bash
+python -m venv <nome_do_ambiente>
+```
+
+```bash
+<nome_do_ambiente>/Scripts/Activate
+```
+
+3. Instale as dependências necessárias:
 ```bash
 pip install -r requirements.txt
 ```
-3. Execute o django para a aplicação web:
+4. Execute o django para a aplicação web:
 ```bash
 python manage.py runserver
 ```
