@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Descubra a linguage</title>
+  <!--Icons-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="{% static 'css/gameLinguage.css' %}">
+</head>
+
+<body>
+  <!-- Nav -->
+  <div class="nav-container" id="nav-container">
+    <a id="back" onclick="history.back()">
+      <i class="iconoir-arrow-left" id="icon"></i>
+    </a>
+    <div class="title">
+      <h1>Descubra a linguagem</h1>
+    </div>
+  </div>
+  <!-- Wrapper -->
+  <div class="wrapper">
+    <div class="num-of-tries-left" id="chanceCount">
+      <span>Jogadas restantes: </span>
+    </div>
+    <div class="container"></div>
+    <div id="letter-container" class="hide"></div>
+    <div id="userInputSection"></div>
+  </div>
+  <!-- Menu -->
+  <div class="controls-container">
+    <p id="result"></p>
+    <a id="start">Começar</a>
+  </div>
+  <!-- Script -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="{% static 'js/gameLinguage.js' %}"></script>
+</body>
+
+</html>
