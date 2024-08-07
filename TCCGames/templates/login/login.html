@@ -15,8 +15,9 @@
 
 <body>
     <div class="container">
-        <form autocomplete="off" action="/login" method="post">
-
+        <form autocomplete="off" action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            
             <h4>Login</h4>
             <div class="input-section">
                 <label>Email <span class="required-color">*</span></label>
@@ -34,6 +35,14 @@
 
             <button type="submit" id="submit">Login</button>
         </form>
+
+        {% if error %}
+            <div class="error-message">
+                {% for message in error %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
         
         <div class="footer">
             <p>Ainda não possui uma conta? </p>

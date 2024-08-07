@@ -15,8 +15,8 @@
 
 <body>
     <div class="container">
-        <form autocomplete="off" action="/register" method="post">
-
+        <form autocomplete="off" action="{% url 'register' %}" method="post">
+            {% csrf_token %}
             <h4>Crie sua conta</h4>
 
             <div class="input-section">
