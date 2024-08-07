@@ -1,5 +1,5 @@
 ## Para executar o projeto no seu computador, siga os passos abaixo:
-676 68
+
 1. Clone o repositório do GitHub(caso não tenha).
 
 2. Inicialize um ambiente virtual (opcional):
