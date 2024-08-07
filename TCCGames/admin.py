@@ -1,7 +1,6 @@
 from django.contrib import admin
-from .models import Book
+from .models import users
 
-@admin.register(Book)
-class BookAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'published_date')
-    search_fields = ('title', 'author')
+@admin.register(users)
+class usersAdmin(admin.ModelAdmin):
+    pass
