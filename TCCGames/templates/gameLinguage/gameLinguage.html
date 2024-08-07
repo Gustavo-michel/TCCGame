@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -20,6 +21,7 @@
       <h1>Descubra a linguagem</h1>
     </div>
   </div>
+
   <!-- Wrapper -->
   <div class="wrapper">
     <div class="num-of-tries-left" id="chanceCount">
@@ -29,12 +31,17 @@
     <div id="letter-container" class="hide"></div>
     <div id="userInputSection"></div>
   </div>
+
   <!-- Menu -->
   <div class="controls-container">
     <p id="result"></p>
     <a id="start">Começar</a>
   </div>
+  
   <!-- Script -->
+  <script>
+    const STATIC_URL = "{% static '' %}";
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="{% static 'js/gameLinguage.js' %}"></script>
 </body>
