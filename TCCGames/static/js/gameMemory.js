@@ -10,20 +10,22 @@ let interval;
 let firstCard = false;
 let secondCard = false;
 
+src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
+
 //Items array
 const items = [
-  { name: "c#", image: `${STATIC_URL}images/csharp.svg` },
-  { name: "c++", image: `${STATIC_URL}images/c++.svg` },
-  { name: "css", image: `${STATIC_URL}images/css.svg` },
-  { name: "html", image: `${STATIC_URL}images/html.svg` },
-  { name: "java", image: `${STATIC_URL}images/java.svg` },
-  { name: "js", image: `${STATIC_URL}images/javascript.svg` },
-  { name: "json", image: `${STATIC_URL}images/json.svg` },
-  { name: "python", image: `${STATIC_URL}images/python.svg` },
-  { name: "ruby", image: `${STATIC_URL}images/ruby.svg` },
-  { name: "react-native", image: `${STATIC_URL}images/react-native.svg` },
-  { name: "swift", image: `${STATIC_URL}images/swift.svg` },
-  { name: "typescript", image: `${STATIC_URL}images/typescript.svg` },
+  { name: "c#", image: `images/csharp.svg` },
+  { name: "c++", image: `images/c++.svg` },
+  { name: "css", image: `images/css.svg` },
+  { name: "html", image: `images/html.svg` },
+  { name: "java", image: `images/java.svg` },
+  { name: "js", image: `images/javascript.svg` },
+  { name: "json", image: `images/json.svg` },
+  { name: "python", image: `images/python.svg` },
+  { name: "ruby", image: `images/ruby.svg` },
+  { name: "react-native", image: `images/react-native.svg` },
+  { name: "swift", image: `images/swift.svg` },
+  { name: "typescript", image: `images/typescript.svg` },
 ];
 
 
@@ -46,13 +48,13 @@ const timeGenerator = () => {
   //format time before displaying
   let secondsValue = seconds < 10 ? `0${seconds}` : seconds;
   let minutesValue = minutes < 10 ? `0${minutes}` : minutes;
-  timeValue.innerHTML = `<span>Tempo:</span>${minutesValue}:${secondsValue}`;
+  timeValue.innerHTML = `<span>Tempo: </span>${minutesValue}:${secondsValue}`;
 };
 
 //For calculating moves
 const movesCounter = () => {
   movesCount += 1;
-  moves.innerHTML = `<span>Movimentações:</span>${movesCount}<span>/10</span>`;
+  moves.innerHTML = `<span>Movimentações: </span>${movesCount}<span>/10</span>`;
 };
 
 //Pick random objects from the items array
@@ -126,8 +128,10 @@ const matrixGenerator = (cardValues, size = 4) => {
             winCount += 1;
             //check if winCount ==half of cardValues
             if (winCount == Math.floor(cardValues.length / 2)) {
-              result.innerHTML = `<h2>You Won</h2>
-            <h4>Moves: ${movesCount}</h4>`;
+              resultText.innerHTML = "Você venceu!";
+              resultText.classList.add("text-sucess");
+              result.innerHTML = `Moves: ${movesCount}`;
+              shoot();
               stopGame();
             }
           } else {
@@ -159,7 +163,7 @@ startButton.addEventListener("click", () => {
   //Start timer
   interval = setInterval(timeGenerator, 1000);
   //initial moves
-  moves.innerHTML = `<span>Movimentações:</span> ${movesCount}`;
+  moves.innerHTML = `<span>Movimentações: </span> ${movesCount}`;
   initializer();
 });
 
@@ -182,3 +186,30 @@ const initializer = () => {
   console.log(cardValues);
   matrixGenerator(cardValues);
 };
+
+// Confetti animaton
+function shoot() {
+
+  var defaults = {
+    spread: 360,
+    ticks: 100,
+    gravity: 0,
+    decay: 1,
+    startVelocity: 10,
+    colors: ['FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8']
+  };
+
+  confetti({
+    ...defaults,
+    particleCount: 30,
+    scalar: 1.5,
+    shapes: ['star']
+  });
+
+  confetti({
+    ...defaults,
+    particleCount: 10,
+    scalar: 1,
+    shapes: ['circle']
+  });
+}
