@@ -5,6 +5,9 @@ const stopButton = document.getElementById("stop");
 const gameContainer = document.querySelector(".game-container");
 const result = document.getElementById("result");
 const controls = document.querySelector(".controls-container");
+
+const imageBasePath = '../images/';
+
 let cards;
 let interval;
 let firstCard = false;
@@ -27,8 +30,6 @@ const items = [
   { name: "swift", image: `${STATIC_URL}images/swift.svg` },
   { name: "typescript", image: `${STATIC_URL}images/typescript.svg` },
 ];
-
-
 
 //Initial Time
 let seconds = 0,
