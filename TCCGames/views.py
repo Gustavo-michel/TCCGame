@@ -7,7 +7,7 @@ from firebase_admin import auth
 import json
 
 def home(request):
-    return render(request, 'home/index.html')
+    return render(request, 'index.html')
 
 # Usuarios
 def register(request):
@@ -28,9 +28,9 @@ def register(request):
             return redirect(reverse('login'))
         except Exception as e:
             messages.error(request, f'Erro ao criar usuário: {e}')
-            return render(request, 'register/register.html', {'error': 'Erro ao criar usuário. Tente novamente.'})
+            return render(request, 'register.html', {'error': 'Erro ao criar usuário. Tente novamente.'})
     
-    return render(request, 'register/register.html', {'error': None})
+    return render(request, 'register.html', {'error': None})
 
 # user.email_verified
 def login(request):
@@ -59,7 +59,7 @@ def login(request):
         except Exception as e:
             messages.error(request, f'Erro ao fazer login: {e}')
     
-    return render(request, 'login/login.html', {'error': messages.get_messages(request)})
+    return render(request, 'login.html', {'error': messages.get_messages(request)})
 
 def forgotPassword(request):
     if request.method == 'POST':
@@ -73,11 +73,11 @@ def forgotPassword(request):
             messages.error(request, f'Erro ao enviar e-mail de redefinição de senha: {e}')
             return redirect(reverse('forgotPassword'))
     
-    return render(request, 'forgotpassword/forgotPassword.html')
+    return render(request, 'forgotPassword.html')
 
 def account(request):
     if request.user.is_authenticated:
-        return render(request, 'account/account.html')
+        return render(request, 'account.html')
     else:
         return redirect(reverse('login'))
 
@@ -88,10 +88,10 @@ def logout(request):
 # Games
 
 def gameHangman(request):
-    return render(request, 'gameHangman/hangman.html')
+    return render(request, 'hangman.html')
 
 def gameMemory(request):
-    return render(request, 'gameMemory/memory.html')
+    return render(request, 'memory.html')
 
 def gameWordle(request):
-    return render(request, 'gameWordle/wordle.html')
+    return render(request, 'wordle.html')

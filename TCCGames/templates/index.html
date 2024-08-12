@@ -5,27 +5,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Games</title>
-    <!--preSets--> <link rel="stylesheet" href="{% static 'css/preSets.css' %}">
-    <!--Fonts--> <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <!--Icons--> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"/>
-    <!--CSS--> <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <title>Início</title>
+    <!-- Icons --> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"/>
+    <!-- Stylesheet --> 
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
 
 <body>
     <header class="header">
-        <h4>Games</h4>
+        <h1>Games</h1>
         <div class="header-menu">
-            <a href="{% url 'login' %}">Login</a>
-            <a href="{% url 'register' %}"><button>Registrar</button></a>
-            <a href="{% url 'account' %}"><div class="profile"></div></a>
+            <a href="{% url 'login' %}"><button class="secondaryButton">Login</button></a>
+            <a href="{% url 'register' %}"><button class="primaryButton">Registrar</button></a>
         </div>
+        <!-- <a href="{% url 'account' %}"><div class="profile"></div></a> -->
         <!-- <a href="/logout">Logout</a> -->
     </header>
 
-
-
-
+    <!-- folter -->
     <section class="folder">
         <div>
             <p class="paragraph">Sua pontuação</p>
@@ -52,8 +50,42 @@
             </div>
         </div>
     </section>
+    
+    <h4>Selecione um jogo</h4>
+
+    <!-- Games -->
+    <div class="games">
+        <div class="card">
+            <p>Jogo da memória</p>
+        </div>
+        <div class="card">
+            <p>Descubra a linguagem</p>
+        </div>
+        <div class="card">
+            <p>Descubra a linguagem</p>
+        </div>
+        <div class="card">
+            <p>Descubra a linguagem</p>
+        </div>
+        <div class="card">
+            <p>Descubra a linguagem</p>
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    
     <section>
-        <p>Selecione um jogo</p>
     </section>
     <footer class="footer">
 

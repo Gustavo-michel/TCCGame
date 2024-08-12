@@ -1,14 +1,16 @@
-{% load static %}
+<!--{% load static %}-->
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jogo da memória</title>
+  <meta charset="UTF-8">
   <!--Icons-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="{% static 'css/gameMemory.css' %}">
+  <!--<link rel="stylesheet" href="{% static 'css/gameMemory.css' %}">-->
+  <link rel="stylesheet" href="../gameMemory.css">
 </head>
 
 <body>
@@ -38,11 +40,12 @@
     <button id="start">Começar</button>
   </div>
   <!-- Script -->
-  <script>
+  <!--<script>
     const STATIC_URL = "{% static '' %}";
-  </script>
+  </script>-->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <script src="{% static 'js/gameMemory.js' %}"></script>
+  <!--<script src="{% static 'js/gameMemory.js' %}"></script>-->
+  <script src="../../static/js/gameMemory.js"></script>
 </body>
 
 </html>

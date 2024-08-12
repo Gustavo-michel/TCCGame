@@ -5,6 +5,9 @@ const stopButton = document.getElementById("stop");
 const gameContainer = document.querySelector(".game-container");
 const result = document.getElementById("result");
 const controls = document.querySelector(".controls-container");
+
+const imageBasePath = '../images/';
+
 let cards;
 let interval;
 let firstCard = false;
@@ -14,21 +17,32 @@ src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.
 
 //Items array
 const items = [
-  { name: "c#", image: `images/csharp.svg` },
-  { name: "c++", image: `images/c++.svg` },
-  { name: "css", image: `images/css.svg` },
-  { name: "html", image: `images/html.svg` },
-  { name: "java", image: `images/java.svg` },
-  { name: "js", image: `images/javascript.svg` },
-  { name: "json", image: `images/json.svg` },
-  { name: "python", image: `images/python.svg` },
-  { name: "ruby", image: `images/ruby.svg` },
-  { name: "react-native", image: `images/react-native.svg` },
-  { name: "swift", image: `images/swift.svg` },
-  { name: "typescript", image: `images/typescript.svg` },
+  // { name: "c#", image: `images/csharp.svg` },
+  // { name: "c++", image: `images/c++.svg` },
+  // { name: "css", image: `images/css.svg` },
+  // { name: "html", image: `images/html.svg` },
+  // { name: "java", image: `images/java.svg` },
+  // { name: "js", image: `images/javascript.svg` },
+  // { name: "json", image: `images/json.svg` },
+  // { name: "python", image: `images/python.svg` },
+  // { name: "ruby", image: `images/ruby.svg` },
+  // { name: "react-native", image: `images/react-native.svg` },
+  // { name: "swift", image: `images/swift.svg` },
+  // { name: "typescript", image: `images/typescript.svg` },
+
+  { name: "c#", image: `${imageBasePath}csharp.svg` },
+  { name: "c++", image: `${imageBasePath}cpp.svg` },
+  { name: "css", image: `${imageBasePath}css.svg` },
+  { name: "html", image: `${imageBasePath}html.svg` },
+  { name: "java", image: `${imageBasePath}java.svg` },
+  { name: "js", image: `${imageBasePath}javascript.svg` },
+  { name: "json", image: `${imageBasePath}json.svg` },
+  { name: "python", image: `${imageBasePath}python.svg` },
+  { name: "ruby", image: `${imageBasePath}ruby.svg` },
+  { name: "react-native", image: `${imageBasePath}react-native.svg` },
+  { name: "swift", image: `${imageBasePath}swift.svg` },
+  { name: "typescript", image: `${imageBasePath}typescript.svg` },
 ];
-
-
 
 //Initial Time
 let seconds = 0,
