@@ -5,42 +5,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <title>Início</title>
+    <!-- Icons --> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"/>
+    <!-- Stylesheet --> 
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
 
 <body>
     <header class="header">
+        <h1>Games</h1>
+        <div class="header-menu">
+            <a href="{% url 'login' %}"><button class="secondaryButton">Login</button></a>
+            <a href="{% url 'register' %}"><button class="primaryButton">Registrar</button></a>
+        </div>
+        <!-- <a href="{% url 'account' %}"><div class="profile"></div></a> -->
+        <!-- <a href="/logout">Logout</a> -->
+    </header>
 
+    <!-- folter -->
     <section class="folder">
-        <div>
-            <p class="paragraph">Sua pontuação</p>
-            <h1 class="pontuation">185</h1>
+        <div class="container-pontuation">
+            <div class="pontuation">
+                <h2>185</h2>
+                <p> pontos</p>
+            </div>
+            <img src="../static/images/ilustration.svg" alt="Ilustração" class="image">
         </div>
-        <div class="ranking">
-            <div>
-                <div class="image"></div>
-                <div class="n2">
-                    <p class="paragraph2">2º</p>
+
+        <div class="container-ranking">
+            <div class="ranking">
+                <div class="position">
+                     <div class="position-ball" id="gold">
+                        <p>1º</p>
+                    </div>
+                    <p>Daniel Lima</p>
+                </div>
+
+                <div class="position">
+                    <div class="position-ball" id="silver">
+                       <p>2º</p>
+                   </div>
+                   <p>Daniel Lima</p>
+                </div>
+
+                <div class="position">
+                    <div class="position-ball" id="bronze">
+                        <p>3º</p>
+                    </div>
+                    <p>Daniel Lima</p>
                 </div>
             </div>
-            <div class="position">
-                <div class="image"></div>
-                <div class="n1">
-                    <p class="paragraph2">1º</p>
+            <a href="" class="see-hanking">Ver mais</a>
+        </div>
+        
+         
+    </section>
+
+    <!-- Games -->
+    <section class="games">
+        <h4>Selecione um jogo</h4>
+        <div class="cards">
+            <a href="{% url 'gameMemory' %}">
+                <div class="card" id="gameMemory">
+                    <p>Jogo da memória</p>
                 </div>
-            </div>
-            <div>
-                <div class="image"></div>
-                <div class="n3">
-                    <p class="paragraph2">3º</p>
+            </a>
+
+            <a href="{% url 'gameLinguage' %}">
+                <div class="card" id="gameLinguage">
+                    <p>Descubra a linguagem</p>
                 </div>
-            </div>
+            </a>
         </div>
     </section>
 
-    </section>
-    <footer class="footer">
-
+    <footer>
+        <p>© Todos os direitos reservados</p>
+        <a href="">Política de privacidade</a>
     </footer>
 </body>
 
