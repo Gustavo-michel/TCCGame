@@ -7,9 +7,10 @@ from firebase_admin import auth
 import json
 
 def home(request):
-    return render(request, 'home/index.html')
+    return render(request, 'index.html')
 
-# Usuarios
+# Auth
+
 def register(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -28,38 +29,41 @@ def register(request):
             return redirect(reverse('login'))
         except Exception as e:
             messages.error(request, f'Erro ao criar usuário: {e}')
-            return render(request, 'register/register.html', {'error': 'Erro ao criar usuário. Tente novamente.'})
+            return render(request, 'register.html', {'error': 'Erro ao criar usuário. Tente novamente.'})
     
-    return render(request, 'register/register.html', {'error': None})
+    return render(request, 'register.html', {'error': None})
 
-# user.email_verified
+
 def login(request):
     if request.method == 'POST':
-        try:
-            # Receba o corpo da solicitação como JSON
-            data = json.loads(request.body)
-            id_token = data.get('idToken')
+        email = request.POST.get('email')
+        id_token = request.POST.get('idToken')
 
+        if not id_token:
+            messages.error(request, 'Token de autenticação não fornecido')
+            return redirect(reverse('login'))
+
+        try:
             decoded_token = auth.verify_id_token(id_token)
             uid = decoded_token['uid']
-
-            # Obtenha o usuário Firebase
             firebase_user = auth.get_user(uid)
-            if firebase_user and firebase_user.email_verified:
-                # Se necessário, crie um usuário Django
-                django_user, created = User.objects.get_or_create(username=firebase_user.email, defaults={'email': firebase_user.email})
-                
-                # Faça login do usuário Django
-                auth_login(request, django_user)
+
+            if firebase_user and firebase_user.email == email: # user.email_verified
+                user, created = User.objects.get_or_create(username=firebase_user.email, defaults={'email': firebase_user.email})
+
+                auth_login(request, user)
                 messages.success(request, 'Usuário logado com sucesso')
                 return redirect(reverse('account'))
             else:
-                messages.error(request, 'E-mail não verificado')
+                messages.error(request, 'Email não encontrado ou não corresponde')
 
+        except auth.AuthError as e:
+            messages.error(request, f'Erro de autenticação: {e}')
         except Exception as e:
             messages.error(request, f'Erro ao fazer login: {e}')
     
-    return render(request, 'login/login.html', {'error': messages.get_messages(request)})
+    return redirect(reverse('login'))
+
 
 def forgotPassword(request):
     if request.method == 'POST':
@@ -73,11 +77,11 @@ def forgotPassword(request):
             messages.error(request, f'Erro ao enviar e-mail de redefinição de senha: {e}')
             return redirect(reverse('forgotPassword'))
     
-    return render(request, 'forgotpassword/forgotPassword.html')
+    return render(request, 'forgotPassword.html')
 
 def account(request):
     if request.user.is_authenticated:
-        return render(request, 'account/account.html')
+        return render(request, 'account.html')
     else:
         return redirect(reverse('login'))
 
@@ -88,10 +92,10 @@ def logout(request):
 # Games
 
 def gameHangman(request):
-    return render(request, 'gameHangman/hangman.html')
+    return render(request, 'hangman.html')
 
 def gameMemory(request):
-    return render(request, 'gameMemory/memory.html')
+    return render(request, 'memory.html')
 
 def gameWordle(request):
-    return render(request, 'gameWordle/wordle.html')
+    return render(request, 'wordle.html')

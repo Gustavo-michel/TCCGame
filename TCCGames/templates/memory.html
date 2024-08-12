@@ -4,11 +4,11 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Descubra a linguage</title>
+  <title>Jogo da memória</title>
   <!--Icons-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="{% static 'css/gameLinguage.css' %}">
+  <link rel="stylesheet" href="{% static 'css/gameMemory.css' %}">
 </head>
 
 <body>
@@ -18,32 +18,31 @@
       <i class="iconoir-arrow-left" id="icon"></i>
     </a>
     <div class="title">
-      <h1>Descubra a linguagem</h1>
+      <h1>Jogo da memória</h1>
     </div>
   </div>
 
   <!-- Wrapper -->
   <div class="wrapper">
-    <div class="num-of-tries-left" id="chanceCount">
-      <span>Jogadas restantes: </span>
+    <div class="stats-container">
+      <div id="moves-count"></div>
+      <div id="time"></div>
     </div>
-    <div class="container"></div>
-    <div id="letter-container" class="hide"></div>
-    <div id="userInputSection"></div>
+    <div class="game-container"></div>
+    <button id="stop" class="hide">Sair</button>
   </div>
 
   <!-- Menu -->
   <div class="controls-container">
-    <p id="result"></p>
-    <a id="start">Começar</a>
+    <p id="result" class="text-sucess"></p>
+    <button id="start">Começar</button>
   </div>
-  
   <!-- Script -->
   <script>
     const STATIC_URL = "{% static '' %}";
   </script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <script src="{% static 'js/gameLinguage.js' %}"></script>
+  <script src="{% static 'js/gameMemory.js' %}"></script>
 </body>
 
 </html>
