@@ -59,7 +59,7 @@ def login(request):
         except Exception as e:
             messages.error(request, f'Erro ao fazer login: {e}')
     
-    return redirect(reverse('login'))
+    return render(request, 'userLogin.html', {'error': None})
 
 
 def forgotPassword(request):
