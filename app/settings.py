@@ -73,7 +73,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     'firebase_backend.FirebaseBackend'
-    'django.contrib.auth.backends.ModelBackend',
 ]
 
 APPEND_SLASH = True
