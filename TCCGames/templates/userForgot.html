@@ -3,37 +3,40 @@
 <html lang="pt-BR">
 
 <head>
-    <title>Esqueceu a senha</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!--preSets--> <link rel="stylesheet" href="{% static 'css/preSets.css' %}">
-    <!--Fonts--> <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <!--Icons--> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"/>
-
-    <link rel="stylesheet" href="{% static 'css/forgotPassword.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar</title>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/userForgot.css' %}">
 </head>
 
 <body>
-    <div class="container">
-        <form autocomplete="off" action="/forgotPassword" method="post">
+    <!-- Navegation -->
+    <div class="nav-container" id="nav-container">
+        <a id="back" onclick="history.back()">
+            <i class="iconoir-arrow-left" id="icon"></i>
+        </a>
+    </div>
 
-            <h4>Esqueceu a senha</h4>
+    <div class="container">
+        <form autocomplete="off" action="{% url 'forgotPassword' %}" method="post">
+
+            <h4>Esqueceu a senha?</h4>
 
             <div class="input-section">
                 <label>Email <span class="required-color">*</span></label>
-                <input type="email" placeholder="Informe o email da sua conta" id="email" required />
+                <input type="email" placeholder="Informe seu email" id="email" required />
                 <span id="email-error" class="hide required-color error-message">Email inválido</span>
                 <span id="empty-email" class="hide required-color error-message">Campo obrigatório</span>
             </div>
 
-            <button id="submit-button">Recuperar senha</button>
+            <button class="primaryButton" id="submit-button">Recuperar senha</button>
         </form>
-    </div> 
+    </div>
 
-        <button class="back" onclick="history.back()">
-            <i class="iconoir-arrow-left" id="icon"></i>
-        </button> 
-    <script src="forgotPassword.js"></script>
+    <script src="{% static 'js/userForgot.js' %}"></script>
 </body>
 
 </html>

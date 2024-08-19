@@ -59,7 +59,7 @@ def login(request):
         except Exception as e:
             messages.error(request, f'Erro ao fazer login: {e}')
     
-    return redirect(reverse('login'))
+    return render(request, 'userLogin.html')
 
 
 def forgotPassword(request):
@@ -99,3 +99,6 @@ def gameWordle(request):
 
 def gameLinguage(request):
     return render(request, 'gameLinguage.html')
+
+def privacy(request):
+    return render(request, 'privacy.html')

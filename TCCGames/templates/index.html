@@ -6,15 +6,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Início</title>
-    <!-- Icons --> 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"/>
-    <!-- Stylesheet --> 
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
 
 <body>
-    <header class="header">
-        <h1>Games</h1>
+    <header>
+        <h4>Games</h4>
         <div class="header-menu">
             <a href="{% url 'login' %}"><button class="secondaryButton">Login</button></a>
             <a href="{% url 'register' %}"><button class="primaryButton">Registrar</button></a>
@@ -27,54 +27,56 @@
     <section class="folder">
         <div class="container-pontuation">
             <div class="pontuation">
-                <h2>185</h2>
+                <h1>185</h1>
                 <p> pontos</p>
             </div>
             <img src="../static/images/ilustration.svg" alt="Ilustração" class="image">
         </div>
 
-        <div class="container-ranking">
-            <div class="ranking">
+        <div class="container-hanking">
+            <div class="hanking">
                 <div class="position">
-                     <div class="position-ball" id="gold">
-                        <p>1º</p>
+                    <div class="position-ball" id="gold">
+                        <p class="text-hanking">1</p>
                     </div>
                     <p>Daniel Lima</p>
                 </div>
 
                 <div class="position">
                     <div class="position-ball" id="silver">
-                       <p>2º</p>
-                   </div>
-                   <p>Daniel Lima</p>
+                        <p class="text-hanking">2</p>
+                    </div>
+                    <p>Daniel Lima</p>
                 </div>
 
                 <div class="position">
                     <div class="position-ball" id="bronze">
-                        <p>3º</p>
+                        <p class="text-hanking">3</p>
                     </div>
                     <p>Daniel Lima</p>
                 </div>
             </div>
             <a href="" class="see-hanking">Ver mais</a>
         </div>
-        
-         
+
+
     </section>
 
     <!-- Games -->
     <section class="games">
-        <h4>Selecione um jogo</h4>
+        <h5>Selecione um jogo</h5>
         <div class="cards">
             <a href="{% url 'gameMemory' %}">
                 <div class="card" id="gameMemory">
-                    <p>Jogo da memória</p>
+                    <i class="iconoir-question-mark" id="icon"></i>
+                    <p class="card-text">Jogo da <br> memória</p>
                 </div>
             </a>
 
             <a href="{% url 'gameLinguage' %}">
                 <div class="card" id="gameLinguage">
-                    <p>Descubra a linguagem</p>
+                    <i class="iconoir-translate" id="icon"></i>
+                    <p class="card-text">Descubra a linguagem</p>
                 </div>
             </a>
         </div>

@@ -39,17 +39,17 @@ class ViewsTests(TestCase):
     def test_register_page(self):
         response = self.client.get(reverse('register'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'register.html')
+        self.assertTemplateUsed(response, 'userRegister.html')
 
     def test_login_page(self):
         response = self.client.get(reverse('login'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'login.html')
+        self.assertTemplateUsed(response, 'userLogin.html')
 
     def test_forgot_password_page(self):
         response = self.client.get(reverse('forgotPassword'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'forgotPassword.html')
+        self.assertTemplateUsed(response, 'userForgot.html')
 
     def test_account_page(self):
         User = get_user_model()
@@ -61,7 +61,7 @@ class ViewsTests(TestCase):
         self.client.login(username='testuser', password='testpass123')
         response = self.client.get(reverse('account'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'account.html')
+        self.assertTemplateUsed(response, 'userAccount.html')
 
     def test_logout(self):
         User = get_user_model()

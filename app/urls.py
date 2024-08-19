@@ -14,4 +14,5 @@ urlpatterns = [
     path('gameMemory/', views.gameMemory, name='gameMemory'),
     path('gameWordle/', views.gameWordle, name='gameWordle'),
     path('gameLinguage/', views.gameLinguage, name='gameLinguage'),
+    path('privacy/', views.privacy, name='privacy'),
 ]

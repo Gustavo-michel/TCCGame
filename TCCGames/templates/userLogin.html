@@ -3,57 +3,62 @@
 <html lang="pt-BR">
 
 <head>
-    <title>Login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!--preSets--> <link rel="stylesheet" href="{% static 'css/preSets.css' %}">
-    <!--Fonts--> <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <!--Icons--> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"/>
-
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar</title>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/userLogin.css' %}">
 </head>
 
 <body>
+    <!-- Navegation -->
+    <div class="nav-container" id="nav-container">
+        <a id="back" onclick="history.back()">
+            <i class="iconoir-arrow-left" id="icon"></i>
+        </a>
+    </div>
+
     <div class="container">
         <form autocomplete="off" action="{% url 'login' %}" method="post">
             {% csrf_token %}
-            
-            <h4>Login</h4>
-            <div class="input-section">
-                <label>Email <span class="required-color">*</span></label>
-                <input type="email" placeholder="Informe seu email" id="email" name="email" required />
-                <span id="email-error" class="hide required-color error-message">Email inválido</span>
-                <span id="empty-email" class="hide required-color error-message">Campo obrigatório</span>
+            <h4>Entrar</h4>
+
+            <!-- Entrar -->
+            <label>Email <span class="required-color">*</span></label>
+            <input type="email" placeholder="Informe seu email" id="email" name="email" required />
+            <span id="email-error" class="hide required-color error-message">Email inválido</span>
+            <span id="empty-email" class="hide required-color error-message">Campo obrigatório</span>
+
+            <!-- Password-->
+            <label>Senha <span class="required-color">*</span></label>
+            <input type="password" placeholder="Informe uma senha" id="password" name="password" required />
+            <span id="password-error" class="hide required-color error-message">As senhas devem ter letras, símbolos
+                especiais, números e comprimento >= 8</span>
+            <span id="empty-password" class="hide required-color error-message">Campo obrigatório</span>
+
+            <div class="forgot">
+                <a href="{% url 'forgotPassword' %}">Esqueceu a senha?</a>
             </div>
 
-            <div class="input-section">
-                <label>Senha <span class="required-color">*</span></label>
-                <input type="password" placeholder="Informe uma senha" id="password" name="password" required />
-                <span id="password-error" class="hide required-color error-message">As senhas devem ter letras, símbolos especiais, números e comprimento >= 8</span>
-                <span id="empty-password" class="hide required-color error-message">Campo obrigatório</span>
-            </div>
-
-            <button type="submit" id="submit">Login</button>
+            <button class="primaryButton" type="submit" id="submit">Entrar</button>
         </form>
 
         {% if error %}
-            <div class="error-message">
-                {% for message in error %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            </div>
-        {% endif %}
-        
-        <div class="footer">
-            <p>Ainda não possui uma conta? </p>
-            <a class="link" href="{% url 'register' %}">Registrar</a>
+        <div class="error-message">
+            {% for message in error %}
+            <p>{{ message }}</p>
+            {% endfor %}
         </div>
-    </div> 
+        {% endif %}
 
-        <button class="back" onclick="history.back()">
-            <i class="iconoir-arrow-left" id="icon"></i>
-        </button> 
-    <script src="{% static 'js/login.js' %}"></script>
+        <div class="footer">
+            <p>Ainda não possui uma conta? <a class="link" href="{% url 'register' %}">Criar conta</a></p>
+        </div>
+    </div>
+
+    <script src="{% static 'js/userLogin.js' %}"></script>
 </body>
 
 </html>
