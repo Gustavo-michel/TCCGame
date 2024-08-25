@@ -56,6 +56,26 @@ def account(request):
         return render(request, 'userAccount.html')
     else:
         return redirect(reverse('login'))
+        try:
+            decoded_token = auth.verify_id_token(id_token)
+            uid = decoded_token['uid']
+            firebase_user = auth.get_user(uid)
+
+            if firebase_user and firebase_user.email == email: # user.email_verified
+                user, created = User.objects.get_or_create(username=firebase_user.email, defaults={'email': firebase_user.email})
+
+                auth_login(request, user)
+                messages.success(request, 'Usuário logado com sucesso')
+                return redirect(reverse('account'))
+            else:
+                messages.error(request, 'Email não encontrado ou não corresponde')
+
+        except auth.AuthError as e:
+            messages.error(request, f'Erro de autenticação: {e}')
+        except Exception as e:
+            messages.error(request, f'Erro ao fazer login: {e}')
+    
+    return render(request, 'userLogin.html')
 
 
 def forgotPassword(request):
@@ -89,3 +109,6 @@ def gameWordle(request):
 
 def gameLinguage(request):
     return render(request, 'gameLinguage.html')
+
+def privacy(request):
+    return render(request, 'privacy.html')

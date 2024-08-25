@@ -3,62 +3,86 @@
 <html lang="pt-BR">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar</title>
+<<<<<<< HEAD
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!--preSets--> <link rel="stylesheet" href="{% static 'css/preSets.css' %}">
     <!--Fonts--> <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <!--Icons--> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"/>
     
+=======
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
+    <!-- Stylesheet -->
+>>>>>>> 70b6428508b6405a2d8835da1e9f46f7e1c7b7e4
     <link rel="stylesheet" href="{% static 'css/userRegister.css' %}">
 </head>
 
 <body>
+    <!-- Navegation -->
+    <div class="nav-container" id="nav-container">
+        <a id="back" onclick="history.back()">
+            <i class="iconoir-arrow-left" id="icon"></i>
+        </a>
+    </div>
+    
     <div class="container">
         <form autocomplete="off" action="{% url 'register' %}" method="post">
             {% csrf_token %}
-            <h4>Crie sua conta</h4>
+            <h4>Criar conta</h4>
 
-            <div class="input-section">
-                <label>Nome (nickname) <span class="required-color">*</span></label>
-                <input type="text" placeholder="Informe seu nome" id="name" name="name" required />
-                <span id="name-error" class="hide required-color error-message">Nome inválido</span>
-                <span id="empty-name" class="hide required-color error-message">Campo obrigatório</span>
+            <!-- Name -->
+            <label>Nome (nickname) <span class="required-color">*</span></label>
+            <input type="text" placeholder="Informe seu nome" id="name" name="name" required />
+            <span id="name-error" class="hide required-color error-message">Nome inválido</span>
+            <span id="empty-name" class="hide required-color error-message">Campo obrigatório</span>
+
+            <!-- Email -->
+            <label>Email <span class="required-color">*</span></label>
+            <input type="email" placeholder="Informe seu email" id="email" name="email" required />
+            <span id="email-error" class="hide required-color error-message">Email inválido</span>
+            <span id="empty-email" class="hide required-color error-message">Campo obrigatório</span>
+
+            <!-- Password -->
+            <label>Senha <span class="required-color">*</span></label>
+            <input type="password" placeholder="Informe uma senha" id="password" name="password" required />
+            <span id="password-error" class="hide required-color error-message">As senhas devem ter letras, símbolos
+                especiais, números e comprimento >= 8</span>
+            <span id="empty-password" class="hide required-color error-message">Campo obrigatório</span>
+
+            <!-- Confirm -->
+            <label>Confirme a senha <span class="required-color">*</span></label>
+            <input type="password" id="verify-password" placeholder="Confirme sua senha" required />
+            <span id="verify-password-error" class="hide required-color error-message">A senha deve ser igual a
+                anterior</span>
+            <span id="empty-verify-password" class="hide required-color error-message">Campo obrigatório</span>
+
+            <div class="footer">
+                <p>Ao criar uma conta você concorda com os <a href="{% url 'privacy' %}">Termos de uso</a></p>
             </div>
 
-            <div class="input-section">
-                <label>Email <span class="required-color">*</span></label>
-                <input type="email" placeholder="Informe seu email" id="email" name="email" required />
-                <span id="email-error" class="hide required-color error-message">Email inválido</span>
-                <span id="empty-email" class="hide required-color error-message">Campo obrigatório</span>
-            </div>
-
-            <div class="input-section">
-                <label>Senha <span class="required-color">*</span></label>
-                <input type="password" placeholder="Informe uma senha" id="password" name="password" required />
-                <span id="password-error" class="hide required-color error-message">As senhas devem ter letras, símbolos especiais, números e comprimento >= 8</span>
-                <span id="empty-password" class="hide required-color error-message">Campo obrigatório</span>
-            </div>
-
-            <div class="input-section">
-                <label>Confirme a senha <span class="required-color">*</span></label>
-                <input type="password" id="verify-password" placeholder="Confirme sua senha" required />
-                <span id="verify-password-error" class="hide required-color error-message">A senha deve ser igual a anterior</span>
-                <span id="empty-verify-password" class="hide required-color error-message">Campo obrigatório</span>
-            </div>
-
-            <button type="submit" id="submit">Registrar</button>
+            <button type="submit" class="primaryButton" id="submit">Registrar</button>
         </form>
-        
-        <div class="footer">
-            <p>Já possui uma conta? </p>
-            <a class="link" href="{% url 'login' %}">Registrar</a>
-        </div>
-    </div> 
 
+<<<<<<< HEAD
         <button class="back" onclick="history.back()">
             <i class="iconoir-arrow-left" id="icon"></i>
         </button> 
         <script src="{% static 'js/userRegister.js' %}"></script>
+=======
+        <div class="footer">
+            <p>Já possui uma conta? <a href="{% url 'login' %}">Entrar</a></p>
+        </div>
+    </div>
+
+    <!-- <button class="back" onclick="history.back()">
+        <i class="iconoir-arrow-left" id="icon"></i>
+    </button> -->
+    <script src="{% static 'js/register.js' %}"></script>
+>>>>>>> 70b6428508b6405a2d8835da1e9f46f7e1c7b7e4
 </body>
+
 </html>
