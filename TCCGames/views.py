@@ -4,18 +4,16 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.urls import reverse
 from firebase_admin import auth
-import json
 
 def home(request):
     return render(request, 'index.html')
 
 def register(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-
         try:
+            name = request.POST.get('name')
+            email = request.POST.get('email')
+            password = request.POST.get('password')
             user = auth.create_user(
                 uid=name,
                 email=email,
@@ -34,20 +32,25 @@ def register(request):
 def login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-        id_token = request.POST.get('idToken')
+        password = request.POST.get('password')
 
-        if not id_token:
-            messages.error(request, 'Token de autenticação não fornecido')
-            return redirect(reverse('login'))
+        try:
 
-        user = authenticate(request, email=email, idToken=id_token)
-        if user:
-            auth_login(request, user)
-            messages.success(request, 'Usuário logado com sucesso')
-            return redirect(reverse('account'))
-        else:
-            messages.error(request, 'Erro de autenticação ou email não corresponde')
-    
+            user_django = authenticate(request, email=email, password=password)
+
+            if user_django is not None:
+                auth_login(request, user_django)
+                messages.success(request, 'Login realizado com sucesso!')
+                return redirect('account')
+            else:
+                new_user_django = User.objects.create_user(email=email, password=password)
+                auth_login(request, new_user_django)
+                messages.success(request, 'Login realizado com sucesso!')
+                return redirect('account')
+        except Exception as e:
+            messages.error(request, f'Erro ao fazer login: {e}')
+            return render(request, 'userLogin.html', {'error': 'Credenciais inválidas. Tente novamente.'})
+        
     return render(request, 'userLogin.html', {'error': None})
 
 def account(request):

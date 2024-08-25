@@ -4,24 +4,23 @@ from firebase_admin import auth
 
 class FirebaseBackend(BaseBackend):
     """
-    Autentica um usuário usando o idToken do Firebase.
+    Autentica um usuário usando o e-mail e a senha do Firebase.
     """
-    def authenticate(self, request, email=None, idToken=None):
+    def authenticate(self, email=None, password=None):
         try:
-            if idToken:
-                decoded_token = auth.verify_id_token(idToken)
-                uid = decoded_token['uid']
-                firebase_user = auth.get_user(uid)
-
-                if firebase_user and firebase_user.email == email:
+            if email and password:
+                firebase_user = auth.get_user_by_email(email)
+                # Verificar senha com o Django auth
+                
+                if firebase_user:
                     django_user, created = User.objects.get_or_create(
-                        username=firebase_user.email,
+                        username=firebase_user.uid,
                         defaults={'email': firebase_user.email}
                     )
                     return django_user
-                
+
         except auth.AuthError as e:
-            print(f'Erro de autenticação: {e}')
+            print(f'Erro de autenticação no Firebase: {e}')
         except Exception as e:
             print(f'Erro ao autenticar: {e}')
         
