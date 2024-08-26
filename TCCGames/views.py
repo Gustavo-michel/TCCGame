@@ -37,19 +37,21 @@ def login(request):
         try:
 
             user_django = authenticate(request, email=email, password=password)
+            firebase_user = auth.get_user_by_email(email)
+            
 
             if user_django is not None:
                 auth_login(request, user_django)
                 messages.success(request, 'Login realizado com sucesso!')
                 return redirect('account')
             else:
-                new_user_django = User.objects.create_user(email=email, password=password)
+                new_user_django = User.objects.create_user(username=firebase_user.uid, email=email, password=password)
                 auth_login(request, new_user_django)
                 messages.success(request, 'Login realizado com sucesso!')
                 return redirect('account')
         except Exception as e:
             messages.error(request, f'Erro ao fazer login: {e}')
-            return render(request, 'userLogin.html', {'error': 'Credenciais inválidas. Tente novamente.'})
+            return render(request, 'userLogin.html', {'erro': 'Credenciais inválidas. Tente novamente.'})
         
     return render(request, 'userLogin.html', {'error': None})
 
