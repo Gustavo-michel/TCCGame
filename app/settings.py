@@ -91,3 +91,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
