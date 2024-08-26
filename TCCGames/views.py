@@ -4,18 +4,16 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.urls import reverse
 from firebase_admin import auth
-import json
 
 def home(request):
     return render(request, 'index.html')
 
 def register(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-
         try:
+            name = request.POST.get('name')
+            email = request.POST.get('email')
+            password = request.POST.get('password')
             user = auth.create_user(
                 uid=name,
                 email=email,
@@ -34,32 +32,32 @@ def register(request):
 def login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-        id_token = request.POST.get('idToken')
-
-        if not id_token:
-            messages.error(request, 'Token de autenticação não fornecido')
-            return redirect(reverse('login'))
+        password = request.POST.get('password')
 
         try:
-            decoded_token = auth.verify_id_token(id_token)
-            uid = decoded_token['uid']
-            firebase_user = auth.get_user(uid)
 
-            if firebase_user and firebase_user.email == email: # user.email_verified
-                user, created = User.objects.get_or_create(username=firebase_user.email, defaults={'email': firebase_user.email})
+            user_django = authenticate(request, email=email, password=password)
 
-                auth_login(request, user)
-                messages.success(request, 'Usuário logado com sucesso')
-                return redirect(reverse('account'))
+            if user_django is not None:
+                auth_login(request, user_django)
+                messages.success(request, 'Login realizado com sucesso!')
+                return redirect('account')
             else:
-                messages.error(request, 'Email não encontrado ou não corresponde')
-
-        except auth.AuthError as e:
-            messages.error(request, f'Erro de autenticação: {e}')
+                new_user_django = User.objects.create_user(email=email, password=password)
+                auth_login(request, new_user_django)
+                messages.success(request, 'Login realizado com sucesso!')
+                return redirect('account')
         except Exception as e:
             messages.error(request, f'Erro ao fazer login: {e}')
-    
-    return render(request, 'userLogin.html')
+            return render(request, 'userLogin.html', {'error': 'Credenciais inválidas. Tente novamente.'})
+        
+    return render(request, 'userLogin.html', {'error': None})
+
+def account(request):
+    if request.user.is_authenticated:
+        return render(request, 'userAccount.html')
+    else:
+        return redirect(reverse('login'))
 
 
 def forgotPassword(request):
@@ -75,12 +73,6 @@ def forgotPassword(request):
             return redirect(reverse('forgotPassword'))
     
     return render(request, 'userForgot.html')
-
-def account(request):
-    if request.user.is_authenticated:
-        return render(request, 'userAccount.html')
-    else:
-        return redirect(reverse('login'))
 
 def logout(request):
     auth_logout(request)

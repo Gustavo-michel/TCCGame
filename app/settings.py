@@ -16,7 +16,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'TCCGames',
-    'app',
 ]
 
 MIDDLEWARE = [
@@ -49,12 +48,12 @@ TEMPLATES = [
 
 ASGI_APPLICATION = 'app.asgi.application'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -72,9 +71,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'firebase_backend.FirebaseBackend'
+    'app.firebase_backend.FirebaseBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
+
 
 APPEND_SLASH = True
 
@@ -91,3 +91,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+STATIC_ROOT = BASE_DIR / 'staticfiles'

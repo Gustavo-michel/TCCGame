@@ -45,13 +45,16 @@
             <button class="primaryButton" type="submit" id="submit">Entrar</button>
         </form>
 
-        {% if error %}
-        <div class="error-message">
-            {% for message in error %}
-            <p>{{ message }}</p>
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
             {% endfor %}
         </div>
         {% endif %}
+
 
         <div class="footer">
             <p>Ainda não possui uma conta? <a class="link" href="{% url 'register' %}">Criar conta</a></p>
