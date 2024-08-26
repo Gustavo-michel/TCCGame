@@ -57,6 +57,16 @@
 
             <button type="submit" class="primaryButton" id="submit">Registrar</button>
         </form>
+        
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
         <div class="footer">
             <p>Já possui uma conta? <a href="{% url 'login' %}">Entrar</a></p>
