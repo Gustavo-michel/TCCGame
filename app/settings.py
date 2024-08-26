@@ -70,15 +70,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = [
-    'app.firebase_backend.FirebaseBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
-
 
 APPEND_SLASH = True
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
