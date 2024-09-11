@@ -1,10 +1,13 @@
 from pathlib import Path
 from app.config import connection
+from decouple import config
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'dan123'
-DEBUG = True
+SECRET_KEY = config('DJANGO_SECRET_KEY')
+
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
