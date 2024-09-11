@@ -56,7 +56,7 @@ def login(request):
             firebase_user = auth.get_user_by_email(email)
             print(f"Firebase User: {firebase_user}")
 
-            if user_django and firebase_user:
+            if user_django is not None and firebase_user is not None:
                 auth_login(request, user_django)
                 messages.success(request, 'Login realizado com sucesso!')
                 return redirect('account')

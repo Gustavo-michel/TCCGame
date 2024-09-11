@@ -57,6 +57,7 @@ DATABASES = {
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'app.backends.EmailBackend'
 ]
 
 AUTH_PASSWORD_VALIDATORS = [
