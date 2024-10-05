@@ -11,6 +11,8 @@ services:
     volumes:
       - .:/app
       - ./staticfiles:/app/staticfiles
+    environment:
+      - DOCKER=1
     networks:
       - app-network
 

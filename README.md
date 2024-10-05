@@ -22,12 +22,12 @@ python manage.py runserver
 
 ## Usando container docker
 
-1. build container:
+1. build container(primeira vez executando após mudança no dockerfile):
 ```bash
-docker compose build
+docker-compose build
 ```
 
 2. up container:
 ```bash
-docker compose up
+docker-compose up
 ```

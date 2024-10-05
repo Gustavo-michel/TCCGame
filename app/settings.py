@@ -60,13 +60,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
+if os.environ.get('DOCKER') == '1':
+    DATABASE_HOST = config('DATABASE_HOST_DOCKER')
+else:
+    DATABASE_HOST = config('DATABASE_HOST_LOCAL')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('DATABASE_NAME'),
         'USER': config('DATABASE_USER'),
         'PASSWORD': config('DATABASE_PASSWORD'),
-        'HOST': config('DATABASE_HOST'),
+        'HOST': DATABASE_HOST,
         'PORT': config('DATABASE_PORT'),
     }
 }
