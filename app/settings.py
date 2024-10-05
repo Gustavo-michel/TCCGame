@@ -12,9 +12,10 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 AUTH_USER_MODEL = 'TCCGames.CustomUser'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -112,7 +113,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = os.path.join(BASE_DIR / "staticfiles")
 STATICFILES_DIRS = [BASE_DIR / 'TCCGames/static']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
