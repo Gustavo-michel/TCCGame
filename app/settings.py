@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 from app.config import connection
 from decouple import config
 
@@ -22,6 +23,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'TCCGames',
 ]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,7 +56,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'app.Wsgi.application'
+WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -106,9 +111,9 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT =  os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    BASE_DIR / 'TCCGames' / 'static',
+    BASE_DIR / 'TCCGames/static',
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
