@@ -1,87 +1,94 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from firebase_admin import auth
+from firebase_admin import auth as firebase_auth
+from unittest.mock import patch
 
-class CustomUserTests(TestCase):
-    def test_create_user(self):
-        User = get_user_model()
-        user = User.objects.create_user(
-            username='testuser',
-            email='testuser@example.com',
-            password='testpass123'
+from .models import Score
+
+
+class UserAuthTests(TestCase):
+    def setUp(self):
+        self.test_user_email = "testuser@example.com"
+        self.test_user_password = "password123"
+        self.test_user = User.objects.create_user(
+            username="testuser",
+            email=self.test_user_email,
+            password=self.test_user_password
         )
-        self.assertEqual(user.username, 'testuser')
-        self.assertEqual(user.email, 'testuser@example.com')
-        self.assertTrue(user.is_active)
-        self.assertFalse(user.is_staff)
-        self.assertFalse(user.is_superuser)
 
-    def test_create_superuser(self):
-        User = get_user_model()
-        admin_user = User.objects.create_superuser(
-            username='superadmin',
-            email='superadmin@example.com',
-            password='superpass123'
-        )
-        self.assertEqual(admin_user.username, 'superadmin')
-        self.assertEqual(admin_user.email, 'superadmin@example.com')
-        self.assertTrue(admin_user.is_active)
-        self.assertTrue(admin_user.is_staff)
-        self.assertTrue(admin_user.is_superuser)
+    @patch('firebase_admin.auth.create_user')
+    def test_register_user(self, mock_create_user):
+        mock_create_user.return_value = firebase_auth.UserRecord(uid="12345")
+        
+        response = self.client.post(reverse('register'), {
+            'name': 'Test User',
+            'email': self.test_user_email,
+            'password': self.test_user_password,
+        })
 
-class ViewsTests(TestCase):
-    def test_home_page(self):
-        response = self.client.get(reverse('home'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'index.html')
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(User.objects.filter(email=self.test_user_email).exists())
+        mock_create_user.assert_called_once_with(display_name='Test User', email=self.test_user_email, password=self.test_user_password, email_verified=False)
 
-    def test_register_page(self):
-        response = self.client.get(reverse('register'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'userRegister.html')
+    def test_login_user(self):
+        response = self.client.post(reverse('login'), {
+            'email': self.test_user_email,
+            'password': self.test_user_password,
+        })
 
-    def test_login_page(self):
-        response = self.client.get(reverse('login'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'userLogin.html')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.wsgi_request.user, self.test_user)
 
-    def test_forgot_password_page(self):
-        response = self.client.get(reverse('forgotPassword'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'userForgot.html')
+    def test_login_invalid_user(self):
+        response = self.client.post(reverse('login'), {
+            'email': 'wrong@example.com',
+            'password': 'wrongpassword',
+        })
 
-    def test_account_page(self):
-        User = get_user_model()
-        user = User.objects.create_user(
-            username='testuser',
-            email='testuser@example.com',
-            password='testpass123'
-        )
-        self.client.login(username='testuser', password='testpass123')
+        self.assertEqual(response.status_code, 302) 
+        self.assertFalse(response.wsgi_request.user.is_authenticated)
+
+    def test_update_score(self):
+        self.client.login(email=self.test_user_email, password=self.test_user_password)
+
+        score = Score.objects.create(user=self.test_user, points=0)
+        initial_score = score.points
+        
+        response = self.client.get(reverse('gameHangman'))
+        updated_score = Score.objects.get(user=self.test_user).points
+
+        self.assertEqual(updated_score, initial_score + 10)
+
+    def test_access_account_view(self):
+        self.client.login(email=self.test_user_email, password=self.test_user_password)
+        
         response = self.client.get(reverse('account'))
+
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'userAccount.html')
+        self.assertContains(response, "Pontuação Total") 
 
-    def test_logout(self):
-        User = get_user_model()
-        user = User.objects.create_user(
-            username='testuser',
-            email='testuser@example.com',
-            password='testpass123'
+
+class ScoreModelTests(TestCase):
+    def setUp(self):
+        self.test_user = User.objects.create_user(
+            username="testuser",
+            email="testuser@example.com",
+            password="password123"
         )
-        self.client.login(username='testuser', password='testpass123')
-        response = self.client.get(reverse('logout'))
-        self.assertEqual(response.status_code, 302)  # Redireciona para a página de login
 
-class FirebaseTests(TestCase):
-    def test_create_user_with_firebase(self):
-        try:
-            user = auth.create_user(
-                uid='testfirebaseuser',
-                email='testfirebaseuser@example.com',
-                password='testpass123'
-            )
-            self.assertEqual(user.email, 'testfirebaseuser@example.com')
-        finally:
-            auth.delete_user('testfirebaseuser')
+    def test_create_score(self):
+        score = Score.objects.create(user=self.test_user, points=50)
+        self.assertEqual(score.user, self.test_user)
+        self.assertEqual(score.points, 50)
+
+    def test_update_score_points(self):
+        score = Score.objects.create(user=self.test_user, points=10)
+        score.points += 20
+        score.save()
+
+        updated_score = Score.objects.get(user=self.test_user)
+        self.assertEqual(updated_score.points, 30)
+
+# rodar python manage.py test TCCGames.tests.{função}
