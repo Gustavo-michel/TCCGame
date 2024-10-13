@@ -14,6 +14,7 @@ AUTH_USER_MODEL = 'TCCGames.CustomUser'
 
 ALLOWED_HOSTS = []
 
+# apps e backends Django
 INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.admin',
@@ -60,6 +61,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
+# Postgres
 if os.environ.get('DOCKER') == '1':
     DATABASE_HOST = config('DATABASE_HOST_DOCKER')
 else:
@@ -75,7 +77,7 @@ DATABASES = {
     }
 }
 
-
+# Redis
 # CACHES = {
 #     "default": {
 #         "BACKEND": "django.core.cache.backends.redis.RedisCache",
@@ -88,6 +90,7 @@ DATABASES = {
 # SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 # SESSION_CACHE_ALIAS = "default"
 
+# Backends Auth
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'app.backends.EmailBackend'
@@ -108,7 +111,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = '/login/'
 
+# Configs local
 APPEND_SLASH = True
 
 LANGUAGE_CODE = 'pt-br'

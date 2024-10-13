@@ -31,3 +31,11 @@ docker-compose build
 ```bash
 docker-compose up
 ```
+
+ou
+
+```bash
+docker-compose up --build
+```
+
+3. acessar localhost:8000 e verificar o funcionamento

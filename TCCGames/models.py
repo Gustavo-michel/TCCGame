@@ -30,3 +30,10 @@ class CustomUser(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+
+class Score(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    points = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.user.name}: {self.points} pontos'
