@@ -22,12 +22,20 @@ python manage.py runserver
 
 ## Usando container docker
 
-1. puxar container:
+1. build container(primeira vez executando após mudança no dockerfile):
 ```bash
-docker pull gustavomichelads/tccgamesapp
+docker-compose build
 ```
 
-2. rodar container:
+2. up container:
 ```bash
-docker run -p 8000:8000 gustavomichelads/tccgamesapp
+docker-compose up
 ```
+
+ou
+
+```bash
+docker-compose up --build
+```
+
+3. acessar localhost:8000 e verificar o funcionamento

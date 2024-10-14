@@ -1,14 +1,22 @@
 from pathlib import Path
+import os
 from app.config import connection
+from decouple import config
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'dan123'
-DEBUG = True
+SECRET_KEY = config('DJANGO_SECRET_KEY')
+
+DEBUG = config('DEBUG', default=False, cast=bool)
+
+AUTH_USER_MODEL = 'TCCGames.CustomUser'
 
 ALLOWED_HOSTS = []
 
+# apps e backends Django
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -18,8 +26,13 @@ INSTALLED_APPS = [
     'TCCGames',
 ]
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+)
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -46,14 +59,42 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = 'app.asgi.application'
+WSGI_APPLICATION = 'app.wsgi.application'
 
+# Postgres
+if os.environ.get('DOCKER') == '1':
+    DATABASE_HOST = config('DATABASE_HOST_DOCKER')
+else:
+    DATABASE_HOST = config('DATABASE_HOST_LOCAL')
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DATABASE_NAME'),
+        'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': DATABASE_HOST,
+        'PORT': config('DATABASE_PORT'),
     }
 }
+
+# Redis
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379",
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#         }
+#     }
+# }
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# SESSION_CACHE_ALIAS = "default"
+
+# Backends Auth
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'app.backends.EmailBackend'
+]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -70,7 +111,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = '/login/'
 
+# Configs local
 APPEND_SLASH = True
 
 LANGUAGE_CODE = 'pt-br'
@@ -79,11 +122,9 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'TCCGames' / 'static',
-]
+STATIC_ROOT = os.path.join(BASE_DIR / "staticfiles")
+STATICFILES_DIRS = [BASE_DIR / 'TCCGames/static']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
