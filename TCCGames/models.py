@@ -3,13 +3,13 @@ from django.contrib.auth.models import AbstractBaseUser
 
 class CustomUser(AbstractBaseUser):
     email = models.EmailField(unique=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=150)
     password = models.CharField(max_length=20)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'name'
-    REQUIRED_FIELDS = ['name', 'email']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['name']
 
     def __str__(self):
         return self.email
