@@ -2,15 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from firebase_admin import auth
-from .models import Score
 
 def home(request):
     return render(request, 'index.html')
-
-# Users
 
 def register(request):
     if request.method == 'POST':
@@ -74,11 +70,11 @@ def login(request):
         
     return render(request, 'userLogin.html', {'error': None})
 
-@login_required
 def account(request):
-    scores = Score.objects.filter(user=request.user)
-    total_score = sum(score.points for score in scores) 
-    return render(request, 'userAccount.html', {'scores': scores, 'total_score': total_score})
+    if request.user.is_authenticated:
+        return render(request, 'userAccount.html')
+    else:
+        return redirect(reverse('login'))
 
 
 def forgotPassword(request):
@@ -99,44 +95,19 @@ def logout(request):
     auth_logout(request)
     return redirect(reverse('login'))
 
+# Games
+
+def gameHangman(request):
+    return render(request, 'gameHangman.html')
+
+def gameMemory(request):
+    return render(request, 'gameMemory.html')
+
+def gameWordle(request):
+    return render(request, 'gameWordle.html')
+
+def gameLinguage(request):
+    return render(request, 'gameLinguage.html')
 
 def privacy(request):
     return render(request, 'privacy.html')
-
-# Games
-
-def update_score(user, points):
-    score, created = Score.objects.get_or_create(user=user)
-    score.points += points
-    score.save()
-    return score.points
-
-@login_required
-def gameHangman(request):
-    points = 10
-
-    total_points = update_score(request.user, points)
-
-    return render(request, 'gameHangman.html', {'points': total_points})
-
-@login_required
-def gameMemory(request):
-    points = 10
-
-    total_points = update_score(request.user, points)
-    return render(request, 'gameMemory.html', {'points': total_points})
-
-@login_required
-def gameWordle(request):
-    points = 10
-
-    total_points = update_score(request.user, points)
-    return render(request, 'gameWordle.html', {'points': total_points})
-
-@login_required
-def gameLinguage(request):
-    points = 10
-
-    total_points = update_score(request.user, points)
-    return render(request, 'gameLinguage.html', {'points': total_points})
-
