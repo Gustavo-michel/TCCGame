@@ -3,7 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser
 
 class CustomUser(AbstractBaseUser):
     email = models.EmailField(unique=True)
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=50)
+    password = models.CharField(max_length=20)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
