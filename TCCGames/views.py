@@ -13,6 +13,9 @@ def home(request):
 # Users
 
 def register(request):
+    if 'uid' in request.session:
+        return redirect('account')
+    
     if request.method == 'POST':
         email = request.POST.get('email')
         name = request.POST.get('name')
@@ -34,6 +37,9 @@ def register(request):
     return render(request, 'userRegister.html')
 
 def login(request):
+    if 'uid' in request.session:
+        return redirect('account')
+    
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -55,6 +61,9 @@ def account(request):
 
 
 def forgotPassword(request):
+    if 'uid' in request.session:
+        return redirect('account')
+
     if request.method == 'POST':
         email = request.POST['email']
 
@@ -68,6 +77,7 @@ def forgotPassword(request):
     
     return render(request, 'userForgot.html')
 
+@login_required
 def logout(request):
     try:
         del request.session['uid']
