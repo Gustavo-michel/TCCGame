@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-from app.config import connection
+from app.config import firebase, db
 from decouple import config
 
 
@@ -10,7 +10,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-AUTH_USER_MODEL = 'TCCGames.CustomUser'
+# AUTH_USER_MODEL = 'TCCGames.CustomUser'
 
 ALLOWED_HOSTS = []
 
