@@ -116,6 +116,15 @@ def update_score(request):
 
     return JsonResponse({'error': 'Método não permitido.'}, status=405)
 
+def list_users_score(request):
+    usuarios = db.child("usuarios").order_by_child("score").get()
+
+    lista_usuarios = [(usuario.key(), usuario.val()) for usuario in usuarios.each()]
+
+    lista_usuarios = sorted(lista_usuarios, key=lambda x: x['score'], reverse=True)
+
+    return render(request, 'lista_usuarios.html', {'usuarios': lista_usuarios})
+
 @login_required
 def gameHangman(request):
 
