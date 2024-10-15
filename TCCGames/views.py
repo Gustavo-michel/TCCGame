@@ -17,9 +17,9 @@ def register(request):
         email = request.POST.get('email')
         name = request.POST.get('name')
         password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm_password')
+        verifyPassword = request.POST.get('verify-password')
 
-        if password != confirm_password:
+        if password != verifyPassword:
             messages.error(request, 'As senhas não coincidem!')
             return redirect('register')
 
@@ -46,7 +46,7 @@ def login(request):
             return redirect('account')
         except Exception as e:
             messages.error(request, f"Erro ao fazer login: {str(e)}")
-            return render(request, 'login.html')
+            return render(request, 'userLogin.html')
     return render(request, 'userLogin.html')
 
 @login_required

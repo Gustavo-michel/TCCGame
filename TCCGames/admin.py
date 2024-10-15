@@ -1,10 +1,10 @@
-# from django.contrib import admin
-# from .models import CustomUser
-# from django.contrib.auth.admin import UserAdmin
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from .models import CustomUser
 
-# class CustomUserAdmin(UserAdmin):
-#     list_display = (
-#         'id', 'email', 'username', 'bio', 'created_at', 'is_staff'
-#     )
+class CustomUserAdmin(UserAdmin):
+    model = CustomUser
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    ordering = ('username',)
 
-# admin.register(CustomUser, CustomUserAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)

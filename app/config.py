@@ -1,9 +1,13 @@
 import os
 import pyrebase
 from decouple import config
-
+import firebase_admin
+from firebase_admin import credentials
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+cred = credentials.Certificate(os.path.join(BASE_DIR, "../package-lock.json"))
+firebase_admin.initialize_app(cred)
 
 FIREBASE_CONFIG = {
     "apiKey": config("FIREBASE_API_KEY"),

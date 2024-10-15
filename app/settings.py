@@ -10,8 +10,6 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-# AUTH_USER_MODEL = 'TCCGames.CustomUser'
-
 ALLOWED_HOSTS = []
 
 # apps e backends Django
@@ -93,8 +91,8 @@ DATABASES = {
 # Backends Auth
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'app.backends.EmailBackend'
 ]
+AUTH_USER_MODEL = 'TCCGames.CustomUser'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -117,7 +115,7 @@ LOGIN_URL = '/login/'
 APPEND_SLASH = True
 
 LANGUAGE_CODE = 'pt-br'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
