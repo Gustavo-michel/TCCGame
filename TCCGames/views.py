@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from firebase_admin import auth
-from .models import Score
+from app.settings import firebase, db
+from django.http import JsonResponse
+from .decorators import login_required
+
+auth = firebase.auth()
 
 def home(request):
     return render(request, 'index.html')
@@ -13,75 +13,57 @@ def home(request):
 # Users
 
 def register(request):
-    if request.method == 'POST':
-        try:
-            name = request.POST.get('name')
-            email = request.POST.get('email')
-            password = request.POST.get('password')
-
-            if User.objects.filter(email=email).exists():
-                messages.error(request, 'O e-mail já está registrado.')
-                return render(request, 'userRegister.html', {'error': 'O e-mail já está registrado.'})
-
-            user_django = User.objects.create_user(
-                username=name,
-                email=email, 
-                password=password
-            )
-
-            user = auth.create_user(
-                display_name=name,
-                email=email,
-                password=password,
-                email_verified=False,
-            )
-            auth.generate_email_verification_link(user.email)
-
-            messages.success(request, f'Usuário criado com sucesso: {user.display_name}.  Verifique seu email: {user_django.email} para completar a verificação.')
-            return redirect(reverse('login'))
-        except Exception as e:
-            messages.error(request, f'Erro ao criar usuário: {e}')
-            return render(request, 'userRegister.html', {'error': 'Erro ao criar usuário. Tente novamente.'})
+    if 'uid' in request.session:
+        return redirect('account')
     
-    return render(request, 'userRegister.html', {'error': None})
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        name = request.POST.get('name')
+        password = request.POST.get('password')
+        verifyPassword = request.POST.get('verify-password')
+
+        if password != verifyPassword:
+            messages.error(request, 'As senhas não coincidem!')
+            return redirect('register')
+
+        try:
+            user = auth.create_user_with_email_and_password(email, password)
+            messages.success(request, f'Usuário {name} registrado com sucesso!')
+            return redirect('login')
+        except Exception as e:
+            messages.error(request, f'Erro ao registrar: {str(e)}')
+            return redirect('register')
+
+    return render(request, 'userRegister.html')
 
 def login(request):
+    if 'uid' in request.session:
+        return redirect('account')
+    
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        print(f"Email: {email}")
-        print(f"Password: {password}")
-
         try:
-            user_django = authenticate(request, email=email, password=password)
-            print(f"User Django: {user_django}")
-
-            firebase_user = auth.get_user_by_email(email)
-            print(f"Firebase User: {firebase_user}")
-
-            if user_django is not None and firebase_user is not None:
-                auth_login(request, user_django)
-                messages.success(request, 'Login realizado com sucesso!')
-                return redirect('account')
-            else:
-                print("User Django ou Firebase User é None")
-                messages.error(request, 'Credenciais inválidas ou usuário não registrado.')
-                return redirect('register')
+            user = auth.sign_in_with_email_and_password(email, password)
+            session_id = user['idToken']
+            request.session['uid'] = str(session_id)
+            messages.success(request, 'Login realizado com sucesso!')
+            return redirect('account')
         except Exception as e:
-            messages.error(request, f'Erro ao fazer login: {e}')
-            return render(request, 'userLogin.html', {'erro': 'Credenciais inválidas. Tente novamente.'})
-        
-    return render(request, 'userLogin.html', {'error': None})
+            messages.error(request, f"Erro ao fazer login: {str(e)}")
+            return render(request, 'userLogin.html')
+    return render(request, 'userLogin.html')
 
 @login_required
 def account(request):
-    scores = Score.objects.filter(user=request.user)
-    total_score = sum(score.points for score in scores) 
-    return render(request, 'userAccount.html', {'scores': scores, 'total_score': total_score})
+    return render(request, 'userAccount.html')
 
 
 def forgotPassword(request):
+    if 'uid' in request.session:
+        return redirect('account')
+
     if request.method == 'POST':
         email = request.POST['email']
 
@@ -95,9 +77,14 @@ def forgotPassword(request):
     
     return render(request, 'userForgot.html')
 
+@login_required
 def logout(request):
-    auth_logout(request)
-    return redirect(reverse('login'))
+    try:
+        del request.session['uid']
+    except KeyError:
+        pass
+    messages.success(request, 'Logout realizado com sucesso!')
+    return redirect('login')
 
 
 def privacy(request):
@@ -105,38 +92,60 @@ def privacy(request):
 
 # Games
 
-def update_score(user, points):
-    score, created = Score.objects.get_or_create(user=user)
-    score.points += points
-    score.save()
-    return score.points
+@login_required
+def update_score(request):
+    if request.method == 'POST':
+        usuario_id = request.user.id
+        novo_score = request.POST.get('score')
+
+        if novo_score is not None:
+            try:
+                novo_score = int(novo_score)
+
+                usuario_data = db.child("usuarios").child(usuario_id).get().val()
+                score_user = usuario_data.get('score', 0)
+
+                score = score_user + novo_score
+
+                db.child("usuarios").child(usuario_id).update({"score": score})
+
+                return JsonResponse({'message': 'Score atualizado com sucesso!', 'score': score})
+
+            except ValueError:
+                return JsonResponse({'error': 'Score deve ser um número inteiro.'}, status=400)
+
+    return JsonResponse({'error': 'Método não permitido.'}, status=405)
+
+def list_users_score(request):
+    usuarios = db.child("usuarios").order_by_child("score").get()
+
+    lista_usuarios = [(usuario.key(), usuario.val()) for usuario in usuarios.each()]
+
+    lista_usuarios = sorted(lista_usuarios, key=lambda x: x['score'], reverse=True)
+
+    return render(request, 'lista_usuarios.html', {'usuarios': lista_usuarios})
 
 @login_required
 def gameHangman(request):
-    points = 10
 
-    total_points = update_score(request.user, points)
+    total_points = update_score(request.user)
 
     return render(request, 'gameHangman.html', {'points': total_points})
 
 @login_required
 def gameMemory(request):
-    points = 10
 
-    total_points = update_score(request.user, points)
+    total_points = update_score(request.user)
     return render(request, 'gameMemory.html', {'points': total_points})
 
 @login_required
 def gameWordle(request):
-    points = 10
 
-    total_points = update_score(request.user, points)
+    total_points = update_score(request.user)
     return render(request, 'gameWordle.html', {'points': total_points})
 
 @login_required
 def gameLinguage(request):
-    points = 10
 
-    total_points = update_score(request.user, points)
+    total_points = update_score(request.user)
     return render(request, 'gameLinguage.html', {'points': total_points})
-
