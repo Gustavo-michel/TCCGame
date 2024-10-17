@@ -4,6 +4,7 @@ from firebase_admin import auth as firebase_auth
 
 def login_required(function):
     def wrap(request, *args, **kwargs):
+        print(request)
         if 'uid' in request.session:
             try:
                 uid = request.session['uid']

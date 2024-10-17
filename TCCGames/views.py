@@ -92,31 +92,31 @@ def privacy(request):
 
 # Games
 
-@login_required
 def update_score(request):
-    if request.method == 'POST':
-        usuario_id = request.user.id
-        novo_score = request.POST.get('score')
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Método não permitido.'}, status=405)
 
-        if novo_score is not None:
-            try:
-                novo_score = int(novo_score)
+    usuario_id = request.user.id
+    novo_score = request.POST.get('score')
 
-                usuario_data = db.child("usuarios").child(usuario_id).get().val()
-                score_user = usuario_data.get('score', 0)
+    if novo_score is not None:
+        try:
+            novo_score = int(novo_score)
 
-                score = score_user + novo_score
+            usuario_data = db.child("usuarios").child(usuario_id).get().val()
+            score_user = usuario_data.get('score', 0)
 
-                db.child("usuarios").child(usuario_id).update({"score": score})
+            score = score_user + novo_score
+            db.child("usuarios").child(usuario_id).update({"score": score})
 
-                return JsonResponse({'message': 'Score atualizado com sucesso!', 'score': score})
+            return JsonResponse({'message': 'Score atualizado com sucesso!', 'score': score})
 
-            except ValueError:
-                return JsonResponse({'error': 'Score deve ser um número inteiro.'}, status=400)
+        except ValueError:
+            return JsonResponse({'error': 'Score deve ser um número inteiro.'}, status=400)
 
-    return JsonResponse({'error': 'Método não permitido.'}, status=405)
+    return JsonResponse({'error': 'Score não fornecido.'}, status=400)
 
-@login_required
+
 def list_users_score(request):
     usuarios = db.child("usuarios").order_by_child("score").get()
 
@@ -128,24 +128,44 @@ def list_users_score(request):
 
 @login_required
 def gameHangman(request):
+    total_points = 0 
 
-    # total_points = update_score(request.user)
-    return render(request, 'gameHangman.html')
+    if request.method == 'POST':
+        
+        response = update_score(request)
+        total_points = response.get('score', 0)
+
+    return render(request, 'gameHangman.html', {'total_points': total_points})
 
 @login_required
 def gameMemory(request):
+    total_points = 0 
 
-    # total_points = update_score(request.user)
-    return render(request, 'gameMemory.html',)
+    if request.method == 'POST':
+        
+        response = update_score(request)
+        total_points = response.get('score', 0)
+
+    return render(request, 'gameMemory.html', {'total_points': total_points})
 
 @login_required
 def gameWordle(request):
+    total_points = 0 
 
-    # total_points = update_score(request.user)
-    return render(request, 'gameWordle.html')
+    if request.method == 'POST':
+        
+        response = update_score(request)
+        total_points = response.get('score', 0)
+
+    return render(request, 'gameWordle.html', {'total_points': total_points})
 
 @login_required
 def gameLinguage(request):
+    total_points = 0 
 
-    # total_points = update_score(request.user)
-    return render(request, 'gameLinguage.html')
+    if request.method == 'POST':
+        
+        response = update_score(request)
+        total_points = response.get('score', 0)
+
+    return render(request, 'gameLinguage.html', {'total_points': total_points})
