@@ -129,24 +129,23 @@ def list_users_score(request):
 @login_required
 def gameHangman(request):
 
-    total_points = update_score(request.user)
-
-    return render(request, 'gameHangman.html', {'points': total_points})
+    # total_points = update_score(request.user)
+    return render(request, 'gameHangman.html')
 
 @login_required
 def gameMemory(request):
 
-    total_points = update_score(request.user)
-    return render(request, 'gameMemory.html', {'points': total_points})
+    # total_points = update_score(request.user)
+    return render(request, 'gameMemory.html',)
 
 @login_required
 def gameWordle(request):
 
-    total_points = update_score(request.user)
-    return render(request, 'gameWordle.html', {'points': total_points})
+    # total_points = update_score(request.user)
+    return render(request, 'gameWordle.html')
 
 @login_required
 def gameLinguage(request):
 
-    total_points = update_score(request.user)
-    return render(request, 'gameLinguage.html', {'points': total_points})
+    # total_points = update_score(request.user)
+    return render(request, 'gameLinguage.html')
