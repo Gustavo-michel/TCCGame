@@ -5,78 +5,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Registrar</title>
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
-    <!-- Stylesheet -->
     <link rel="stylesheet" href="{% static 'css/userRegister.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
-    <!-- Navegation -->
-    <div class="nav-container" id="nav-container">
-        <a id="back" onclick="history.back()">
-            <i class="iconoir-arrow-left" id="icon"></i>
-        </a>
-    </div>
+    <header>
+        <button onclick="window.history.back();" class="btn-ghost">
+            <i class="fa-solid fa-arrow-left"></i>
+            Voltar
+        </button>
+    </header>
+
+    <main>
+        <div class="container">
+            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="image">
+        </div>
+
+        <div class="content">
+            <form action="{% url 'register' %}" method="post" autocomplete="off" class="form">
+                {% csrf_token %}
+
+                <button onclick="window.history.back();" class="btn-ghost">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Voltar
+                </button>
+
+                <h2>Criar conta</h2>
     
-    <div class="container">
-        <form autocomplete="off" action="{% url 'register' %}" method="post">
-            {% csrf_token %}
-            <h4>Criar conta</h4>
-
-            <!-- Name -->
-            <label>Nome (nickname) <span class="required-color">*</span></label>
-            <input type="text" placeholder="Informe seu nome" id="name" name="name" required />
-            <span id="name-error" class="hide required-color error-message">Nome inválido</span>
-            <span id="empty-name" class="hide required-color error-message">Campo obrigatório</span>
-
-            <!-- Email -->
-            <label>Email <span class="required-color">*</span></label>
-            <input type="email" placeholder="Informe seu email" id="email" name="email" required />
-            <span id="email-error" class="hide required-color error-message">Email inválido</span>
-            <span id="empty-email" class="hide required-color error-message">Campo obrigatório</span>
-
-            <!-- Password -->
-            <label>Senha <span class="required-color">*</span></label>
-            <input type="password" placeholder="Informe uma senha" id="password" name="password" required />
-            <span id="password-error" class="hide required-color error-message">As senhas devem ter letras, símbolos
-                especiais, números e comprimento >= 8</span>
-            <span id="empty-password" class="hide required-color error-message">Campo obrigatório</span>
-
-            <!-- Confirm -->
-            <label>Confirme a senha <span class="required-color">*</span></label>
-            <input type="password" id="verify-password" name="verify-password" placeholder="Confirme sua senha" required />
-            <span id="verify-password-error" class="hide required-color error-message">A senha deve ser igual a
-                anterior</span>
-            <span id="empty-verify-password" class="hide required-color error-message">Campo obrigatório</span>
-
-            <div class="footer">
-                <p>Ao criar uma conta você concorda com os <a href="{% url 'privacy' %}">Termos de uso</a></p>
-            </div>
-
-            <button type="submit" class="primaryButton" id="submit">Registrar</button>
-        </form>
-        
-        {% if messages %}
-        <div>
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
+                <!-- Name -->
+                <label>Nome<span>*</span></label>
+                <input type="text" placeholder="Informe seu nome" id="name" name="name" required />
+                <!-- <span id="name-error" class="hide required-color error-message">Nome inválido</span>
+                <span id="empty-name" class="hide required-color error-message">Campo obrigatório</span> -->
+    
+                <!-- Email -->
+                <label>Email<span>*</span></label>
+                <input type="email" placeholder="Informe seu email" id="email" name="email" required />
+                <!-- <span id="email-error" class="hide required-color error-message">Email inválido</span>
+                <span id="empty-email" class="hide required-color error-message">Campo obrigatório</span> -->
+    
+                <!-- Password -->
+                <label>Senha<span>*</span></label>
+                <input type="password" placeholder="Informe uma senha" id="password" name="password" required />
+                <!-- <span id="password-error" class="hide required-color error-message">As senhas devem ter letras, símbolos
+                    especiais, números e comprimento >= 8</span>
+                <span id="empty-password" class="hide required-color error-message">Campo obrigatório</span> -->
+    
+                <!-- Confirm -->
+                <label>Confirme a senha<span>*</span></label>
+                <input type="password" id="verify-password" name="verify-password" placeholder="Confirme sua senha" required />
+                <!-- <span id="verify-password-error" class="hide required-color error-message">A senha deve ser igual a
+                    anterior</span>
+                <span id="empty-verify-password" class="hide required-color error-message">Campo obrigatório</span> -->
+    
+                <div class="footer">
+                    <p>Ao criar uma conta você concorda com os <a href="{% url 'privacy' %}">Termos de uso</a></p>
                 </div>
-            {% endfor %}
-        </div>
-        {% endif %}
+    
+                <button type="submit" class="btn-green" id="submit">Criar conta</button>
 
-        <div class="footer">
-            <p>Já possui uma conta? <a href="{% url 'login' %}">Entrar</a></p>
+                <div class="footer">
+                    <p>Já possui uma conta? <a href="{% url 'login' %}">Entrar</a></p>
+                </div>
+            </form>       
         </div>
+    </main>
+
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
     </div>
+    {% endif %}
 
-    <!-- <button class="back" onclick="history.back()">
-        <i class="iconoir-arrow-left" id="icon"></i>
-    </button> -->
     <script src="{% static 'js/register.js' %}"></script>
 </body>
-
 </html>

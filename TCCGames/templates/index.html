@@ -4,24 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css"/>
 
-    <title>BranQuest</title>
+    <title>BrainQuest</title>
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <script src="{% static 'js/home.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <header>
         <nav class="navbar">
-            <div class="img-content">
-                <img src="logo.svg" alt="Logotipo">
+            <div class="logo-header">
+                <i class="fa-solid fa-diamond"></i>
+                <h4>BrainQuest</h4>
             </div>
 
             <ul class="nav-list">
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a href="#home">Início</a>
                 </li>
                 <li class="nav-item">
@@ -47,16 +46,16 @@
         <div id="menu-mobile">
             <ul id="nav-list-mobile">
                 <li class="nav-item">
-                    <button class="btn-border" href="#home">Início</button>
+                    <a class="btn-border" href="#home">Início</a>
                 </li>
                 <li class="nav-item">
-                    <button class="btn-border" href="#games">Jogos</button>
+                    <a class="btn-border" href="#games">Jogos</a>
                 </li>
                 <li class="nav-item">
-                    <button class="btn-border" href="#pontuation">Pontuação</button>
+                    <a class="btn-border" href="#pontuation">Pontuação</a>
                 </li>
                 <li class="nav-item">
-                    <button class="btn-border" href="#code">Código</button>
+                    <a class="btn-border" href="#code">Código</a>
                 </li>
             </ul>
 
@@ -81,7 +80,7 @@
 
                 <div class="cta-buttons">
                     <a href="{% url 'register' %}" class="btn-default">Jogar</a>
-                    <a class="btn-border">
+                    <a href="https://docs.google.com/document/d/1uDFXCm6yJDMwgim1j6KrTTz95PfgRzNnwNhvxbY4xIA/edit?usp=drivesdk" class="btn-border">
                         <i class="fa-regular fa-file"></i>
                         Ver documentação
                     </a>
@@ -89,7 +88,7 @@
             </div>
 
             <div class="banner">
-                <!-- <img src="main.svg" alt="Principal"> -->
+                <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="image">
             </div>
 
         </section>
@@ -101,19 +100,23 @@
             </div>
 
             <div class="cards-games">
-                <div class="card-games" id="light">
-                    <div class="title-col">
-                        <h3 class="title-green">Jogo da</h3>
-                        <h3 class="title-green">Memória</h3>
-                    </div>
 
-                    <div class="open-container">
-                        <div class="open-green">
-                            <i class="fa-solid fa-arrow-up"></i>
+                <a href="{% url 'gameMemory' %}">
+                    <div class="card-games" id="light">
+                        <div class="title-col">
+                            <h3 class="title-green">Jogo da</h3>
+                            <h3 class="title-green">Memória</h3>
                         </div>
-                        <p>Ver mais</p>
+    
+                        <div class="open-container">
+                            <div class="open-green">
+                                <i class="fa-solid fa-arrow-up"></i>
+                            </div>
+                            <p>Ver mais</p>
+                        </div>
                     </div>
-                </div>
+                </a>
+
 
                 <div class="card-games" id="green">
                     <div class="title-col">
@@ -213,20 +216,20 @@
             <div class="cards-team">
                 <div class="card-team">
                     <div class="card-team-content">
-                        <img src="avatar.png" alt="Avatar">
+                        <img src="{% static '..\static\images\avatar.png' %}" alt="Avatar">
                         <div class="card-team-col">
                             <i class="fa-brands fa-github"></i>
-                            <h3>Daniel Lima</h3>
+                            <h4>Daniel Lima</h4>
                             <p>Front-end, designer</p>
                         </div>
                     </div>
                     <div class="divider-dark"></div>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores odio id facere ea.</p>
+                    <p>Programador Front-end e desing UI e UX que desenvolve projetos em HTML, CSS, Javascript e React além de identidade visual e logotipos</p>
                 </div>
 
                 <div class="card-team">
                     <div class="card-team-content">
-                        <img src="avatar.png" alt="Avatar">
+                        <img src="{% static '..\static\images\avatar.png' %}" alt="Avatar">
                         <div class="card-team-col">
                             <h4>Daniel Lima</h4>
                             <p>Front-end</p>
@@ -238,7 +241,7 @@
 
                 <div class="card-team">
                     <div class="card-team-content">
-                        <img src="avatar.png" alt="Avatar">
+                        <img src="{% static '..\static\images\avatar.png' %}" alt="Avatar">
                         <div class="card-team-col">
                             <h4>Daniel Lima</h4>
                             <p>Front-end</p>
@@ -250,7 +253,7 @@
 
                 <div class="card-team">
                     <div class="card-team-content">
-                        <img src="avatar.png" alt="Avatar">
+                        <img src="{% static '..\static\images\avatar.png' %}" alt="Avatar">
                         <div class="card-team-col">
                             <h4>Daniel Lima</h4>
                             <p>Front-end</p>
@@ -261,21 +264,28 @@
                 </div>
             </div>
 
-            <!-- <img src="code.svg" alt="Código"> -->
             <div class="code-container">
-                <h3>Aplicação open-sourse</h3>
-                <p>Esse aplicativo é de código aberto, acesse o git hub para saber mais</p>
-                <button class="btn-default">
-                    <i class="fa-brands fa-github"></i>
-                    Ver no GitHub
-                </button>
+                <div class="code-content">
+                    <h3>Aplicação open-source</h3>
+                    <p>Esse aplicativo é de código aberto, acesse o git hub para saber mais</p>
+                    <a href="https://github.com/deniellima/TCCGame" class="btn-default">
+                        <i class="fa-brands fa-github"></i>
+                        Ver no GitHub
+                    </a>
+                </div>
+                <div class="code-image">
+                    <img src="{% static '..\static\images\code.svg' %}" alt="Código" class="image">
+                </div>
             </div>
         </section>
     </main>
 
     <footer>
         <div class="navbar-footer">
-            <!-- <img src="logo.svg" alt="Logotipo"> -->
+            <div class="logo-footer">
+                <i class="fa-solid fa-diamond"></i>
+                <h4>BrainQuest</h4>
+            </div>
             <ul class="nav-list-footer">
                 <li class="nav-item-footer">
                     <a href="#home">Início</a>
@@ -294,11 +304,11 @@
 
         <div class="divider-horizontal"></div>
         <div class="policy">
-            <p>© 2024 BranQuest. Todos os direitos reservados.</p>
+            <p>© 2024 BrainQuest. Todos os direitos reservados.</p>
             <a href="{% url 'privacy' %}">Política de privacidade</a>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="{% static 'js/home.js' %}"></script>
 </body>
 </html>

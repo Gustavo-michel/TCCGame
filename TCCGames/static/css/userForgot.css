@@ -1,126 +1,83 @@
 @import url('root.css');
 
-/*--------------------PreSets--------------------*/
-
-body {
-    background-color: var(--primary-color);
-}
-
-/* Titles */
-
-h1 h2 h3 h4 h5 h6{
-    color: var(--primary-color);
-}
-
-/* Text */
-
-p {
-    font-size: var(--label-size);
-    font-weight: var(--font-weight);
-}
-
-label {
-    display: block;
-    margin-top: 24px;
-    margin-bottom: 4px;
-    font-size: var(--label-size);
-    font-weight: var(--font-weight);
-    color: var(--text-color);
-}
-
-a {
-    text-decoration: underline;
-    font-size: var(--label-size);
-}
-
-a:hover {
-    text-decoration: underline;
-    color: var(--primary-color);
-}
-
-/* Buttons */
-button {
-    width: 100%;
-    margin-top: 32px;
-}
-
-/* Input */
-
-input {
+main {
+    height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 100%;
-    min-height: 50px;
-    cursor: pointer;
-    transition: 0.1s;
-    padding-left: 12px;
-
-    background-color: var(--white);
-    border: var(--border-grey);
-    border-radius: 6px;
-    box-shadow: var(--boxshadow);
-    font-size: var(--font-size);
-    font-weight: var(--font-weight);
-    color: var(--text-color);
 }
 
-input::placeholder {
-    color: var(--placehoder-color);
-}
-
-input:hover {
-    box-shadow: var(--boxshadow-hover);
-    transform: translateY(2px);
-    transition: 0.1s;
-}
-
-input:focus {
-    box-shadow: none;
-    transform: translateY(4px);
-    transition: 0.1s;
-}
-
-/*--------------------Content--------------------*/
+/* -------------------- Image -------------------- */
 
 .container {
-    position: absolute;
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container img {
+    width: 60%;
+    height: fit-content;
+}
+
+/* -------------------- Content -------------------- */
+
+.content {
+    width: 50%;
     display: flex;
     flex-direction: column;
-    width: 400px;
-    box-sizing: content-box;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: 50%;
-    z-index: 1;
-
-    padding: 48px;
-    background-color: var(--white);
-    border: var(--border-grey);
-    border-radius: 16px;
-    box-shadow: var(--boxshadow-container);
+    align-items: center;
+    justify-content: center;
 }
 
-.required-color {
-    color: var(--error);
+form {
+    width: 100%;
+    max-width: 500px;
+    padding: var(--md);
+    /* background-color: var(--color-grey);
+    border-radius: var(--sm);
+    box-shadow: var(--boxshadow-lg); */
 }
 
-.error-message {
-    margin-top: 4px;
+form h2 {
+    margin-top: var(--sm);
+    margin-bottom: var(--sm);
 }
 
-.error {
-    border-color: var(--error);
+form label {
+    margin-left: 4px;
 }
 
-.valid {
-    border-color: var(--sucess);
+form label span {
+    color: var(--color-error);
 }
 
-.hide {
-    display: none;
+form input {
+    width: 100%;
+    margin-bottom: var(--sm);
+}
+
+form p {
+    margin-left: 4px;
+    font-size: 16px;
+}
+
+form a {
+    text-decoration: none;
+    color: var(--color-dark);
+    font-size: 16px;
+}
+
+form a:hover {
+    color: var(--color-green);
+}
+
+form .btn-green {
+    width: 100%;
+    margin-top: var(--sm);
 }
 
 .footer {
-    margin-top: 24px;
+    margin-top: var(--md);
 }
