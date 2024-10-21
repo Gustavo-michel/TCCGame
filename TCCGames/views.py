@@ -20,7 +20,7 @@ def register(request):
         email = request.POST.get('email')
         name = request.POST.get('name')
         password = request.POST.get('password')
-        verifyPassword = request.POST.get('confirm-password')
+        verifyPassword = request.POST.get('verify-password')
 
         if password != verifyPassword:
             messages.error(request, 'As senhas não coincidem!')
@@ -38,7 +38,7 @@ def register(request):
 
 def login(request):
     if 'uid' in request.session:
-        return redirect('')
+        return redirect('account')
     
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -128,6 +128,8 @@ def list_users_score(request):
 
 @login_required
 def gameHangman(request):
+    total_points = 0 
+
     if request.method == 'POST':
         
         response = update_score(request)
@@ -137,6 +139,8 @@ def gameHangman(request):
 
 @login_required
 def gameMemory(request):
+    total_points = 0 
+
     if request.method == 'POST':
         
         response = update_score(request)
@@ -146,6 +150,8 @@ def gameMemory(request):
 
 @login_required
 def gameWordle(request):
+    total_points = 0 
+
     if request.method == 'POST':
         
         response = update_score(request)
@@ -155,6 +161,8 @@ def gameWordle(request):
 
 @login_required
 def gameLinguage(request):
+    total_points = 0 
+
     if request.method == 'POST':
         
         response = update_score(request)
