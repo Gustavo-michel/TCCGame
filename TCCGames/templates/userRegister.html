@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,25 +12,24 @@
 
 <body>
     <header>
-        <button onclick="window.history.back();" class="btn-ghost">
+        <button onclick="window.history.back();" class="btn-border">
             <i class="fa-solid fa-arrow-left"></i>
             Voltar
         </button>
-
-        <div class="header-mobile">
-            <button onclick="window.history.back();">
-                <i class="fa-solid fa-arrow-left"></i>
-            </button>
-            <p>Criar conta</p>
-        </div>
+        <!-- <button onclick="window.history.back();">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <p>Criar conta</p> -->
     </header>
 
     <main>
         <div class="container">
-            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="image">
+            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" >
         </div>
 
         <div class="content">
+
+
             <form action="{% url 'register' %}" method="post" autocomplete="off" class="form">
                 {% csrf_token %}
 
@@ -44,32 +42,32 @@
                 <div class="inp-content right-2">
                     <label>Nome<span>*</span></label>
                     <input type="text" id="name" name="name" placeholder="Informe seu nome" />
-                    <span id="empty-name" class="hide error-message">Campo obrigatório</span>
-                    <span id="name-error" class="hide error-message">Nome inválido</span>
+                    <!-- <span id="empty-name" class="hide error-message">Campo obrigatório</span>
+                    <span id="name-error" class="hide error-message">Nome inválido</span> -->
                 </div>
     
                 <!-- Email -->
                 <div class="inp-content right-3">
                     <label>Email<span>*</span></label>
                     <input type="text" id="email" name="email" placeholder="Informe seu email" />
-                    <span id="empty-email" class="hide error-message">Campo obrigatório</span>
-                    <span id="email-error" class="hide error-message">Email inválido</span>
+                    <!-- <span id="empty-email" class="hide error-message">Campo obrigatório</span>
+                    <span id="email-error" class="hide error-message">Email inválido</span> -->
                 </div>
     
                 <!-- Password -->
                 <div class="inp-content right-4">
                     <label>Senha<span>*</span></label>
                     <input type="password" id="password" name="password" placeholder="Informe uma senha" />
-                    <span id="empty-password" class="hide error-message">Campo obrigatório</span>
-                    <span id="password-error" class="hide error-message">As senhas devem ter letras, símbolos especiais, números e comprimento >= 8</span>
+                    <!-- <span id="empty-password" class="hide error-message">Campo obrigatório</span>
+                    <span id="password-error" class="hide error-message">As senhas devem ter letras, símbolos especiais, números e comprimento >= 8</span> -->
                 </div>
     
                 <!-- Confirm -->
                 <div class="inp-content right-5">
                     <label>Confirme a senha<span>*</span></label>
                     <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirme sua senha" />
-                    <span id="empty-confirm" class="hide error-message">Campo obrigatório</span>
-                    <span id="confirm-error" class="hide error-message">A senha deve ser igual a anterior</span>
+                    <!-- <span id="empty-confirm" class="hide error-message">Campo obrigatório</span>
+                    <span id="confirm-error" class="hide error-message">A senha deve ser igual a anterior</span> -->
                 </div>
     
                 <div class="right-6">
@@ -88,6 +86,7 @@
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
+            <i class="fa-solid fa-circle-exclamation"></i>
             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}
     </ul>
