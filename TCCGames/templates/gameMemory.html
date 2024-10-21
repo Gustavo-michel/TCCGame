@@ -3,47 +3,78 @@
 <html lang="pt-BR">
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jogo da memória</title>
-  <meta charset="UTF-8">
-  <!--Icons-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="{% static 'css/gameMemory.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+
+    <title>Jogo da memória</title>
+    <link rel="stylesheet" href="{% static 'css/gameMemory.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
-  <!-- Navegation -->
-  <div class="nav-container" id="nav-container">
-    <a id="back" onclick="history.back()">
-      <i class="iconoir-arrow-left" id="icon"></i>
-    </a>
-    <div class="title">
-      <p>Jogo da memória</p>
-    </div>
-  </div>
 
-  <!-- Wrapper -->
-  <div class="wrapper">
-    <div class="stats-container">
-      <div id="moves-count"></div>
-      <div id="time"></div>
-    </div>
-    <div class="game-container"></div>
-    <button id="stop" class="hide">Sair</button>
-  </div>
 
-  <!-- Menu -->
-  <div class="controls-container">
-    <p id="result" class="text-sucess"></p>
-    <button id="start">Começar</button>
-  </div>
-  <!-- Script -->
-  <script>
-    const STATIC_URL = "{% static '' %}";
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <script src="{% static 'js/gameMemory.js' %}"></script>
+<main>
+    <div class="container">
+        <h3 class="title-green">Jogo da memória</h3>
+        <p>Ache o par das liguagens de programação</p>
+
+        <!-- Menu -->
+        <div class="controls-container">
+          <p id="result" class="text-sucess"></p>
+          <button id="start" class="btn-green">Começar</button>
+        </div>
+    </div>
+
+    <div class="content">
+
+    </div>
+</main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Navegation -->
+    <!-- <div class="nav-container" id="nav-container">
+      <a id="back" onclick="history.back()">
+        <i class="iconoir-arrow-left" id="icon"></i>
+      </a>
+      <div class="title">
+        <p>Jogo da memória</p>
+      </div>
+    </div> -->
+
+    Wrapper
+    <div class="wrapper">
+      <div class="stats-container">
+        <div id="moves-count"></div>
+        <div id="time"></div>
+      </div>
+      <div class="game-container"></div>
+      <button id="stop" class="hide">Sair</button>
+    </div>
+
+    <script>
+      const STATIC_URL = "{% static '' %}";
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="{% static 'js/gameMemory.js' %}"></script>
 </body>
-
 </html>

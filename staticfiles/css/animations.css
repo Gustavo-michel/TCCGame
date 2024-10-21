@@ -128,19 +128,11 @@
 
 @keyframes float {
     0% {
-        transform: translateY(0px);
-    }
-
-    25% {
-        transform: translateY(-20px);
+        transform: translateY(0);
     }
 
     50% {
-        transform: translateY(0px);
-    }
-
-    75% {
-        transform: translateY(20px);
+        transform: translateY(-20px);
     }
 
     100% {
