@@ -128,8 +128,6 @@ def list_users_score(request):
 
 @login_required
 def gameHangman(request):
-    total_points = 0 
-
     if request.method == 'POST':
         
         response = update_score(request)
@@ -139,8 +137,6 @@ def gameHangman(request):
 
 @login_required
 def gameMemory(request):
-    total_points = 0 
-
     if request.method == 'POST':
         
         response = update_score(request)
@@ -150,8 +146,6 @@ def gameMemory(request):
 
 @login_required
 def gameWordle(request):
-    total_points = 0 
-
     if request.method == 'POST':
         
         response = update_score(request)
@@ -161,8 +155,6 @@ def gameWordle(request):
 
 @login_required
 def gameLinguage(request):
-    total_points = 0 
-
     if request.method == 'POST':
         
         response = update_score(request)
