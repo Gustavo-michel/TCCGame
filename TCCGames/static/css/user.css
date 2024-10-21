@@ -1,4 +1,9 @@
 @import url('root.css');
+@import url('animations.css');
+
+.hide {
+    display: none;
+}
 
 /* -------------------- Header -------------------- */
 
@@ -11,7 +16,7 @@ header {
 /* -------------------- Main -------------------- */
 
 main {
-    flex: 1;
+    height: 100vh;
     display: flex;
     align-items: center;
 }
@@ -46,41 +51,57 @@ main {
 }
 
 form {
+    overflow: hidden;
     width: 100%;
     max-width: 500px;
+    display: flex;
+    flex-direction: column;
     padding: var(--md);
+    gap: var(--sm);
 }
 
-form h2 {
+/* form .btn-ghost {
     margin-bottom: var(--sm);
+} */
+
+.title-content{
+    display: flex;
+    flex-direction: column;
 }
 
-form .btn-ghost {
-    margin-bottom: var(--sm);
+.inp-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-form label {
+.inp-content label {
     margin-left: 4px;
 }
 
-form label span {
+.inp-content label span {
     color: var(--color-error);
 }
 
-form input {
+.inp-content input {
     width: 100%;
-    margin-bottom: var(--sm);
+}
+
+.error-message {
+    margin-left: 4px;
+    font-size: 16px;
+    color: var(--color-error);
 }
 
 form p {
     margin-left: 4px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 form a {
-    text-decoration: none;
+    text-decoration: underline;
     color: var(--color-dark);
-    font-size: 16px;
+    font-size: 14px;
 }
 
 form a:hover {
@@ -89,11 +110,6 @@ form a:hover {
 
 form .btn-green {
     width: 100%;
-    margin-top: var(--sm);
-}
-
-.footer {
-    margin-top: var(--md);
 }
 
 @media screen and (max-width: 1200px) {
