@@ -20,7 +20,7 @@ def register(request):
         email = request.POST.get('email')
         name = request.POST.get('name')
         password = request.POST.get('password')
-        verifyPassword = request.POST.get('verify-password')
+        verifyPassword = request.POST.get('confirm-password')
 
         if password != verifyPassword:
             messages.error(request, 'As senhas não coincidem!')

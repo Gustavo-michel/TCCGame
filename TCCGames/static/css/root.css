@@ -169,7 +169,7 @@ label {
     background-color: var(--color-dark);
     color: var(--color-light);
     border: none;
-    border-radius: 10px;
+    border-radius: var(--xs);
     box-shadow: var(--boxshadow);
 
     text-decoration: none;
@@ -197,7 +197,7 @@ label {
     background-color: var(--color-green);
     color: var(--color-dark);
     border: none;
-    border-radius: 10px;
+    border-radius: var(--xs);
     box-shadow: var(--boxshadow);
 
     text-decoration: none;
@@ -227,7 +227,7 @@ label {
     border-style: solid;
     border-width: 1px;
     border-color: var(--color-dark);
-    border-radius: 10px;
+    border-radius: var(--xs);
     box-shadow: var(--boxshadow);
 
     text-decoration: none;
@@ -403,24 +403,4 @@ input:focus {
     border-style: solid;
     border-width: 1px;
     border-color: var(--color-green);
-}
-
-/* -------------------- Animation -------------------- */
-
-.image {
-    animation: float 4s ease-in-out infinite;
-}
-
-@keyframes float {
-    0% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-20px);
-    }
-
-    100% {
-        transform: translateY(0px);
-    }
 }
