@@ -38,7 +38,7 @@ def register(request):
 
 def login(request):
     if 'uid' in request.session:
-        return redirect('account')
+        return redirect('')
     
     if request.method == 'POST':
         email = request.POST.get('email')
