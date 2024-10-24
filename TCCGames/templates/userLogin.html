@@ -12,44 +12,50 @@
 </head>
 
 <body>
-    <header></header>
+    <header>
+        <button onclick="window.history.back();" class="btn-ghost">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+    </header>
 
     <main>
         <div class="container">
-            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="image">
+            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="img-left">
         </div>
 
         <div class="content">
             <form action="{% url 'login' %}" method="post" autocomplete="off" class="form">
                 {% csrf_token %}
 
-                <button onclick="window.history.back();" class="btn-ghost">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    Voltar
-                </button>
-
-                <h2>Entrar</h2>
-
-                <!-- Entrar -->
-                <label>Email<span>*</span></label>
-                <input type="email" placeholder="Informe seu email" id="email" name="email" required />
-                <!-- <span id="email-error" class="hide required-color error-message">Email inválido</span>
-                <span id="empty-email" class="hide required-color error-message">Campo obrigatório</span> -->
+                <div class="title-content right-1">
+                    <h2>Entrar</h2>
+                    <span class="error-message">*obrigatório</span>
+                </div>
+    
+                <!-- Email -->
+                <div class="inp-content right-2">
+                    <label>Email<span>*</span></label>
+                    <input type="email" placeholder="Informe seu email" id="email" name="email" required />
+                    <!-- <span id="email-error" class="hide required-color error-message">Email inválido</span>
+                    <span id="empty-email" class="hide required-color error-message">Campo obrigatório</span> -->
+                </div>
 
                 <!-- Password -->
-                <label>Senha<span>*</span></label>
-                <input type="password" placeholder="Informe uma senha" id="password" name="password" required />
-                <!-- <span id="password-error" class="hide required-color error-message">As senhas devem ter letras, símbolos
-                    especiais, números e comprimento >= 8</span>
-                <span id="empty-password" class="hide required-color error-message">Campo obrigatório</span> -->
+                <div class="inp-content right-3">
+                    <label>Senha<span>*</span></label>
+                    <input type="password" placeholder="Informe uma senha" id="password" name="password" required />
+                    <!-- <span id="password-error" class="hide required-color error-message">As senhas devem ter letras, símbolos
+                        especiais, números e comprimento >= 8</span>
+                    <span id="empty-password" class="hide required-color error-message">Campo obrigatório</span> -->
+                </div>
 
-                <div class="forgot">
+                <div class="forgot right-3">
                     <a href="{% url 'forgotPassword' %}">Esqueceu a senha?</a>
                 </div>
     
-                <button type="submit" class="btn-green" id="submit">Entrar</button>
+                <button type="submit" class="btn-green right-4" id="submit">Entrar</button>
 
-                <div class="footer">
+                <div class="footer right-5">
                     <p>Ainda não possui uma conta? <a class="link" href="{% url 'register' %}">Criar conta</a></p>
                 </div>
             </form>       

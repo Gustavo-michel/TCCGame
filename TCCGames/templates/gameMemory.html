@@ -13,21 +13,31 @@
 
 <body>
 
-
 <main>
     <div class="container">
-        <h3 class="title-green">Jogo da memória</h3>
-        <p>Ache o par das liguagens de programação</p>
+      <button onclick="window.history.back();" class="btn-ghost">
+        <i class="fa-solid fa-arrow-left"></i>
+        Voltar
+      </button>
+      <h2 class="title-green">Jogo da memória</h2>
+      <p class="description">Ache o par das liguagens de programação</p>
 
-        <!-- Menu -->
-        <div class="controls-container">
-          <p id="result" class="text-sucess"></p>
-          <button id="start" class="btn-green">Começar</button>
-        </div>
+      <!-- Start -->
+      <div class="controls-container">
+        <p id="result"></p>
+        <button id="start" class="btn-green">Começar</button>
+      </div>
+
+      <!-- Started -->
+      <button id="stop" class="hide btn-border">Reiniciar</button>
+      <div class="stats-container">
+        <div id="moves-count"></div>
+        <div id="time"></div>
+      </div>
     </div>
 
-    <div class="content">
-
+    <div class="wrapper">
+      <div class="game-container"></div>
     </div>
 </main>
 
@@ -61,16 +71,7 @@
       </div>
     </div> -->
 
-    Wrapper
-    <div class="wrapper">
-      <div class="stats-container">
-        <div id="moves-count"></div>
-        <div id="time"></div>
-      </div>
-      <div class="game-container"></div>
-      <button id="stop" class="hide">Sair</button>
-    </div>
-
+   
     <script>
       const STATIC_URL = "{% static '' %}";
     </script>

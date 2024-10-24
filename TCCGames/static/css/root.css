@@ -6,7 +6,7 @@
     --color-green: #B9FF66;
      /* 7DDF64 */
     --color-dark: #191A23;
-    --color-grey-dark: #808080;
+    --color-grey-dark: #A1A2B2;
     --color-grey: #F3F3F3;
     --color-light: #FFFFFF;
 
@@ -264,6 +264,29 @@ label {
     color: var(--color-green);
 }
 
+/* -------------------- Error -------------------- */
+
+.error {
+    height: 56px;
+    padding: 0 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    font-size: 18px;
+    background-color: var(--color-error);
+    color: var(--color-light);
+    border: none;
+    border-radius: var(--xs);
+    box-shadow: var(--boxshadow);
+
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
+}
+
 /* -------------------- Title -------------------- */
 
 .title-col{
@@ -389,6 +412,10 @@ input {
     cursor: pointer;
     user-select: none;
     transition: 0.2s;
+}
+
+input::placeholder {
+    color: var(--color-grey-dark);
 }
 
 input:hover {

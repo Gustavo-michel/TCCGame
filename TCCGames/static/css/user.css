@@ -10,14 +10,18 @@
 header {
     display: none;
 }
-/* header {
-    width: 100%;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10%;
-} */
+
+@media screen and (max-width: 600px) {
+    header {
+        width: 100%;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10%;
+        background-color: var(--color-grey);
+    }
+}
 
 /* -------------------- Container -------------------- */
 
@@ -26,6 +30,7 @@ main {
     margin: 0 10%;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--md);
 }
 
@@ -47,6 +52,21 @@ main {
     .container {
        display: none;
     }
+
+    .content {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    main {
+        height: calc(100vh - 100px);
+        width: 100%;
+        margin: 0px;
+        padding: var(--sm);
+        align-items: start;
+        overflow: scroll;
+    }
 }
 
 /* -------------------- Content -------------------- */
@@ -66,15 +86,17 @@ form {
     display: flex;
     flex-direction: column;
     gap: var(--sm);
+    padding-bottom: 4px;
 }
-
-/* form .btn-ghost {
-    margin-bottom: var(--sm);
-} */
 
 .title-content{
     display: flex;
     flex-direction: column;
+}
+
+.text {
+    margin-top: var(--xs);
+    font-size: 18px;
 }
 
 .inp-content {
@@ -113,7 +135,7 @@ form a {
 }
 
 form a:hover {
-    color: var(--color-green);
+    color: var(--color-grey-dark);
 }
 
 form .btn-green {
@@ -123,10 +145,7 @@ form .btn-green {
 @media screen and (max-width: 1200px) {
     .content {
        width: 100%;
-    }
-
-    form .btn-ghost {
-        display: none;
+       justify-content: start;
     }
 }
 
