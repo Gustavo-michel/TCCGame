@@ -4,9 +4,11 @@ from django.urls import reverse
 from app.config import firebase, db
 from django.http import JsonResponse
 from .decorators import login_required
+from django.views.decorators.cache import cache_page
 
 auth = firebase.auth()
 
+@cache_page(60 * 1)
 def home(request):
     return render(request, 'index.html')
 
