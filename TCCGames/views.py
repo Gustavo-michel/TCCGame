@@ -20,7 +20,7 @@ def register(request):
         email = request.POST.get('email')
         name = request.POST.get('name')
         password = request.POST.get('password')
-        verifyPassword = request.POST.get('verify-password')
+        verifyPassword = request.POST.get('confirm-password')
 
         if password != verifyPassword:
             messages.error(request, 'As senhas não coincidem!')
@@ -104,7 +104,10 @@ def update_score(request):
             novo_score = int(novo_score)
 
             user_data = db.child("usuarios").child(usuario_id).get().val()
-            score_user = user_data.get('score', 0)
+            if user_data:
+                score_user = user_data.get('score', 0)
+            else:
+                score_user = 0
 
             score = score_user + novo_score
             db.child("usuarios").child(usuario_id).update({"score": score})
@@ -120,41 +123,51 @@ def update_score(request):
 def list_users_by_score(request):
     usuarios = db.child("usuarios").order_by_child("score").get()
 
-    lista_usuarios = [(usuario.key(), usuario.val()) for usuario in usuarios.each()]
-
-    lista_usuarios = sorted(lista_usuarios, key=lambda x: x['score'], reverse=True)
+    lista_usuarios = [
+        {'id': usuario.key(), 'dados': usuario.val()}
+        for usuario in usuarios.each()
+    ]
 
     return render(request, 'lista_usuarios.html', {'usuarios': lista_usuarios})
+
 
 def recover_user_data(request):
     usuario_id = request.user.id
     user_data = db.child("usuarios").child(usuario_id).get().val()
-    score = user_data.get('score', 0)
-    level = user_data.get('level', 0)
 
-    return render(request)
+    if user_data:
+        score = user_data.get('score', 0)
+        level = user_data.get('level', 0)
+    else:
+        score = 0
+        level = 0
+
+    return render(request, 'user_data.html', {'score': score, 'level': level})
+
+# Games
 
 @login_required
 def gameHangman(request):
     total_points = 0 
 
     if request.method == 'POST':
-        
         response = update_score(request)
-        total_points = response.get('score', 0)
+        
+        if response.status_code == 200:
+            total_points = response.get('score', 0)
 
     return render(request, 'gameHangman.html', {'total_points': total_points})
 
-# Games
 
 @login_required
 def gameMemory(request):
     total_points = 0 
 
     if request.method == 'POST':
-        
         response = update_score(request)
-        total_points = response.get('score', 0)
+
+        if response.status_code == 200:
+            total_points = response.get('score', 0)
 
     return render(request, 'gameMemory.html', {'total_points': total_points})
 
@@ -163,9 +176,10 @@ def gameWordle(request):
     total_points = 0 
 
     if request.method == 'POST':
-        
         response = update_score(request)
-        total_points = response.get('score', 0)
+        
+        if response.status_code == 200:
+            total_points = response.get('score', 0)
 
     return render(request, 'gameWordle.html', {'total_points': total_points})
 
@@ -174,8 +188,9 @@ def gameLinguage(request):
     total_points = 0 
 
     if request.method == 'POST':
-        
         response = update_score(request)
-        total_points = response.get('score', 0)
+        
+        if response.status_code == 200:
+            total_points = response.get('score', 0)
 
     return render(request, 'gameLinguage.html', {'total_points': total_points})
