@@ -12,9 +12,33 @@ auth = firebase.auth()
 
 @cache_page(15 * 1)
 def home(request):
-    user_data = recover_user_data(request)
-    total_points = user_data.get('score', 0) if user_data else 0
-    return render(request, 'index.html', {'total_points': total_points})
+    return render(request, 'index.html')
+
+@csrf_exempt
+def home_data(request):
+    user_id = request.user.id
+
+    user_data = db.child("users").child(user_id).get().val()
+    if not user_data:
+        user_data = {"points": 0, "level": 1}
+
+    users = db.child("users").order_by_child("points").get().val()
+
+    sorted_users = sorted(users.items(), key=lambda x: x[1]['points'], reverse=True)
+
+    top_positions = [
+        {"rank": i + 1, "name": user[1]["name"], "points": user[1]["points"]}
+        for i, user in enumerate(sorted_users[:3])
+    ]
+
+    position = next((i + 1 for i, user in enumerate(sorted_users) if user[0] == user_id), None)
+    
+    return JsonResponse({
+        "level": user_data["level"],
+        "position": position,
+        "points": user_data["points"],
+        "top_positions": top_positions
+    })
 
 # Users
 
@@ -126,7 +150,9 @@ def update_user_score(request, user_id):
         return JsonResponse({"points": points, "level": level})
     else:
         return JsonResponse({"error": "Método não permitido"}, status=405)
-
+    
+# Recupera os dados do usuario para listagem
+@csrf_exempt
 def recover_user_data(request):
     user_id = request.user.id
     user_data = db.child("users").child(user_id).get().val()

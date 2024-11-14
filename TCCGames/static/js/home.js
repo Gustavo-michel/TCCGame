@@ -37,3 +37,43 @@ $(document).ready(function() {
         $(navItems[activeSectionIndex]).addClass('active');
     });
 });
+
+async function fetchHomeData() {
+    try {
+        const response = await fetch('/home_data/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+
+            document.getElementById('level').innerText = data.level;
+
+            document.getElementById('position').innerText = `${data.position}º`;
+
+            document.getElementById('points').innerText = data.points.toLocaleString();
+
+            data.top_positions.forEach((user, idx) => {
+                document.getElementById(`position-${idx + 1}`).querySelector('h2').innerText = `${user.rank}º`;
+                document.getElementById(`position-${idx + 1}`).querySelector('p').innerText = user.name;
+            });
+        } else {
+            console.error('Erro ao recuperar os dados do usuário');
+        }
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+    }
+}
+
+function getCSRFToken() {
+    return document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken'))
+        .split('=')[1];
+}
+
+window.onload = fetchHomeData;
