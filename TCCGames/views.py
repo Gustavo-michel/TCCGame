@@ -3,14 +3,18 @@ from django.contrib import messages
 from django.urls import reverse
 from app.config import firebase, db
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from .decorators import login_required
 from django.views.decorators.cache import cache_page
+import json
 
 auth = firebase.auth()
 
-@cache_page(60 * 1)
+@cache_page(15 * 1)
 def home(request):
-    return render(request, 'index.html')
+    user_data = recover_user_data(request)
+    total_points = user_data.get('score', 0) if user_data else 0
+    return render(request, 'index.html', {'total_points': total_points})
 
 # Users
 
@@ -94,105 +98,59 @@ def privacy(request):
 
 # Score logic
 
-def update_score(request):
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Método não permitido.'}, status=405)
+@csrf_exempt
+def update_user_score(request, user_id):
+    if request.method == 'POST':
 
-    usuario_id = request.user.id
-    novo_score = request.POST.get('score')
+        data = json.loads(request.body)
+        points_earned = data.get('points_earned', 0)
 
-    if novo_score is not None:
-        try:
-            novo_score = int(novo_score)
+        user_data = db.child("users").child(user_id).get().val()
 
-            user_data = db.child("usuarios").child(usuario_id).get().val()
-            if user_data:
-                score_user = user_data.get('score', 0)
-            else:
-                score_user = 0
+        if not user_data:
+            current_points = 0
+            current_level = 1
+        else:
+            current_points = user_data['points']
+            current_level = user_data['level']
 
-            score = score_user + novo_score
-            db.child("usuarios").child(usuario_id).update({"score": score})
+        points = current_points + points_earned
+        level = points // 100 + 1
 
-            return JsonResponse({'message': 'Score atualizado com sucesso!', 'score': score})
+        # Atualiza os dados do usuário no Firebase
+        db.child("users").child(user_id).update({
+            "points": points,
+            "level": level
+        })
 
-        except ValueError:
-            return JsonResponse({'error': 'Score deve ser um número inteiro.'}, status=400)
-
-    return JsonResponse({'error': 'Score não fornecido.'}, status=400)
-
-
-def list_users_by_score(request):
-    usuarios = db.child("usuarios").order_by_child("score").get()
-
-    lista_usuarios = [
-        {'id': usuario.key(), 'dados': usuario.val()}
-        for usuario in usuarios.each()
-    ]
-
-    return render(request, 'lista_usuarios.html', {'usuarios': lista_usuarios})
-
+        return JsonResponse({"points": points, "level": level})
+    else:
+        return JsonResponse({"error": "Método não permitido"}, status=405)
 
 def recover_user_data(request):
-    usuario_id = request.user.id
-    user_data = db.child("usuarios").child(usuario_id).get().val()
-
-    if user_data:
-        score = user_data.get('score', 0)
-        level = user_data.get('level', 0)
-    else:
-        score = 0
-        level = 0
-
-    return render(request, 'user_data.html', {'score': score, 'level': level})
+    user_id = request.user.id
+    user_data = db.child("users").child(user_id).get().val()
+    
+    if not user_data:
+        user_data = {"points": 0, "level": 1}
+    
+    return JsonResponse(user_data)
 
 # Games
 
 @login_required
 def gameHangman(request):
-    total_points = 0 
-
-    if request.method == 'POST':
-        response = update_score(request)
-        
-        if response.status_code == 200:
-            total_points = response.get('score', 0)
-
-    return render(request, 'gameHangman.html', {'total_points': total_points})
+    return render(request, 'gameHangman.html')
 
 
 @login_required
 def gameMemory(request):
-    total_points = 0 
-
-    if request.method == 'POST':
-        response = update_score(request)
-
-        if response.status_code == 200:
-            total_points = response.get('score', 0)
-
-    return render(request, 'gameMemory.html', {'total_points': total_points})
+    return render(request, 'gameMemory.html')
 
 @login_required
 def gameWordle(request):
-    total_points = 0 
-
-    if request.method == 'POST':
-        response = update_score(request)
-        
-        if response.status_code == 200:
-            total_points = response.get('score', 0)
-
-    return render(request, 'gameWordle.html', {'total_points': total_points})
+    return render(request, 'gameWordle.html')
 
 @login_required
 def gameLinguage(request):
-    total_points = 0 
-
-    if request.method == 'POST':
-        response = update_score(request)
-        
-        if response.status_code == 200:
-            total_points = response.get('score', 0)
-
-    return render(request, 'gameLinguage.html', {'total_points': total_points})
+    return render(request, 'gameLinguage.html')

@@ -15,4 +15,5 @@ urlpatterns = [
     path('gameWordle/', views.gameWordle, name='gameWordle'),
     path('gameLinguage/', views.gameLinguage, name='gameLinguage'),
     path('privacy/', views.privacy, name='privacy'),
+    path('update_score/<str:user_id>/', views.update_user_score, name='update_score'),
 ]

@@ -200,6 +200,38 @@ function shoot() {
     colors: ['FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8']
   };
 
+async function updateScore(userId, pointsEarned) {
+    try {
+        const response = await fetch(`/update_score/${userId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()
+            },
+            body: JSON.stringify({ points_earned: pointsEarned })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            document.getElementById('points').innerText = data.points;
+            document.getElementById('level').innerText = data.level;
+            alert(`Parabéns! Você alcançou o nível ${data.level}`);
+        } else {
+            console.error("Erro ao atualizar pontuação:", data);
+        }
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+    }
+}
+
+function getCSRFToken() {
+  return document.cookie
+      .split('; ')
+      .find(row => row.startsWith('csrftoken'))
+      .split('=')[1];
+}
+
   confetti({
     ...defaults,
     particleCount: 30,
@@ -214,3 +246,4 @@ function shoot() {
     shapes: ['circle']
   });
 }
+
