@@ -120,6 +120,10 @@ def logout(request):
 def privacy(request):
     return render(request, 'privacy.html')
 
+def get_user_id(request):
+    user_id = request.user.id if request.user.is_authenticated else None
+    return JsonResponse({'user_id': user_id})
+
 # Score logic
 
 @csrf_exempt
