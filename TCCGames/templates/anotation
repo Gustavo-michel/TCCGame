@@ -12,32 +12,66 @@
 </head>
 
 <body>
-  <header>
-    <div class="content">
-      <div class="flex">
-        <button class="btn-border btn-icon" onclick="history.back()">
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <h3 class="title-green">Jogo da memória</h3>
+
+<main>
+    <div class="container">
+      <button onclick="window.history.back();" class="btn-ghost">
+        <i class="fa-solid fa-arrow-left"></i>
+        Voltar
+      </button>
+      <h2 class="title-green">Jogo da memória</h2>
+      <p class="description">Ache o par das liguagens de programação</p>
+
+      <!-- Start -->
+      <div class="controls-container">
+        <p id="result"></p>
+        <button id="start" class="btn-green">Começar</button>
       </div>
+
+      <!-- Started -->
+      <button id="stop" class="hide btn-border">Reiniciar</button>
       <div class="stats-container">
         <div id="moves-count"></div>
         <div id="time"></div>
       </div>
     </div>
 
-  </header>
     <div class="wrapper">
       <div class="game-container"></div>
-      <button id="stop" class="hide btn-border">Pausar</button>
     </div>
-    <div class="controls-container">
-      <p id="result"></p>
-      <button id="start" class="btn-green">Iniciar</button>
-    </div>
+</main>
 
-    <!-- Script -->
-    <script src="script.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Navegation -->
+    <!-- <div class="nav-container" id="nav-container">
+      <a id="back" onclick="history.back()">
+        <i class="iconoir-arrow-left" id="icon"></i>
+      </a>
+      <div class="title">
+        <p>Jogo da memória</p>
+      </div>
+    </div> -->
+
+   
     <script>
       const STATIC_URL = "{% static '' %}";
     </script>

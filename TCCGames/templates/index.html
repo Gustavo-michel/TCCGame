@@ -12,9 +12,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
-    <!-- {% if 'uid' in request.session %}
+    {% if 'uid' in request.session %}
 
-    {% endif %} -->
+    {% endif %}
     <header>
         <nav class="navbar">
             <div class="logo-header">
@@ -77,8 +77,7 @@
                 </h1>
 
                 <p class="description left-2">
-                    Lorem ipsum dolor sit amet, consectetur 
-                    adipiscing elit ut aliquam, purus sit amet
+                    Aprenda sobre linguagemns de programação jogando
                 </p>
 
                 <div class="cta-buttons">
@@ -91,13 +90,13 @@
             </div>
 
             <div class="banner">
-                <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="image">
+                <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="img-right">
             </div>
 
         </section>
 
         <section id="games">
-            <div class="title-content">
+            <div class="title-content left-1">
                 <h2 class="title-green">Jogos</h2>
                 <p>Aproveite os jogos</p>
             </div>
@@ -105,7 +104,7 @@
             <div class="cards-games">
 
                 <a href="{% url 'gameMemory' %}">
-                    <div class="card-games" id="light">
+                    <div class="card-games left-2" id="light">
                         <div class="title-col">
                             <h3 class="title-green">Jogo da</h3>
                             <h3 class="title-green">Memória</h3>
@@ -122,7 +121,7 @@
 
 
                 <a href="{% url 'gameLinguage' %}">
-                    <div class="card-games" id="green">
+                    <div class="card-games left-3" id="green">
                         <div class="title-col">
                             <h3 class="title-light">Descubra a</h3>
                             <h3 class="title-light">linguagem</h3>
@@ -137,7 +136,7 @@
                     </div>
                 </a>
 
-                <div class="card-games" id="green">
+                <div class="card-games left-4" id="green">
                     <div class="title-col">
                         <h3 class="title-dark">Jogo da</h3>
                         <h3 class="title-dark">Memória</h3>
@@ -151,7 +150,7 @@
                     </div>
                 </div>
 
-                <div class="card-games" id="light">
+                <div class="card-games left-5" id="light">
                     <div class="title-col">
                         <h3 class="title-dark">Jogo da</h3>
                         <h3 class="title-dark">Memória</h3>
@@ -168,44 +167,72 @@
         </section>
 
         <section id="pontuation">
-            <div class="title-content">
+            <div class="title-content left-1">
                 <h2 class="title-green">Pontuação</h2>
-                <p>Veja em que nível você está<br>e compare com outros jogadores</p>
+                <p>Veja em que nível você está</p>
             </div>
 
+<<<<<<< HEAD
             <div class="pontuation-container">
                 <div class="pontuation-content">
                     <h1 id="level">5</h1>
+=======
+            <div class="pontuation-container left-2">
+                <div class="pontuation-content left-3">
+                    <h1>5</h1>
+>>>>>>> 0a55ee3a14deb00039b45541c8b0d673f159ca62
                     <p>Nível</p>
                 </div>
 
                 <div class="divider-vertical"></div>
                 
+<<<<<<< HEAD
                 <div class="pontuation-content">
                     <h1 id="position">9º</h1>
+=======
+                <div class="pontuation-content left-4">
+                    <h1>9º</h1>
+>>>>>>> 0a55ee3a14deb00039b45541c8b0d673f159ca62
                     <p>Posição</p>
                 </div>
 
                 <div class="divider-vertical"></div>
 
+<<<<<<< HEAD
                 <div class="pontuation-content">
                     <h1 id="points">2.563</h1>
+=======
+                <div class="pontuation-content left-5">
+                    <h1>2.563</h1>
+>>>>>>> 0a55ee3a14deb00039b45541c8b0d673f159ca62
                     <p>Pontuação</p>
                 </div>
             </div>
 
             <div class="positions">
+<<<<<<< HEAD
                 <div class="position-1" id="position-1">
+=======
+                <div class="position left-6">
+>>>>>>> 0a55ee3a14deb00039b45541c8b0d673f159ca62
                     <h2>01º</h2>
                     <p>Nome da pessoa</p>
                 </div>
     
+<<<<<<< HEAD
                 <div class="position-2" id="position-2">
+=======
+                <div class="position left-7">
+>>>>>>> 0a55ee3a14deb00039b45541c8b0d673f159ca62
                     <h2>02º</h2>
                     <p>Nome da pessoa</p>
                 </div>
     
+<<<<<<< HEAD
                 <div class="position-3" id="position-3">
+=======
+                <div class="position left-8">
+>>>>>>> 0a55ee3a14deb00039b45541c8b0d673f159ca62
                     <h2>03º</h2>
                     <p>Nome da pessoa</p>
                 </div>
@@ -213,65 +240,91 @@
         </section>
 
         <section id="code">
-            <div class="title-content">
+            <div class="title-content left-1">
                 <h2 class="title-green">Time</h2>
-                <p>Veja quem projetou este projeto<br>e encontre o código fonte</p>
+                <p>Veja quem projetou este projeto</p>
             </div>
 
             <div class="cards-team">
-                <div class="card-team">
-                    <div class="card-team-content">
-                        <img src="{% static '..\static\images\avatar.png' %}" alt="Avatar">
-                        <div class="card-team-col">
-                            <i class="fa-brands fa-github"></i>
-                            <h4>Daniel Lima</h4>
-                            <p>Front-end, designer</p>
+                <a href="https://github.com/deniellima">
+                    <div class="card-team left-2">
+                        <div class="card-team-content">
+                            <img src="{% static '..\static\images\avatar\daniel.png' %}" alt="Avatar">
+                            <div class="card-team-col">
+                                <i class="fa-brands fa-github"></i>
+                                <h4>Daniel Lima</h4>
+                                <p>Front-end e designer</p>
+                            </div>
                         </div>
+                        <div class="divider-dark"></div>
+                        <p>Programador Front-end e desing UI e UX que desenvolve projetos em HTML, CSS, Javascript e React além de identidade visual e logotipos.</p>
                     </div>
-                    <div class="divider-dark"></div>
-                    <p>Programador Front-end e desing UI e UX que desenvolve projetos em HTML, CSS, Javascript e React além de identidade visual e logotipos</p>
-                </div>
+                </a>
 
-                <div class="card-team">
-                    <div class="card-team-content">
-                        <img src="{% static '..\static\images\avatar.png' %}" alt="Avatar">
-                        <div class="card-team-col">
-                            <h4>Daniel Lima</h4>
-                            <p>Front-end</p>
+                <a href="https://www.instagram.com/_perteli/profilecard/?igsh=eXY3MnRxaGdzcnlj">
+                    <div class="card-team left-3">
+                        <div class="card-team-content">
+                            <img src="{% static '..\static\images\avatar\eduardo.png' %}" alt="Avatar">
+                            <div class="card-team-col">
+                                <i class="fa-brands fa-instagram"></i>
+                                <h4>Eduardo Perteli</h4>
+                                <p>Modelador 3D e pesquisador</p>
+                            </div>
                         </div>
+                        <div class="divider-dark"></div>
+                        <p>Desenvoldedor de sites junior, que possui experiência em modelagem 3D e corretor de documentação de projetos virtuais.</p>
                     </div>
-                    <div class="divider-dark"></div>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores odio id facere ea.</p>
-                </div>
+                </a>
 
-                <div class="card-team">
-                    <div class="card-team-content">
-                        <img src="{% static '..\static\images\avatar.png' %}" alt="Avatar">
-                        <div class="card-team-col">
-                            <h4>Daniel Lima</h4>
-                            <p>Front-end</p>
+                <a href="https://github.com/Gustavo-michel">
+                    <div class="card-team left-4">
+                        <div class="card-team-content">
+                            <img src="{% static '..\static\images\avatar\gustavo.png' %}" alt="Avatar">
+                            <div class="card-team-col">
+                                <i class="fa-brands fa-github"></i>
+                                <h4>Gustavo Michael</h4>
+                                <p>Back-end e banco de dados</p>
+                            </div>
                         </div>
+                        <div class="divider-dark"></div>
+                        <p>Desenvolvedor de sitemas em Python (Django), utilizando Docker Compose, Firebase e PostgreSQL para banco de dados.</p>
                     </div>
-                    <div class="divider-dark"></div>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores odio id facere ea.</p>
-                </div>
+                </a>
 
-                <div class="card-team">
-                    <div class="card-team-content">
-                        <img src="{% static '..\static\images\avatar.png' %}" alt="Avatar">
-                        <div class="card-team-col">
-                            <h4>Daniel Lima</h4>
-                            <p>Front-end</p>
+                <a href="https://www.instagram.com/eo.jhow07/profilecard/?igsh=bjhlbW5nZ250c3Ry">
+                    <div class="card-team left-5">
+                        <div class="card-team-content">
+                            <img src="{% static '..\static\images\avatar\jonathan.png' %}" alt="Avatar">
+                            <div class="card-team-col">
+                                <i class="fa-brands fa-instagram"></i>
+                                <h4>Jonathan Dacio</h4>
+                                <p>Back-end e pesquisador</p>
+                            </div>
                         </div>
+                        <div class="divider-dark"></div>
+                        <p>Desenvolvedor de sistemas back-end, que desenvolve apps em Python, Javascript, Java além de projetos com arduíno.</p>
                     </div>
-                    <div class="divider-dark"></div>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores odio id facere ea.</p>
-                </div>
+                </a>
+
+                <a href="https://www.instagram.com/kelvin07levis?utm_source=qr&igsh=M3hrMGZyZWhhcmlr">
+                    <div class="card-team left-6">
+                        <div class="card-team-content">
+                            <img src="{% static '..\static\images\avatar\kevin.png' %}" alt="Avatar">
+                            <div class="card-team-col">
+                                <i class="fa-brands fa-instagram"></i>
+                                <h4>Kevin Levi</h4>
+                                <p>Back-end e técnico</p>
+                            </div>
+                        </div>
+                        <div class="divider-dark"></div>
+                        <p>Desenvolvedor back-end junior, engenheiro de hardware e desenvolvedor de projetos com arduíno.</p>
+                    </div>
+                </a>
             </div>
 
-            <div class="code-container">
+            <div class="code-container left-7">
                 <div class="code-content">
-                    <h3>Aplicação open-source</h3>
+                    <h3>Aplicação de código aberto</h3>
                     <p>Esse aplicativo é de código aberto, acesse o git hub para saber mais</p>
                     <a href="https://github.com/deniellima/TCCGame" class="btn-default">
                         <i class="fa-brands fa-github"></i>
@@ -279,7 +332,7 @@
                     </a>
                 </div>
                 <div class="code-image">
-                    <img src="{% static '..\static\images\code.svg' %}" alt="Código" class="image">
+                    <img src="{% static '..\static\images\code.svg' %}" alt="Código" class="img-right">
                 </div>
             </div>
         </section>

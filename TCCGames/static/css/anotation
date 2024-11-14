@@ -1,0 +1,172 @@
+@import url('root.css');
+@import url('animations.css');
+
+.hide {
+  display: none;
+}
+
+/* -------------------- Container -------------------- */
+
+main {
+  height: 100vh;
+  margin: 0 10%;
+  display: flex;
+  align-items: center;
+  gap: var(--md);
+}
+
+.container {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
+.container h2{
+  margin-top: var(--md);
+}
+
+.description{
+  margin-top: var(--xs);
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+     display: none;
+  }
+}
+
+/*--------------------Controls--------------------*/
+
+.controls-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--md);
+}
+
+.stats-container {
+  margin-top: var(--sm);
+}
+
+.text-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10em;
+  height: 3.2em;
+  user-select: none;
+
+  background-color: var(--error);
+  border: var(--border-error);
+  border-radius: 0.4em;
+  box-shadow: var(--boxshadow);
+
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  color: var(--white);
+}
+
+.text-sucess {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10em;
+  height: 3.2em;
+  user-select: none;
+
+  background-color: var(--sucess);
+  border: var(--border-sucess);
+  border-radius: 0.4em;
+  box-shadow: var(--boxshadow);
+
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  color: var(--white);
+}
+
+/*--------------------Content--------------------*/
+
+.wrapper {  
+  box-sizing: content-box;
+  height: 100%;
+  width: fit-content;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-container {
+  position: relative;
+  width: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sm);
+}
+.card-container {
+  position: relative;
+  width: 6em;
+  height: 6em;
+  cursor: pointer;
+}
+
+.card-before,
+.card-after {
+  position: absolute;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--color-dark);
+  border-radius: var(--xs);
+
+  transition: transform 0.7s ease-out;
+  backface-visibility: hidden;
+}
+
+.card-before {
+  background-color: var(--color-green);
+  font-size: var(--lg);
+  font-weight: 600;
+  user-select: none;
+}
+
+.card-after {
+  transform: rotateY(180deg);
+}
+
+.card-container.flipped .card-before {
+  transform: rotateY(180deg);
+}
+
+.card-container.flipped .card-after {
+  transform: rotateY(0deg);
+}
+
+
+
+
+
+
+#result {
+  text-align: center;
+}
+
+#result h2 {
+  font-size: 2.5em;
+}
+
+#result h4 {
+  font-size: 1.8em;
+  margin: 0.6em 0 1em 0;
+}
