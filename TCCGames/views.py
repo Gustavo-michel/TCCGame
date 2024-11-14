@@ -14,31 +14,6 @@ auth = firebase.auth()
 def home(request):
     return render(request, 'index.html')
 
-@csrf_exempt
-def home_data(request):
-    user_id = request.user.id
-
-    user_data = db.child("users").child(user_id).get().val()
-    if not user_data:
-        user_data = {"points": 0, "level": 1}
-
-    users = db.child("users").order_by_child("points").get().val()
-
-    sorted_users = sorted(users.items(), key=lambda x: x[1]['points'], reverse=True)
-
-    top_positions = [
-        {"rank": i + 1, "name": user[1]["name"], "points": user[1]["points"]}
-        for i, user in enumerate(sorted_users[:3])
-    ]
-
-    position = next((i + 1 for i, user in enumerate(sorted_users) if user[0] == user_id), None)
-    
-    return JsonResponse({
-        "level": user_data["level"],
-        "position": position,
-        "points": user_data["points"],
-        "top_positions": top_positions
-    })
 
 # Users
 
@@ -121,13 +96,15 @@ def privacy(request):
     return render(request, 'privacy.html')
 
 def get_user_id(request):
-    user_id = request.user.id if request.user.is_authenticated else None
+    user_id = request.user['uid'] if request.user.is_authenticated else None
     return JsonResponse({'user_id': user_id})
 
 # Score logic
 
 @csrf_exempt
-def update_user_score(request, user_id):
+def update_user_score(request):
+    user_id = request.user['uid']
+
     if request.method == 'POST':
 
         data = json.loads(request.body)
@@ -158,13 +135,44 @@ def update_user_score(request, user_id):
 # Recupera os dados do usuario para listagem
 @csrf_exempt
 def recover_user_data(request):
-    user_id = request.user.id
+    user_id = request.user['uid']
+    
     user_data = db.child("users").child(user_id).get().val()
     
     if not user_data:
         user_data = {"points": 0, "level": 1}
     
     return JsonResponse(user_data)
+
+@login_required
+def home_data(request):
+    user_data = None 
+    
+    if 'uid' in request.session:
+        user_id = request.user['uid']
+        user_data = db.child("users").child(user_id).get().val()
+        
+        if not user_data:
+            user_data = {"points": 0, "level": 1}
+
+        users = db.child("users").order_by_child("points").get().val()
+
+        sorted_users = sorted(users.items(), key=lambda x: x[1]['points'], reverse=True)
+
+        top_positions = [
+            {"rank": i + 1, "name": user[1]["name"], "points": user[1]["points"]}
+            for i, user in enumerate(sorted_users[:3])
+        ]
+
+        position = next((i + 1 for i, user in enumerate(sorted_users) if user[0] == user_id), None)
+        
+        return JsonResponse({
+            "level": user_data["level"],
+            "position": position,
+            "points": user_data["points"],
+            "top_positions": top_positions
+        })
+
 
 # Games
 
