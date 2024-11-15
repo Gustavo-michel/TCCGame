@@ -11,6 +11,8 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['https://brainquest-1bac3.web.app/', 'localhost']
 
+
+
 # apps e backends Django
 INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
