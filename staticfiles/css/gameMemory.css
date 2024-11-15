@@ -1,118 +1,83 @@
-@import url('root.css');
-@import url('animations.css');
+@import url("root.css");
+@import url("animations.css");
 
-.hide {
-  display: none;
+/* -------------------- Header -------------------- */
+
+header {
+  height: 100px;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 3;
 }
 
-/* -------------------- Container -------------------- */
+.btn-icon {
+  padding: 0px;
+  width: 56px;
+}
 
-main {
-  height: 100vh;
-  margin: 0 10%;
+.content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--md);
+  padding: 0 10%;
+}
+
+.flex {
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   gap: var(--md);
 }
 
-.container {
-  height: 100%;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: center;
-}
-
-.container h2{
-  margin-top: var(--md);
-}
-
-.description{
-  margin-top: var(--xs);
-}
-
-@media screen and (max-width: 1200px) {
-  .container {
-     display: none;
+@media screen and (max-width: 600px) {
+  h3 {
+    display: none;
   }
 }
 
-/*--------------------Controls--------------------*/
+/* -------------------- Container -------------------- */
 
-.controls-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: var(--md);
-}
-
-.stats-container {
-  margin-top: var(--sm);
-}
-
-.text-error {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 10em;
-  height: 3.2em;
-  user-select: none;
-
-  background-color: var(--error);
-  border: var(--border-error);
-  border-radius: 0.4em;
-  box-shadow: var(--boxshadow);
-
-  font-size: var(--font-size);
-  font-weight: var(--font-weight);
-  color: var(--white);
-}
-
-.text-sucess {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 10em;
-  height: 3.2em;
-  user-select: none;
-
-  background-color: var(--sucess);
-  border: var(--border-sucess);
-  border-radius: 0.4em;
-  box-shadow: var(--boxshadow);
-
-  font-size: var(--font-size);
-  font-weight: var(--font-weight);
-  color: var(--white);
-}
-
-/*--------------------Content--------------------*/
-
-.wrapper {  
+.wrapper {
   box-sizing: content-box;
-  height: 100%;
   width: fit-content;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
 }
 
 .game-container {
   position: relative;
   width: 100%;
   display: grid;
-  align-items: center;
-  justify-content: center;
   gap: var(--sm);
 }
+
+.stats-container {
+  text-align: right;
+  margin-bottom: 1.2em;
+}
+
+.stats-container span {
+  font-weight: 600;
+}
+
+@media screen and (max-width: 600px) {
+  .game-container {
+    gap: var(--);
+  }
+}
+
+/* -------------------- Card -------------------- */
+
 .card-container {
   position: relative;
-  width: 6em;
-  height: 6em;
+  width: 100px;
+  height: 100px;
   cursor: pointer;
 }
 
@@ -125,23 +90,18 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-style: solid;
-  border-width: 1px;
-  border-color: var(--color-dark);
-  border-radius: var(--xs);
-
+  border: 1px solid var(--color-dark);
   transition: transform 0.7s ease-out;
   backface-visibility: hidden;
 }
 
 .card-before {
-  background-color: var(--color-green);
-  font-size: var(--lg);
-  font-weight: 600;
-  user-select: none;
+  background-color: var(--color-grey);
+  font-size: 2em;
 }
 
 .card-after {
+  background-color: var(--color-light);
   transform: rotateY(180deg);
 }
 
@@ -153,20 +113,46 @@ main {
   transform: rotateY(0deg);
 }
 
+@media screen and (max-width: 600px) {
+  .card-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+  }
+}
+/* -------------------- Controls -------------------- */
 
+.controls-container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-grey);
+  top: 0;
+}
 
+#stop {
+  font-size: 1.1em;
+  display: block;
+  margin: 1.1em auto 0 auto;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+}
 
+/* -------------------- Results -------------------- */
 
+.hide {
+  display: none;
+}
 
 #result {
   text-align: center;
 }
 
-#result h2 {
-  font-size: 2.5em;
-}
-
 #result h4 {
-  font-size: 1.8em;
   margin: 0.6em 0 1em 0;
 }
