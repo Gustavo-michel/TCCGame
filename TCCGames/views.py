@@ -3,14 +3,17 @@ from django.contrib import messages
 from django.urls import reverse
 from app.config import firebase, db
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from .decorators import login_required
 from django.views.decorators.cache import cache_page
+import json
 
 auth = firebase.auth()
 
-@cache_page(60 * 1)
+@cache_page(15 * 1)
 def home(request):
     return render(request, 'index.html')
+
 
 # Users
 
@@ -92,107 +95,100 @@ def logout(request):
 def privacy(request):
     return render(request, 'privacy.html')
 
+def get_user_id(request):
+    user_id = request.user['uid'] if request.user.is_authenticated else None
+    return JsonResponse({'user_id': user_id})
+
 # Score logic
 
-def update_score(request):
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Método não permitido.'}, status=405)
+@csrf_exempt
+def update_user_score(request):
+    user_id = request.user['uid']
 
-    usuario_id = request.user.id
-    novo_score = request.POST.get('score')
+    if request.method == 'POST':
 
-    if novo_score is not None:
-        try:
-            novo_score = int(novo_score)
+        data = json.loads(request.body)
+        points_earned = data.get('points_earned', 0)
 
-            user_data = db.child("usuarios").child(usuario_id).get().val()
-            if user_data:
-                score_user = user_data.get('score', 0)
-            else:
-                score_user = 0
+        user_data = db.child("users").child(user_id).get().val()
 
-            score = score_user + novo_score
-            db.child("usuarios").child(usuario_id).update({"score": score})
+        if not user_data:
+            current_points = 0
+            current_level = 1
+        else:
+            current_points = user_data['points']
+            current_level = user_data['level']
 
-            return JsonResponse({'message': 'Score atualizado com sucesso!', 'score': score})
+        points = current_points + points_earned
+        level = points // 100 + 1
 
-        except ValueError:
-            return JsonResponse({'error': 'Score deve ser um número inteiro.'}, status=400)
+        # Atualiza os dados do usuário no Firebase
+        db.child("users").child(user_id).update({
+            "points": points,
+            "level": level
+        })
 
-    return JsonResponse({'error': 'Score não fornecido.'}, status=400)
-
-
-def list_users_by_score(request):
-    usuarios = db.child("usuarios").order_by_child("score").get()
-
-    lista_usuarios = [
-        {'id': usuario.key(), 'dados': usuario.val()}
-        for usuario in usuarios.each()
-    ]
-
-    return render(request, 'lista_usuarios.html', {'usuarios': lista_usuarios})
-
-
-def recover_user_data(request):
-    usuario_id = request.user.id
-    user_data = db.child("usuarios").child(usuario_id).get().val()
-
-    if user_data:
-        score = user_data.get('score', 0)
-        level = user_data.get('level', 0)
+        return JsonResponse({"points": points, "level": level})
     else:
-        score = 0
-        level = 0
+        return JsonResponse({"error": "Método não permitido"}, status=405)
+    
+# Recupera os dados do usuario para listagem
+@csrf_exempt
+def recover_user_data(request):
+    user_id = request.user['uid']
+    
+    user_data = db.child("users").child(user_id).get().val()
+    
+    if not user_data:
+        user_data = {"points": 0, "level": 1}
+    
+    return JsonResponse(user_data)
 
-    return render(request, 'user_data.html', {'score': score, 'level': level})
+@login_required
+def home_data(request):
+    user_data = None 
+    
+    if 'uid' in request.session:
+        user_id = request.user['uid']
+        user_data = db.child("users").child(user_id).get().val()
+        
+        if not user_data:
+            user_data = {"points": 0, "level": 1}
+
+        users = db.child("users").order_by_child("points").get().val()
+
+        sorted_users = sorted(users.items(), key=lambda x: x[1]['points'], reverse=True)
+
+        top_positions = [
+            {"rank": i + 1, "name": user[1]["name"], "points": user[1]["points"]}
+            for i, user in enumerate(sorted_users[:3])
+        ]
+
+        position = next((i + 1 for i, user in enumerate(sorted_users) if user[0] == user_id), None)
+        
+        return JsonResponse({
+            "level": user_data["level"],
+            "position": position,
+            "points": user_data["points"],
+            "top_positions": top_positions
+        })
+
 
 # Games
 
 @login_required
 def gameHangman(request):
-    total_points = 0 
-
-    if request.method == 'POST':
-        response = update_score(request)
-        
-        if response.status_code == 200:
-            total_points = response.get('score', 0)
-
-    return render(request, 'gameHangman.html', {'total_points': total_points})
+    return render(request, 'gameHangman.html')
 
 
 @login_required
 def gameMemory(request):
-    total_points = 0 
-
-    if request.method == 'POST':
-        response = update_score(request)
-
-        if response.status_code == 200:
-            total_points = response.get('score', 0)
-
-    return render(request, 'gameMemory.html', {'total_points': total_points})
+    return render(request, 'gameMemory.html')
 
 @login_required
 def gameWordle(request):
-    total_points = 0 
-
-    if request.method == 'POST':
-        response = update_score(request)
-        
-        if response.status_code == 200:
-            total_points = response.get('score', 0)
-
-    return render(request, 'gameWordle.html', {'total_points': total_points})
+    return render(request, 'gameWordle.html')
 
 @login_required
 def gameLinguage(request):
-    total_points = 0 
-
-    if request.method == 'POST':
-        response = update_score(request)
-        
-        if response.status_code == 200:
-            total_points = response.get('score', 0)
-
-    return render(request, 'gameLinguage.html', {'total_points': total_points})
+    return render(request, 'gameLinguage.html')

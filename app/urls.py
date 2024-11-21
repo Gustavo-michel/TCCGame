@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from TCCGames import views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
@@ -15,4 +16,8 @@ urlpatterns = [
     path('gameWordle/', views.gameWordle, name='gameWordle'),
     path('gameLinguage/', views.gameLinguage, name='gameLinguage'),
     path('privacy/', views.privacy, name='privacy'),
+    path('update_score/<str:user_id>/', views.update_user_score, name='update_score'),
+    path('recover_user_data/', views.recover_user_data, name='recover_user_data'),
+    path('home_data/', views.home_data, name='home_data'),
+    path('get_user_id/', views.get_user_id, name='get_user_id'),
 ]

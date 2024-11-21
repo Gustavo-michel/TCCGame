@@ -358,7 +358,9 @@ header {
     gap: var(--md);
 }
 
-.position {
+.position-1,
+.position-2,
+.position-3 {
     display: flex;
     align-items: center;
     padding: var(--sm) var(--lg);

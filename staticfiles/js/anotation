@@ -49,13 +49,13 @@ const timeGenerator = () => {
   //format time before displaying
   let secondsValue = seconds < 10 ? `0${seconds}` : seconds;
   let minutesValue = minutes < 10 ? `0${minutes}` : minutes;
-  timeValue.innerHTML = `<span>Time:</span>${minutesValue}:${secondsValue}`;
+  timeValue.innerHTML = `<span>Tempo: </span>${minutesValue}:${secondsValue}`;
 };
 
 //For calculating moves
 const movesCounter = () => {
   movesCount += 1;
-  moves.innerHTML = `<span>Moves:</span>${movesCount}`;
+  moves.innerHTML = `<span>Movimentações: </span>${movesCount}<span>/10</span>`;
 };
 
 //Pick random objects from the items array
@@ -129,8 +129,9 @@ const matrixGenerator = (cardValues, size = 4) => {
             winCount += 1;
             //check if winCount ==half of cardValues
             if (winCount == Math.floor(cardValues.length / 2)) {
-              result.innerHTML = `<h2>You Won</h2>
-            <h4>Moves: ${movesCount}</h4>`;
+              resultText.innerHTML = "Você venceu!";
+              resultText.classList.add("text-sucess");
+              result.innerHTML = `Moves: ${movesCount}`;
               shoot();
               stopGame();
             }
@@ -163,7 +164,7 @@ startButton.addEventListener("click", () => {
   //Start timer
   interval = setInterval(timeGenerator, 1000);
   //initial moves
-  moves.innerHTML = `<span>Moves:</span> ${movesCount}`;
+  moves.innerHTML = `<span>Movimentações: </span> ${movesCount}`;
   initializer();
 });
 
@@ -199,7 +200,6 @@ function shoot() {
     colors: ['FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8']
   };
 
-
   confetti({
     ...defaults,
     particleCount: 30,
@@ -213,56 +213,4 @@ function shoot() {
     scalar: 1,
     shapes: ['circle']
   });
-}
-
-// Codigo novo!!!
-
-async function updateScore(userId, pointsEarned) {
-  try {
-      const response = await fetch(`/update_score/${userId}/`, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'X-CSRFToken': getCSRFToken()
-          },
-          body: JSON.stringify({ points_earned: pointsEarned })
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-          document.getElementById('points').innerText = data.points;
-          document.getElementById('level').innerText = data.level;
-          alert(`Parabéns! Você alcançou o nível ${data.level}`);
-      } else {
-          console.error("Erro ao atualizar pontuação:", data);
-      }
-  } catch (error) {
-      console.error("Erro na requisição:", error);
-  }
-}
-
-function getCSRFToken() {
-return document.cookie
-    .split('; ')
-    .find(row => row.startsWith('csrftoken'))
-    .split('=')[1];
-}
-
-// function onLevelComplete() {
-//   const pointsEarned = 100;
-//   const userId = getUserId();
-
-//   updateScore(userId, pointsEarned);
-// }
-
-async function getUserId() {
-  try {
-      const response = await fetch('/get_user_id/');
-      const data = await response.json();
-      return data.user_id;
-  } catch (error) {
-      console.error('Erro ao obter o ID do usuário:', error);
-      return null;
-  }
 }

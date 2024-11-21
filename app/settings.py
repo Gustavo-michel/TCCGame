@@ -9,7 +9,9 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://brainquest-1bac3.web.app/', 'localhost']
+
+
 
 # apps e backends Django
 INSTALLED_APPS = [
@@ -120,7 +122,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR / "staticfiles")
-STATICFILES_DIRS = [BASE_DIR / 'TCCGames/static']
+STATICFILES_DIRS = [BASE_DIR / 'TCCGames' / 'static']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

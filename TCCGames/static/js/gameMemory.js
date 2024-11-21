@@ -199,6 +199,7 @@ function shoot() {
     colors: ['FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8']
   };
 
+
   confetti({
     ...defaults,
     particleCount: 30,
@@ -212,4 +213,56 @@ function shoot() {
     scalar: 1,
     shapes: ['circle']
   });
+}
+
+// Codigo novo!!!
+
+async function updateScore(userId, pointsEarned) {
+  try {
+      const response = await fetch(`/update_score/${userId}/`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCSRFToken()
+          },
+          body: JSON.stringify({ points_earned: pointsEarned })
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+          document.getElementById('points').innerText = data.points;
+          document.getElementById('level').innerText = data.level;
+          alert(`Parabéns! Você alcançou o nível ${data.level}`);
+      } else {
+          console.error("Erro ao atualizar pontuação:", data);
+      }
+  } catch (error) {
+      console.error("Erro na requisição:", error);
+  }
+}
+
+function getCSRFToken() {
+return document.cookie
+    .split('; ')
+    .find(row => row.startsWith('csrftoken'))
+    .split('=')[1];
+}
+
+// function onLevelComplete() {
+//   const pointsEarned = 100;
+//   const userId = getUserId();
+
+//   updateScore(userId, pointsEarned);
+// }
+
+async function getUserId() {
+  try {
+      const response = await fetch('/get_user_id/');
+      const data = await response.json();
+      return data.user_id;
+  } catch (error) {
+      console.error('Erro ao obter o ID do usuário:', error);
+      return null;
+  }
 }

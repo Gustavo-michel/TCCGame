@@ -1,10 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-class CustomUser(AbstractUser):
-    score = models.FloatField(default=0)
-    level = models.IntegerField(default=0)
+class PlayerScore:
+    def __init__(self, user_id, points=0, level=1):
+        self.user_id = user_id
+        self.points = points
+        self.level = level
 
+    def calculate_level(self):
+        self.level = self.points // 100 + 1
+
+class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
     groups = models.ManyToManyField(
