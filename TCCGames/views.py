@@ -192,3 +192,14 @@ def gameWordle(request):
 @login_required
 def gameLinguage(request):
     return render(request, 'gameLinguage.html')
+
+# ------------------------Adicionei esse código------------------------
+
+def index(request):
+    user_points = 0
+    if 'uid' in request.session:
+        # Busque os pontos do usuário no banco de dados
+        user = User.objects.get(uid=request.session['uid'])
+        user_points = user.points  # ou como quer que você armazene os pontos
+    
+    return render(request, 'index.html', {'user_points': user_points})

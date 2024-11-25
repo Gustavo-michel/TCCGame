@@ -37,9 +37,28 @@
                 </li>
             </ul>
 
-            <a href="{% url 'login' %}" id="small" class="btn-border" >
-                Login
-            </a>
+            {% if not 'uid' in request.session %}
+            <div>
+                <a href="{% url 'login' %}" id="small" class="btn-dark">
+                    Login
+                </a>
+                <a href="{% url 'register' %}" id="small" class="btn-dark">
+                    Cadastrar-se
+                </a>
+            </div>
+            {% endif %}
+
+            {% if 'uid' in request.session %}
+            <div>
+                <a href="{% url 'account' %}" id="small" class="btn-border">
+                    Conta
+                </a>
+    
+                <a href="{% url 'logout' %}" class="btn-border">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </a>
+            </div>
+            {% endif %}
 
             <button id="btn-mobile">
                 <i class="fa-solid fa-bars"></i>
@@ -136,33 +155,37 @@
                     </div>
                 </a>
 
-                <div class="card-games left-4" id="green">
-                    <div class="title-col">
-                        <h3 class="title-dark">Jogo da</h3>
-                        <h3 class="title-dark">Memória</h3>
-                    </div>
-
-                    <div class="open-container">
-                        <div class="open-dark">
-                            <i class="fa-solid fa-arrow-up"></i>
+                <a href="{% url 'gameHangman' %}">
+                    <div class="card-games left-4" id="green">
+                        <div class="title-col">
+                            <h3 class="title-dark">Jogo da</h3>
+                            <h3 class="title-dark">forca</h3>
                         </div>
-                        <p>Ver mais</p>
-                    </div>
-                </div>
 
-                <div class="card-games left-5" id="light">
-                    <div class="title-col">
-                        <h3 class="title-dark">Jogo da</h3>
-                        <h3 class="title-dark">Memória</h3>
-                    </div>
-
-                    <div class="open-container">
-                        <div class="open-green">
-                            <i class="fa-solid fa-arrow-up"></i>
+                        <div class="open-container">
+                            <div class="open-dark">
+                                <i class="fa-solid fa-arrow-up"></i>
+                            </div>
+                            <p>Ver mais</p>
                         </div>
-                        <p>Ver mais</p>
                     </div>
-                </div>
+                </a>
+
+                <a href="{% url 'gameWordle' %}">
+                    <div class="card-games left-5" id="light">
+                        <div class="title-col">
+                            <h3 class="title-dark">Jogo da</h3>
+                            <h3 class="title-dark">Memória</h3>
+                        </div>
+
+                        <div class="open-container">
+                            <div class="open-green">
+                                <i class="fa-solid fa-arrow-up"></i>
+                            </div>
+                            <p>Ver mais</p>
+                        </div>
+                    </div>
+                </a>
             </div>
         </section>
 
@@ -188,7 +211,7 @@
                 <div class="divider-vertical"></div>
 
                 <div class="pontuation-content">
-                    <h1 id="points">2.563</h1>
+                    <h1 id="points">{% if request.session.uid %}{{ user_points }}{% else %}0{% endif %}</h1>
                     <p>Pontuação</p>
                 </div>
             </div>

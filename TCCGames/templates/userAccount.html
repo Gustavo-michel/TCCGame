@@ -5,11 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Conta</title>
-    <link rel="stylesheet" href="{% static 'preSets.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"/>
     <link rel="stylesheet" href="{% static 'css/userAccount.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
@@ -20,9 +21,93 @@
         </div>
     </div>
 
-    <button class="back" onclick="history.back()">
-        <i class="iconoir-arrow-left" id="icon"></i>
-    </button> 
+    <header>
+        <div class="content">
+            <div class="flex">
+                <button class="btn-border btn-icon" onclick="history.back()">
+                <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <h3 class="title-green">Minha conta</h3>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="edit">
+            <h1>Editar nome</h1>
+            <!-- Name -->
+            <div class="inp-content right-2">
+                <label>Nome<span>*</span></label>
+                <input type="text" id="name" name="name" placeholder="Informe seu nome" />
+                <!-- <span id="empty-name" class="hide error-message">Campo obrigatório</span>
+                <span id="name-error" class="hide error-message">Nome inválido</span> -->
+            </div>
+        </section>
+
+        <section id="pontuation">
+            <div class="title-content left-1">
+                <h2 class="title-green">Pontuação</h2>
+                <p>Veja em que nível você está</p>
+            </div>
+
+            <div class="pontuation-container">
+                <div class="pontuation-content">
+                    <h1 id="level">5</h1>
+                    <p>Nível</p>
+                </div>
+
+                <div class="divider-vertical"></div>
+                
+                <div class="pontuation-content">
+                    <h1 id="position">9º</h1>
+                    <p>Posição</p>
+                </div>
+                
+                <div class="divider-vertical"></div>
+
+                <div class="pontuation-content">
+                    <h1 id="points">{% if request.session.uid %}{{ user_points }}{% else %}0{% endif %}</h1>
+                    <p>Pontuação</p>
+                </div>
+            </div>
+
+            <div class="positions">
+                <div class="position-1" id="position-1">
+                    <h2>01º</h2>
+                    <p>Nome da pessoa</p>
+                </div>
+    
+                <div class="position-2" id="position-2">
+                    <h2>02º</h2>
+                    <p>Nome da pessoa</p>
+                </div>
+    
+                <div class="position-3" id="position-3">
+                    <h2>03º</h2>
+                    <p>Nome da pessoa</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="navbar-footer">
+            <div class="logo-footer">
+                <i class="fa-solid fa-diamond"></i>
+                <h4>BrainQuest</h4>
+            </div>
+        </div>
+
+        <div class="policy">
+            <p>© 2024 BrainQuest. Todos os direitos reservados.</p>
+            <a href="{% url 'privacy' %}">Política de privacidade</a>
+        </div>
+    </footer>
+
+
+
+
+    <!-- Script -->
     <script src="{% static 'js/userAccount.js' %}"></script>
 
     {% if messages %}
@@ -32,7 +117,6 @@
         {% endfor %}
     </ul>
     {% endif %}
-
 
     <!-- <a href="/logout">Logout</a> -->
 </body>
