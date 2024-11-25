@@ -22,7 +22,7 @@ header {
   display: flex;
   align-items: center;
   gap: var(--md);
-  padding: 0 10%;
+  padding: 0 var(--md);
 }
 
 .flex {
@@ -68,7 +68,7 @@ header {
 
 @media screen and (max-width: 600px) {
   .game-container {
-    gap: var(--);
+    gap: var(--xs);
   }
 }
 

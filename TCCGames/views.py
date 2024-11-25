@@ -53,7 +53,7 @@ def login(request):
         try:
             user = auth.sign_in_with_email_and_password(email, password)
             session_id = user['idToken']
-            request.session['uid'] = str(session_id)
+            request.session('uid') = str(session_id)
             messages.success(request, 'Login realizado com sucesso!')
             return redirect('account')
         except Exception as e:
@@ -86,7 +86,7 @@ def forgotPassword(request):
 @login_required
 def logout(request):
     try:
-        del request.session['uid']
+        del request.session.get('uid')
     except KeyError:
         pass
     messages.success(request, 'Logout realizado com sucesso!')
@@ -97,14 +97,15 @@ def privacy(request):
     return render(request, 'privacy.html')
 
 def get_user_id(request):
-    user_id = request.user['uid'] if 'uid' in request.session else None
+    user_id = request.session.get('uid') if 'uid' in request.session else None
     return JsonResponse({'user_id': user_id})
 
 # Score logic
 
 @csrf_exempt
+@login_required
 def update_user_score(request):
-    user_id = request.user['uid']
+    user_id = request.session.get('uid')
 
     if request.method == 'POST':
 
@@ -136,7 +137,7 @@ def update_user_score(request):
 # Recupera os dados do usuario para listagem
 @csrf_exempt
 def recover_user_data(request):
-    user_id = request.user['uid']
+    user_id = request.session.get('uid')
     
     user_data = db.child("users").child(user_id).get().val()
     
@@ -150,7 +151,7 @@ def home_data(request):
     user_data = None 
     
     if 'uid' in request.session:
-        user_id = request.user['uid']
+        user_id = request.session.get('uid')
         user_data = db.child("users").child(user_id).get().val()
         
         if not user_data:
