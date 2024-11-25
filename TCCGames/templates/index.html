@@ -38,23 +38,23 @@
             </ul>
 
             {% if not 'uid' in request.session %}
-            <div>
-                <a href="{% url 'login' %}" id="small" class="btn-dark">
+            <div class="row">
+                <a href="{% url 'login' %}" id="small" class="btn-border">
                     Login
                 </a>
-                <a href="{% url 'register' %}" id="small" class="btn-dark">
-                    Cadastrar-se
+                <a href="{% url 'register' %}" id="small" class="btn-default">
+                    Jogar
                 </a>
             </div>
             {% endif %}
 
             {% if 'uid' in request.session %}
-            <div>
+            <div class="row">
                 <a href="{% url 'account' %}" id="small" class="btn-border">
                     Conta
                 </a>
     
-                <a href="{% url 'logout' %}" class="btn-border">
+                <a href="{% url 'logout' %}" class="btn-border btn-icon">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 </a>
             </div>
@@ -194,27 +194,29 @@
                 <h2 class="title-green">Pontuação</h2>
                 <p>Veja em que nível você está</p>
             </div>
-
-            <div class="pontuation-container">
-                <div class="pontuation-content">
-                    <h1 id="level">5</h1>
-                    <p>Nível</p>
+            
+            {% if 'uid' in request.session %}
+                <div class="pontuation-container">
+                    <div class="pontuation-content">
+                        <h1 id="level"></h1>
+                        <p>Nível</p>
+                    </div>
+                    
+                    <div class="divider-vertical"></div>
+                    
+                    <div class="pontuation-content">
+                        <h1 id="position"></h1>
+                        <p>Posição</p>
+                    </div>
+                    
+                    <div class="divider-vertical"></div>
+                    
+                    <div class="pontuation-content">
+                        <h1 id="points"></h1>
+                        <p>Pontuação</p>
+                    </div>
                 </div>
-
-                <div class="divider-vertical"></div>
-                
-                <div class="pontuation-content">
-                    <h1 id="position">9º</h1>
-                    <p>Posição</p>
-                </div>
-                
-                <div class="divider-vertical"></div>
-
-                <div class="pontuation-content">
-                    <h1 id="points">{% if request.session.uid %}{{ user_points }}{% else %}0{% endif %}</h1>
-                    <p>Pontuação</p>
-                </div>
-            </div>
+            {% endif %}
 
             <div class="positions">
                 <div class="position-1" id="position-1">

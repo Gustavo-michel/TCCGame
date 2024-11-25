@@ -176,6 +176,7 @@ label {
     cursor: pointer;
     user-select: none;
     transition: 0.2s;
+    text-wrap: nowrap;
 }
 
 .btn-default:hover {

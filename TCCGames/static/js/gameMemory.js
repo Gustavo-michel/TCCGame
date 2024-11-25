@@ -132,6 +132,15 @@ const matrixGenerator = (cardValues, size = 4) => {
               result.innerHTML = `<h2>You Won</h2>
             <h4>Moves: ${movesCount}</h4>`;
               shoot();
+              
+              // Adicionar pontos quando ganhar
+              const pointsEarned = 100; // Pontos por vitória
+              getUserId().then(userId => {
+                  if (userId) {
+                      updateScore(userId, pointsEarned);
+                  }
+              });
+              
               stopGame();
             }
           } else {

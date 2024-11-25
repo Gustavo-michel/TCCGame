@@ -78,6 +78,16 @@ header {
     background-color: var(--color-green);
 } 
 
+.row {
+    display: flex;
+    align-items: center;
+    gap: var(--md);
+}
+
+.btn-icon {
+    width: 56px;
+}
+
 #btn-mobile {
     display: none;
 }

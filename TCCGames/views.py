@@ -96,7 +96,7 @@ def privacy(request):
     return render(request, 'privacy.html')
 
 def get_user_id(request):
-    user_id = request.user['uid'] if request.user.is_authenticated else None
+    user_id = request.user['uid'] if 'uid' in request.session else None
     return JsonResponse({'user_id': user_id})
 
 # Score logic
@@ -154,23 +154,29 @@ def home_data(request):
         
         if not user_data:
             user_data = {"points": 0, "level": 1}
+            
+        # users = db.child("users").order_by_child("points").get().val()
 
-        users = db.child("users").order_by_child("points").get().val()
+        # sorted_users = []
+        # top_positions = []
+        # position = 1
 
-        sorted_users = sorted(users.items(), key=lambda x: x[1]['points'], reverse=True)
 
-        top_positions = [
-            {"rank": i + 1, "name": user[1]["name"], "points": user[1]["points"]}
-            for i, user in enumerate(sorted_users[:3])
-        ]
-
-        position = next((i + 1 for i, user in enumerate(sorted_users) if user[0] == user_id), None)
+        # if users:
+        #     sorted_users = sorted(users.items(), key=lambda x: x[1]['points'], reverse=True)
+            
+        # top_positions = [
+        #     {"rank": i + 1, "name": user[1]["name"], "points": user[1]["points"]}
+        #     for i, user in enumerate(sorted_users[:3])
+        # ]
+        
+        # position = next((i + 1 for i, user in enumerate(sorted_users) if user[0] == user_id), 1)
         
         return JsonResponse({
             "level": user_data["level"],
-            "position": position,
+            # "position": position,
             "points": user_data["points"],
-            "top_positions": top_positions
+            # "top_positions": top_positions
         })
 
 
@@ -192,14 +198,3 @@ def gameWordle(request):
 @login_required
 def gameLinguage(request):
     return render(request, 'gameLinguage.html')
-
-# ------------------------Adicionei esse código------------------------
-
-def index(request):
-    user_points = 0
-    if 'uid' in request.session:
-        # Busque os pontos do usuário no banco de dados
-        user = User.objects.get(uid=request.session['uid'])
-        user_points = user.points  # ou como quer que você armazene os pontos
-    
-    return render(request, 'index.html', {'user_points': user_points})

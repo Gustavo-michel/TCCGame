@@ -49,24 +49,44 @@ async function fetchHomeData() {
             }
         });
 
-        if (response.ok) {
-            const data = await response.json();
-
-            document.getElementById('level').innerText = data.level;
-
-            document.getElementById('position').innerText = `${data.position}º`;
-
-            document.getElementById('points').innerText = data.points.toLocaleString();
-
-            data.top_positions.forEach((user, idx) => {
-                document.getElementById(`position-${idx + 1}`).querySelector('h2').innerText = `${user.rank}º`;
-                document.getElementById(`position-${idx + 1}`).querySelector('p').innerText = user.name;
-            });
-        } else {
-            console.error('Erro ao recuperar os dados do usuário');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+
+        const data = await response.json();
+
+        // Função auxiliar para atualizar elemento com segurança
+        const updateElement = (id, value) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.innerText = value;
+            } else {
+                console.warn(`Elemento com ID '${id}' não encontrado`);
+            }
+        };
+
+        updateElement('level', data.level);
+        updateElement('points', data.points.toLocaleString());
+        // updateElement('position', `${data.position}º`);
+
+        // // Atualiza posições do ranking
+        // data.top_positions.forEach((user, idx) => {
+        //     const positionElement = document.getElementById(`position-${idx + 1}`);
+        //     if (positionElement) {
+        //         const rankElement = positionElement.querySelector('h2');
+        //         const nameElement = positionElement.querySelector('p');
+                
+        //         if (rankElement) rankElement.innerText = `${user.rank}º`;
+        //         if (nameElement) nameElement.innerText = user.name;
+        //     } else {
+        //         console.warn(`Elemento position-${idx + 1} não encontrado`);
+        //     }
+        // });
+
     } catch (error) {
-        console.error('Erro na requisição:', error);
+        console.error('Erro ao carregar dados:', error.message);
+        // Opcional: Mostrar mensagem de erro para o usuário
+        alert('Não foi possível carregar os dados. Por favor, tente novamente mais tarde.');
     }
 }
 
