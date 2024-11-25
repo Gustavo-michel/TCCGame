@@ -4,6 +4,7 @@ from django.urls import reverse
 from app.config import firebase, db
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from firebase_admin import auth as admin_auth
 from .decorators import login_required
 from django.views.decorators.cache import cache_page
 import json
@@ -73,7 +74,7 @@ def forgotPassword(request):
         email = request.POST.get('email')
 
         try:
-            auth.generate_password_reset_link(email)
+            admin_auth.generate_password_reset_link(email)
             messages.success(request, "Um e-mail de redefinição de senha foi enviado. Verifique sua caixa de entrada.")
             return redirect(reverse('login'))
         except Exception as e:

@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.contrib import messages
 from firebase_admin import auth as firebase_auth
-
+firebase_auth.generate_password_reset_link
 def login_required(function):
     def wrap(request, *args, **kwargs):
         print(request)
