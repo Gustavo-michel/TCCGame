@@ -217,6 +217,7 @@ function shoot() {
 
 // Codigo novo!!!
 
+// pegando o endpoint do update score do backend
 async function updateScore(userId, pointsEarned) {
   try {
       const response = await fetch(`/update_score/${userId}/`, {
@@ -249,6 +250,7 @@ return document.cookie
     .split('=')[1];
 }
 
+// Esse codigo tem que ser colocado após terminar a fase, ou mudar ele para colocar em determinada parte quando queira que adicione pontos...
 // function onLevelComplete() {
 //   const pointsEarned = 100;
 //   const userId = getUserId();
@@ -256,6 +258,7 @@ return document.cookie
 //   updateScore(userId, pointsEarned);
 // }
 
+// pegar o userId para atualizar X usuario
 async function getUserId() {
   try {
       const response = await fetch('/get_user_id/');

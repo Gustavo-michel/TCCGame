@@ -38,6 +38,7 @@ $(document).ready(function() {
     });
 });
 
+//pegando o endpoint para mostrar os dados no home data
 async function fetchHomeData() {
     try {
         const response = await fetch('/home_data/', {
@@ -69,6 +70,7 @@ async function fetchHomeData() {
     }
 }
 
+// Pegando token
 function getCSRFToken() {
     return document.cookie
         .split('; ')
