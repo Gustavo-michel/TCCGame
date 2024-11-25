@@ -14,24 +14,21 @@
 <body>
     <header>
         <div class="content">
-        <div class="flex">
-            <button class="btn-border btn-icon" onclick="history.back()">
-            <i class="fa-solid fa-arrow-left"></i>
-            </button>
-            <h3 class="title-green">Descubra a linguagem</h3>
-        </div>
-        <div class="stats-container">
-            <div id="moves-count"></div>
-            <div id="time"></div>
-        </div>
+            <div class="flex">
+                <button class="btn-border btn-icon" onclick="history.back()">
+                <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <h3 class="title-green">Descubra a linguagem</h3>
+            </div>
+
+            <div class="num-of-tries-left" id="chanceCount">
+                <span>Jogadas restantes: </span>
+            </div>
         </div>
     </header>
 
     <!-- Container -->
     <div class="wrapper">
-        <div class="num-of-tries-left" id="chanceCount">
-            <span>Jogadas restantes: </span>
-        </div>
         <div class="container"></div>
         <div id="letter-container" class="hide"></div>
         <div id="userInputSection"></div>

@@ -68,7 +68,7 @@ header {
 
 @media screen and (max-width: 600px) {
   .game-container {
-    gap: var(--);
+    gap: var(--xs);
   }
 }
 

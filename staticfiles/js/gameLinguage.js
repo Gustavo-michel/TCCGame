@@ -1,24 +1,24 @@
 const moviesObject = {
     "☕🍵": "Java",
-    "🐍🔡": "Python",
-    "🌐📄": "HTML",
-    "☕📜": "JavaScript",
-    "⚙️🐧": "C",
-    "🖥️🏁": "C++",
-    "🍵👑": "Kotlin",
-    "📱🎨": "Swift",
-    "🔗📚": "C#",
-    "🌟🎛️": "Ruby",
-    "🚀🛠️": "Rust",
-    "🎨📄": "CSS",
-    "👟🐘": "PHP",
-    "🔄📄": "TypeScript",
-    "📱🔗": "React Native",
-    "🧑‍🔬⚙️": "MATLAB",
-    "📝🔍": "Perl",
-    "🌈📋": "Dart",
-    "🐬📘": "Go",
-    "💻📑": "SQL"
+    // "🐍🔡": "Python",
+    // "🌐📄": "HTML",
+    // "☕📜": "JavaScript",
+    // "⚙️🐧": "C",
+    // "🖥️🏁": "C++",
+    // "🍵👑": "Kotlin",
+    // "📱🎨": "Swift",
+    // "🔗📚": "C#",
+    // "🌟🎛️": "Ruby",
+    // "🚀🛠️": "Rust",
+    // "🎨📄": "CSS",
+    // "👟🐘": "PHP",
+    // "🔄📄": "TypeScript",
+    // "📱🔗": "ReactNative",
+    // "🧑‍🔬⚙️": "MATLAB",
+    // "📝🔍": "Perl",
+    // "🌈📋": "Dart",
+    // "🐬📘": "Go",
+    // "💻📑": "SQL"
 };
 
 src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
@@ -125,6 +125,13 @@ const addClickListener = (button, word) => {
             resultText.innerHTML = "Você venceu!";
             resultText.classList.add("text-sucess");
             shoot();
+            console.log("Chamando updateScore...");
+            getUserId().then(userId => {
+                console.log("UserId obtido:", userId);
+                updateScore(userId, 100);
+            }).catch(error => {
+                console.error("Erro ao obter userId:", error);
+            });
             blocker();
           }
         }
@@ -135,7 +142,7 @@ const addClickListener = (button, word) => {
       lossCount -= 1;
       document.getElementById(
         "chanceCount"
-      ).innerHTML = `<span>Tries Left:</span> ${lossCount}`;
+      ).innerHTML = `<span>Jogadas restantes:</span> ${lossCount}`;
       button.classList.add("used");
       if (lossCount == 0) {
         resultText.innerHTML = "Você perdeu!";
@@ -176,4 +183,59 @@ function shoot() {
     scalar: 1,
     shapes: ['circle']
   });
+}
+
+// Codigo novo!!!
+
+// pegando o endpoint do update score do backend
+async function updateScore(userId, pointsEarned) {
+  try {
+      const response = await fetch(`/update_score/`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCSRFToken()
+          },
+          body: JSON.stringify({ points_earned: pointsEarned })
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+          document.getElementById('points').innerText = data.points;
+          document.getElementById('level').innerText = data.level;
+          alert(`Parabéns! Você alcançou o nível ${data.level}`);
+      } else {
+          console.error("Erro ao atualizar pontuação:", data);
+      }
+  } catch (error) {
+      console.error("Erro na requisição:", error);
+  }
+}
+
+function getCSRFToken() {
+return document.cookie
+    .split('; ')
+    .find(row => row.startsWith('csrftoken'))
+    .split('=')[1];
+}
+
+// Esse codigo tem que ser colocado após terminar a fase, ou mudar ele para colocar em determinada parte quando queira que adicione pontos...
+// function onLevelComplete() {
+//   const pointsEarned = 100;
+//   const userId = getUserId();
+
+//   updateScore(userId, pointsEarned);
+// }
+
+// pegar o userId para atualizar X usuario
+async function getUserId() {
+  try {
+      const response = await fetch('/get_user_id/');
+      const data = await response.json();
+      return data.user_id;
+  } catch (error) {
+      console.error('Erro ao obter o ID do usuário:', error);
+      return null;
+  }
 }
