@@ -8,7 +8,7 @@ def login_required(function):
         if 'uid' in request.session:
             try:
                 uid = request.session['uid']
-                print(f'UID encontrado: {uid}')
+                print(f'UID encontrado: {uid[:10]}')
                 decoded_token = firebase_auth.verify_id_token(uid, clock_skew_seconds=10)
                 request.user = decoded_token
                 print('Token decodificado com sucesso!')
