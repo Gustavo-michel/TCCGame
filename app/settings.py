@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from decouple import config
 
-
+# -------------------- BASE DIR & ENV --------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('DJANGO_SECRET_KEY')
@@ -13,7 +13,7 @@ ALLOWED_HOSTS = ['localhost']
 
 
 
-# apps e backends Django
+# -------------------- APPS E BACKENDS DJANGO --------------------
 INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.admin',
@@ -32,6 +32,7 @@ STATICFILES_FINDERS = (
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    'TCCGames.logging_middleware.RequestLoggingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -60,7 +61,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
-# Postgres
+# -------------------- BANCO DE DADOS POSTGRES --------------------
 if os.environ.get('DOCKER') == '1':
     DATABASE_HOST = config('DATABASE_HOST_DOCKER')
 else:
@@ -76,7 +77,7 @@ DATABASES = {
     }
 }
 
-# Redis
+# -------------------- REDIS CACHE --------------------
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
@@ -89,7 +90,29 @@ CACHES = {
 # SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 # SESSION_CACHE_ALIAS = "default"
 
-# Backends Auth
+# -------------------- LOGGING --------------------
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'TCCGames': {  
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
+
+# -------------------- BACKENDS AUTH --------------------
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
@@ -112,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_URL = '/login/'
 
-# Configs local
+# -------------------- CONFIGS LOCAL --------------------
 APPEND_SLASH = True
 
 LANGUAGE_CODE = 'pt-br'
@@ -127,3 +150,4 @@ STATICFILES_DIRS = [BASE_DIR / 'TCCGames' / 'static']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+
