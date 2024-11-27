@@ -20,27 +20,25 @@
 
     <main>
         <div class="container">
-            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="img-left">
+            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="img-animation">
         </div>
 
         <div class="content">
             <form action="{% url 'forgotPassword' %}" method="post" autocomplete="off" class="form">
                 {% csrf_token %}
 
-                <div class="title-content right-1">
+                <div class="title-content">
                     <h2>Esqueceu a senha?</h2>
                     <p class="text">Informe seu email para recuperar a conta</p>
                 </div>
     
                 <!-- Email -->
-                <div class="inp-content right-2">
+                <div class="inp-content">
                     <label>Email</label>
-                    <input type="email" placeholder="Informe seu email" id="email" name="email" required />
-                    <!-- <span id="email-error" class="hide required-color error-message">Email inválido</span>
-                    <span id="empty-email" class="hide required-color error-message">Campo obrigatório</span> -->
+                    <input type="email" placeholder="Informe seu email" id="email" required />
                 </div>
     
-                <button type="submit" id="submit" class="btn-green right-3">Recuperar senha</button>
+                <button type="submit" id="submit" class="btn-green">Recuperar senha</button>
             </form>       
         </div>
     </main>

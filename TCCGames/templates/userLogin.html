@@ -20,42 +20,37 @@
 
     <main>
         <div class="container">
-            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="img-left">
+            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="img-animation">
         </div>
 
         <div class="content">
             <form action="{% url 'login' %}" method="post" autocomplete="off" class="form">
                 {% csrf_token %}
 
-                <div class="title-content right-1">
+                <div class="title-content">
                     <h2>Entrar</h2>
                     <span class="error-message">*obrigatório</span>
                 </div>
     
                 <!-- Email -->
-                <div class="inp-content right-2">
+                <div class="inp-content">
                     <label>Email<span>*</span></label>
                     <input type="email" placeholder="Informe seu email" id="email" name="email" required />
-                    <!-- <span id="email-error" class="hide required-color error-message">Email inválido</span>
-                    <span id="empty-email" class="hide required-color error-message">Campo obrigatório</span> -->
                 </div>
 
                 <!-- Password -->
-                <div class="inp-content right-3">
+                <div class="inp-content">
                     <label>Senha<span>*</span></label>
                     <input type="password" placeholder="Informe uma senha" id="password" name="password" required />
-                    <!-- <span id="password-error" class="hide required-color error-message">As senhas devem ter letras, símbolos
-                        especiais, números e comprimento >= 8</span>
-                    <span id="empty-password" class="hide required-color error-message">Campo obrigatório</span> -->
                 </div>
 
-                <div class="forgot right-3">
+                <div class="forgot">
                     <a href="{% url 'forgotPassword' %}">Esqueceu a senha?</a>
                 </div>
     
                 <button type="submit" class="btn-green right-4" id="submit">Entrar</button>
 
-                <div class="footer right-5">
+                <div class="footer">
                     <p>Ainda não possui uma conta? <a class="link" href="{% url 'register' %}">Criar conta</a></p>
                 </div>
             </form>       
