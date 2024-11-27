@@ -16,11 +16,11 @@ def home(request):
     return render(request, 'index.html')
 
 
-# ---------- Users ----------
+# -------------------- Users --------------------
 
 def register(request):
     '''
-    Registra um novo usuário no sistema utilizando email e senha para autenticação no firebase.
+    Register a new user in the system using email and password for authentication in firebase.
     '''
     if 'uid' in request.session:
         return redirect('home')
@@ -47,7 +47,7 @@ def register(request):
 
 def login(request):
     '''
-    Realiza o login de um usuário no sistema utilizando email e senha para autenticação no firebase, salva o token de autenticação na sessão do usuário.
+    Realize the login of a user in the system using email and password for authentication in firebase, saving the authentication token in the user's session.
     '''
     if 'uid' in request.session:
         return redirect('account')
@@ -70,14 +70,14 @@ def login(request):
 @login_required
 def account(request):
     '''
-    Renderiza a página de conta do usuário.
+    Render the user account page.
     '''
     return render(request, 'userAccount.html')
 
 
 def forgotPassword(request):
     '''
-    Envia um e-mail de redefinição de senha para o email do usuário.
+    Send a password reset email to the user's email.
     '''
     if 'uid' in request.session:
         return redirect('account')
@@ -98,7 +98,7 @@ def forgotPassword(request):
 @login_required
 def logout(request):
     '''
-    Realiza o logout do usuário, removendo o token de autenticação da sessão.
+    Release the user's authentication token from the session.
     '''
     try:
         del request.session['uid']
@@ -111,13 +111,13 @@ def logout(request):
 
 def privacy(request):
     '''
-    Renderiza a página de política de privacidade do site.
+    Render the privacy policy page.
     '''
     return render(request, 'privacy.html')
 
 def get_user_id(request):
     '''
-    Retorna o ID do usuário autenticado.
+    Return the authenticated user's ID.
     '''
     if hasattr(request, 'user') and not request.user.is_anonymous:
         user_id = request.user.get('user_id', None)
@@ -125,13 +125,13 @@ def get_user_id(request):
         user_id = None
     return JsonResponse({'user_id': user_id})
 
-# ---------- Score logic ----------
+# -------------------- Score logic --------------------
 
 @csrf_exempt
 @login_required
 def update_user_score(request):
     '''
-    Atualiza o score do usuário no banco de dados do firebase.
+    Update the user's score in the firebase database.
     '''
     user_id = request.user.get('user_id')
 
@@ -152,7 +152,7 @@ def update_user_score(request):
         points = current_points + points_earned
         level = points // 100 + 1
 
-        # Atualiza os dados do usuário no Firebase
+        # Update the user's data in the Firebase database
         db.child("users").child(user_id).update({
             "points": points,
             "level": level
@@ -162,11 +162,11 @@ def update_user_score(request):
     else:
         return JsonResponse({"error": "Método não permitido"}, status=405)
     
-# Recupera os dados do usuario para listagem
+# Recover user data for listing
 @csrf_exempt
 def recover_user_data(request):
     '''
-    Recupera os dados do usuário para listagem.
+    Recover the user's data for listing.
     '''
     user_id = request.user.get('user_id')
     
@@ -180,7 +180,7 @@ def recover_user_data(request):
 @login_required
 def home_data(request):
     '''
-    Recupera os dados do usuário para listagem na página inicial.
+    Recover the user's data for listing on the home page.
     '''
     user_data = None 
     
@@ -202,12 +202,12 @@ def home_data(request):
         return JsonResponse({"error": "Usuário não autenticado"}, status=401)
 
 
-# ---------- Games ----------
+# -------------------- Games --------------------
 
 @login_required
 def gameHangman(request):
     '''
-    Renderiza a página do jogo da forca.
+    Render the hangman game page.
     '''
     return render(request, 'gameHangman.html')
 
@@ -215,20 +215,20 @@ def gameHangman(request):
 @login_required
 def gameMemory(request):
     '''
-    Renderiza a página do jogo da memória.
+    Render the memory game page.
     '''
     return render(request, 'gameMemory.html')
 
 @login_required
 def gameWordle(request):
     '''
-    Renderiza a página do jogo da palavra.
+    Render the wordle game page.
     '''
     return render(request, 'gameWordle.html')
 
 @login_required
 def gameLinguage(request):
     '''
-    Renderiza a página do jogo de linguagem.
+    Render the language game page.
     '''
     return render(request, 'gameLinguage.html')
