@@ -19,7 +19,7 @@
 
     <main>
         <div class="container">
-            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="img-left">
+            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="img-animation">
         </div>
 
         <div class="content">
@@ -28,48 +28,40 @@
             <form action="{% url 'register' %}" method="post" autocomplete="off" class="form">
                 {% csrf_token %}
 
-                <div class="title-content right-1">
+                <div class="title-content">
                     <h2>Criar conta</h2>
                     <span class="error-message">*obrigatório</span>
                 </div>
     
                 <!-- Name -->
-                <div class="inp-content right-2">
+                <div class="inp-content">
                     <label>Nome<span>*</span></label>
                     <input type="text" id="name" name="name" placeholder="Informe seu nome" />
-                    <!-- <span id="empty-name" class="hide error-message">Campo obrigatório</span>
-                    <span id="name-error" class="hide error-message">Nome inválido</span> -->
                 </div>
     
                 <!-- Email -->
-                <div class="inp-content right-3">
+                <div class="inp-content">
                     <label>Email<span>*</span></label>
                     <input type="text" id="email" name="email" placeholder="Informe seu email" />
-                    <!-- <span id="empty-email" class="hide error-message">Campo obrigatório</span>
-                    <span id="email-error" class="hide error-message">Email inválido</span> -->
                 </div>
     
                 <!-- Password -->
-                <div class="inp-content right-4">
+                <div class="inp-content">
                     <label>Senha<span>*</span></label>
                     <input type="password" id="password" name="password" placeholder="Informe uma senha" />
-                    <!-- <span id="empty-password" class="hide error-message">Campo obrigatório</span>
-                    <span id="password-error" class="hide error-message">As senhas devem ter letras, símbolos especiais, números e comprimento >= 8</span> -->
                 </div>
     
                 <!-- Confirm -->
                 <div class="inp-content right-5">
                     <label>Confirme a senha<span>*</span></label>
                     <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirme sua senha" />
-                    <!-- <span id="empty-confirm" class="hide error-message">Campo obrigatório</span>
-                    <span id="confirm-error" class="hide error-message">A senha deve ser igual a anterior</span> -->
                 </div>
     
-                <div class="right-6">
+                <div>
                     <p>Ao criar uma conta você concorda com os <a href="{% url 'privacy' %}">Termos de uso</a></p>
                 </div>
     
-                <button type="submit" class="btn-green right-7" id="submit">Criar conta</button>
+                <button type="submit" class="btn-green" id="submit">Criar conta</button>
 
                 <div class="footer right-8">
                     <p>Já possui uma conta? <a href="{% url 'login' %}">Entrar</a></p>

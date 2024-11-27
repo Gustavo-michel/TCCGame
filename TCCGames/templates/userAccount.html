@@ -1,4 +1,4 @@
-{% load static %}
+<!-- {% load static %} -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -14,42 +14,35 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="img-container"></div>
-            <div class="details"></div>
-        </div>
-    </div>
-
     <header>
-        <div class="content">
+        <nav class="navbar">
             <div class="flex">
-                <button class="btn-border btn-icon" onclick="history.back()">
-                <i class="fa-solid fa-arrow-left"></i>
-                </button>
+                <a href="{% url 'home' %}" class="btn-border btn-icon">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
                 <h3 class="title-green">Minha conta</h3>
             </div>
-        </div>
+
+            <a href="{% url 'logout' %}" class="btn-border btn-icon">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </a>
+        </nav>
     </header>
 
     <main>
         <section id="edit">
-            <h1>Editar nome</h1>
-            <!-- Name -->
-            <div class="inp-content right-2">
-                <label>Nome<span>*</span></label>
-                <input type="text" id="name" name="name" placeholder="Informe seu nome" />
-                <!-- <span id="empty-name" class="hide error-message">Campo obrigatório</span>
-                <span id="name-error" class="hide error-message">Nome inválido</span> -->
+            <h3>Editar nome</h3>
+            <div class="form">
+                <!-- Name -->
+                <div class="inp-content">
+                    <label>Nome</label>
+                    <input type="text" id="name" name="name" placeholder="Informe seu nome" />
+                </div>
+                <button class="btn-green">Alterar</button>
             </div>
         </section>
 
         <section id="pontuation">
-            <div class="title-content left-1">
-                <h2 class="title-green">Pontuação</h2>
-                <p>Veja em que nível você está</p>
-            </div>
-
             <div class="pontuation-container">
                 <div class="pontuation-content">
                     <h1 id="level">5</h1>
@@ -66,59 +59,32 @@
                 <div class="divider-vertical"></div>
 
                 <div class="pontuation-content">
-                    <h1 id="points">{% if request.session.uid %}{{ user_points }}{% else %}0{% endif %}</h1>
+                    <h1 id="points"></h1>
                     <p>Pontuação</p>
                 </div>
             </div>
+        </section>
 
-            <div class="positions">
-                <div class="position-1" id="position-1">
-                    <h2>01º</h2>
-                    <p>Nome da pessoa</p>
-                </div>
-    
-                <div class="position-2" id="position-2">
-                    <h2>02º</h2>
-                    <p>Nome da pessoa</p>
-                </div>
-    
-                <div class="position-3" id="position-3">
-                    <h2>03º</h2>
-                    <p>Nome da pessoa</p>
-                </div>
-            </div>
+        <section id="info">
+            <p>Para mudar o email ou excluir a conta entre em contado com o suporte através do email</p>
+            <span>BrainQuest2024@gmail.com</span>
         </section>
     </main>
 
     <footer>
-        <div class="navbar-footer">
-            <div class="logo-footer">
-                <i class="fa-solid fa-diamond"></i>
-                <h4>BrainQuest</h4>
-            </div>
-        </div>
-
-        <div class="policy">
-            <p>© 2024 BrainQuest. Todos os direitos reservados.</p>
-            <a href="{% url 'privacy' %}">Política de privacidade</a>
-        </div>
+        <p>© 2024 BrainQuest. Todos os direitos reservados.</p>
+        <a href="{% url 'privacy' %}">Política de privacidade</a>
     </footer>
 
-
-
-
     <!-- Script -->
-    <script src="{% static 'js/userAccount.js' %}"></script>
+    <script src="{% static 'js/home.js' %}"></script>
 
-    {% if messages %}
+    <!-- {% if messages %}
     <ul class="messages">
         {% for message in messages %}
             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}
     </ul>
-    {% endif %}
-
-    <!-- <a href="/logout">Logout</a> -->
+    {% endif %} -->
 </body>
-
 </html>
