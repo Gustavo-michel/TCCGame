@@ -16,9 +16,12 @@ def home(request):
     return render(request, 'index.html')
 
 
-# Users
+# ---------- Users ----------
 
 def register(request):
+    '''
+    Registra um novo usuário no sistema utilizando email e senha para autenticação no firebase.
+    '''
     if 'uid' in request.session:
         return redirect('home')
     
@@ -43,6 +46,9 @@ def register(request):
     return render(request, 'userRegister.html')
 
 def login(request):
+    '''
+    Realiza o login de um usuário no sistema utilizando email e senha para autenticação no firebase, salva o token de autenticação na sessão do usuário.
+    '''
     if 'uid' in request.session:
         return redirect('account')
     
@@ -63,10 +69,16 @@ def login(request):
 
 @login_required
 def account(request):
+    '''
+    Renderiza a página de conta do usuário.
+    '''
     return render(request, 'userAccount.html')
 
 
 def forgotPassword(request):
+    '''
+    Envia um e-mail de redefinição de senha para o email do usuário.
+    '''
     if 'uid' in request.session:
         return redirect('account')
 
@@ -85,6 +97,9 @@ def forgotPassword(request):
 
 @login_required
 def logout(request):
+    '''
+    Realiza o logout do usuário, removendo o token de autenticação da sessão.
+    '''
     try:
         del request.session['uid']
     except KeyError:
@@ -95,20 +110,29 @@ def logout(request):
 
 
 def privacy(request):
+    '''
+    Renderiza a página de política de privacidade do site.
+    '''
     return render(request, 'privacy.html')
 
 def get_user_id(request):
+    '''
+    Retorna o ID do usuário autenticado.
+    '''
     if hasattr(request, 'user') and not request.user.is_anonymous:
         user_id = request.user.get('user_id', None)
     else:
         user_id = None
     return JsonResponse({'user_id': user_id})
 
-# Score logic
+# ---------- Score logic ----------
 
 @csrf_exempt
 @login_required
 def update_user_score(request):
+    '''
+    Atualiza o score do usuário no banco de dados do firebase.
+    '''
     user_id = request.user.get('user_id')
 
     if request.method == 'POST':
@@ -141,6 +165,9 @@ def update_user_score(request):
 # Recupera os dados do usuario para listagem
 @csrf_exempt
 def recover_user_data(request):
+    '''
+    Recupera os dados do usuário para listagem.
+    '''
     user_id = request.user.get('user_id')
     
     user_data = db.child("users").child(user_id).get().val()
@@ -152,6 +179,9 @@ def recover_user_data(request):
 
 @login_required
 def home_data(request):
+    '''
+    Recupera os dados do usuário para listagem na página inicial.
+    '''
     user_data = None 
     
     if 'uid' in request.session:
@@ -172,21 +202,33 @@ def home_data(request):
         return JsonResponse({"error": "Usuário não autenticado"}, status=401)
 
 
-# Games
+# ---------- Games ----------
 
 @login_required
 def gameHangman(request):
+    '''
+    Renderiza a página do jogo da forca.
+    '''
     return render(request, 'gameHangman.html')
 
 
 @login_required
 def gameMemory(request):
+    '''
+    Renderiza a página do jogo da memória.
+    '''
     return render(request, 'gameMemory.html')
 
 @login_required
 def gameWordle(request):
+    '''
+    Renderiza a página do jogo da palavra.
+    '''
     return render(request, 'gameWordle.html')
 
 @login_required
 def gameLinguage(request):
+    '''
+    Renderiza a página do jogo de linguagem.
+    '''
     return render(request, 'gameLinguage.html')
