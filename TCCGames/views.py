@@ -90,6 +90,7 @@ def logout(request):
     except KeyError:
         pass
     messages.success(request, 'Logout realizado com sucesso!')
+    print("Logout realizado com sucesso!")
     return redirect('login')
 
 
@@ -108,7 +109,7 @@ def get_user_id(request):
 @csrf_exempt
 @login_required
 def update_user_score(request):
-    user_id = request.user['user_id']
+    user_id = request.user.get('user_id')
 
     if request.method == 'POST':
 
@@ -140,7 +141,7 @@ def update_user_score(request):
 # Recupera os dados do usuario para listagem
 @csrf_exempt
 def recover_user_data(request):
-    user_id = request.user['user_id']
+    user_id = request.user.get('user_id')
     
     user_data = db.child("users").child(user_id).get().val()
     
@@ -154,7 +155,7 @@ def home_data(request):
     user_data = None 
     
     if 'uid' in request.session:
-        user_id = request.user['user_id']
+        user_id = request.user.get('user_id')
         try:
             user_data = db.child("users").child(user_id).get().val()
         except Exception as e:

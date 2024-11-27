@@ -85,7 +85,7 @@ async function fetchHomeData() {
 
     } catch (error) {
         console.error('Erro ao carregar dados:', error.message);
-        alert('Não foi possível carregar os dados. Por favor, tente novamente mais tarde.');
+        // alert('Não foi possível carregar os dados. Por favor, tente novamente mais tarde.');
     }
 }
 

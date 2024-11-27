@@ -4,7 +4,7 @@ from firebase_admin import auth as firebase_auth
 firebase_auth.generate_password_reset_link
 def login_required(function):
     def wrap(request, *args, **kwargs):
-        print(request)
+        print(f"Request para {request.path}")
         if 'uid' in request.session:
             try:
                 uid = request.session['uid']
