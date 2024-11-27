@@ -32,7 +32,7 @@ STATICFILES_FINDERS = (
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    'TCCGames.logging_middleware.RequestLoggingMiddleware',
+    'app.logging_middleware.RequestLoggingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
