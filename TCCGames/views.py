@@ -4,22 +4,22 @@ from django.urls import reverse
 from app.config import firebase, db
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from firebase_admin import auth as admin_auth
 from .decorators import login_required
 from django.views.decorators.cache import cache_page
 import json
 
 auth = firebase.auth()
 
-@cache_page(15 * 1)
+# @cache_page(15 * 1)
 def home(request):
     return render(request, 'index.html')
-
 
 # Users
 
 def register(request):
     if 'uid' in request.session:
-        return redirect('account')
+        return redirect('home')
     
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -54,7 +54,7 @@ def login(request):
             session_id = user['idToken']
             request.session['uid'] = str(session_id)
             messages.success(request, 'Login realizado com sucesso!')
-            return redirect('account')
+            return redirect('home')
         except Exception as e:
             messages.error(request, f"Erro ao fazer login: {str(e)}")
             return render(request, 'userLogin.html')
@@ -73,7 +73,7 @@ def forgotPassword(request):
         email = request.POST.get('email')
 
         try:
-            auth.generate_password_reset_link(email)
+            admin_auth.generate_password_reset_link(email)
             messages.success(request, "Um e-mail de redefinição de senha foi enviado. Verifique sua caixa de entrada.")
             return redirect(reverse('login'))
         except Exception as e:
@@ -96,7 +96,10 @@ def privacy(request):
     return render(request, 'privacy.html')
 
 def get_user_id(request):
-    user_id = request.session.get('uid') if 'uid' in request.session else None
+    if hasattr(request, 'user') and not request.user.is_anonymous:
+        user_id = request.user.get('user_id', None)
+    else:
+        user_id = None
     return JsonResponse({'user_id': user_id})
 
 # Score logic
@@ -104,7 +107,7 @@ def get_user_id(request):
 @csrf_exempt
 @login_required
 def update_user_score(request):
-    user_id = request.session.get('uid')
+    user_id = request.user['user_id']
 
     if request.method == 'POST':
 
@@ -136,7 +139,7 @@ def update_user_score(request):
 # Recupera os dados do usuario para listagem
 @csrf_exempt
 def recover_user_data(request):
-    user_id = request.session.get('uid')
+    user_id = request.user['user_id']
     
     user_data = db.child("users").child(user_id).get().val()
     
@@ -150,43 +153,27 @@ def home_data(request):
     user_data = None 
     
     if 'uid' in request.session:
-        user_id = request.session.get('uid')
-        user_data = db.child("users").child(user_id).get().val()
-        
+        user_id = request.user['user_id']
+        try:
+            user_data = db.child("users").child(user_id).get().val()
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=401)
+
         if not user_data:
             user_data = {"points": 0, "level": 1}
-            
-        # users = db.child("users").order_by_child("points").get().val()
-
-        # sorted_users = []
-        # top_positions = []
-        # position = 1
-
-
-        # if users:
-        #     sorted_users = sorted(users.items(), key=lambda x: x[1]['points'], reverse=True)
-            
-        # top_positions = [
-        #     {"rank": i + 1, "name": user[1]["name"], "points": user[1]["points"]}
-        #     for i, user in enumerate(sorted_users[:3])
-        # ]
-        
-        # position = next((i + 1 for i, user in enumerate(sorted_users) if user[0] == user_id), 1)
         
         return JsonResponse({
             "level": user_data["level"],
-            # "position": position,
             "points": user_data["points"],
-            # "top_positions": top_positions
         })
-
-
+    else:
+        return JsonResponse({"error": "Usuário não autenticado"}, status=401)
+        
 # Games
 
 @login_required
 def gameHangman(request):
     return render(request, 'gameHangman.html')
-
 
 @login_required
 def gameMemory(request):

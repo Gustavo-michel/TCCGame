@@ -156,3 +156,21 @@ header {
 #result h4 {
   margin: 0.6em 0 1em 0;
 }
+
+/* -------------------- Message -------------------- */
+
+.message {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: var(--md);
+  gap: var(--xs);
+}
+
+.win-msg {
+  color: var(--color-success);
+}
+
+.lose-msg {
+  color: var(--color-error);
+}

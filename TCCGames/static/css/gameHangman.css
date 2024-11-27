@@ -1,6 +1,10 @@
 @import url("root.css");
 @import url("animations.css");
 
+.hide {
+    display: none;
+}
+
 /* -------------------- Header -------------------- */
 
 header {
@@ -43,17 +47,14 @@ header {
   
 .container {
     font-size: 16px;
-    background-color: #ffffff;
-    width: 90vw;
-    max-width: 34em;
+    max-width: 60%;
     position: absolute;
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
-    padding: 3em;
-    border-radius: 0.6em;
-    box-shadow: 0 1.2em 2.4em rgba(111, 85, 0, 0.25);
 }
+
+/* -------------------- Options -------------------- */
 
 #options-container {
     text-align: center;
@@ -62,30 +63,25 @@ header {
 #options-container div {
     width: 100%;
     display: flex;
-    justify-content: space-between;
-    margin: 1.2em 0 2.4em 0;
+    justify-content: center;
+    margin: var(--md) 0;
+    gap: var(--md);
 }
 
 #options-container button {
-    padding: 0.6em 1.2em;
-    border: 3px solid #000000;
-    background-color: #ffffff;
-    color: #000000;
-    border-radius: 0.3em;
-    text-transform: capitalize;
+    text-wrap: nowrap;
 }
 
 #options-container button:disabled {
-    border: 3px solid #808080;
-    color: #808080;
-    background-color: #efefef;
+    background-color: var(--color-grey-dark);
 }
 
 #options-container button.active {
-    background-color: #f4c531;
-    border: 3px solid #000000;
-    color: #000000;
+    background-color: var(--color-green);
+    color: var(--color-light);
 }
+
+/* -------------------- Letter -------------------- */
 
 .letter-container {
     width: 100%;
@@ -96,70 +92,80 @@ header {
 }
 
 #letter-container button {
-    height: 2.4em;
-    width: 2.4em;
-    border-radius: 0.3em;
-    background-color: #ffffff;
-}
-
-.new-game-popup {
-    background-color: #ffffff;
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
+    height: 56px;
+    width: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    font-size: 18px;
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: var(--xs);
+    box-shadow: var(--boxshadow);
+
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
+}
+
+#letter-container button:hover {
+    box-shadow: none;
+    transform: translateY(2px);
+}
+
+#letter-container button:disabled {
+    color: var(--color-grey-dark);
+    background-color: var(--color-grey);
+    border: none;
+    box-shadow: none;
+    transform: translateY(2px);
+}
+
+/* -------------------- Results -------------------- */
+
+.new-game-popup {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    display: flex;
     flex-direction: column;
-    border-radius: 0.6em;
+    align-items: center;
+    justify-content: center;
+    gap: var(--md);
+    background-color: var(--color-light);
 }
 
 #user-input-section {
     display: flex;
     justify-content: center;
     font-size: 1.8em;
-    margin: 0.6em 0 1.2em 0;
+    margin: var(--md) 0 var(--lg) 0;
 }
 
 canvas {
     display: block;
     margin: auto;
-    border: 1px solid #000000;
 }
 
-.hide {
-    display: none;
-}
+/* -------------------- Message -------------------- */
 
-#result-text h2 {
-    font-size: 1.8em;
+.message {
+    display: flex;
+    flex-direction: column;
     text-align: center;
-}
-
-#result-text p {
-    font-size: 1.25em;
-    margin: 1em 0 2em 0;
-}
-
-#result-text span {
-    font-weight: 600;
-}
-
-#new-game-button {
-    font-size: 1.25em;
-    padding: 0.5em 1em;
-    background-color: #f4c531;
-    border: 3px solid #000000;
-    color: #000000;
-    border-radius: 0.2em;
+    gap: var(--xs);
 }
 
 .win-msg {
-    color: #39d78d;
+    color: var(--color-success);
 }
 
 .lose-msg {
-    color: #fe5152;
+    color: var(--color-error);
 }

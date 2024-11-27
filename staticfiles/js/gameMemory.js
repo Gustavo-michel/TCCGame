@@ -50,12 +50,24 @@ const timeGenerator = () => {
   let secondsValue = seconds < 10 ? `0${seconds}` : seconds;
   let minutesValue = minutes < 10 ? `0${minutes}` : minutes;
   timeValue.innerHTML = `<span>Time:</span>${minutesValue}:${secondsValue}`;
+
+  // Verificar se passou de 5 minutos
+  if (minutes >= 5) {
+    result.innerHTML = `<div class='message'><h2 class='lose-msg'>Você perdeu!</h2><p>Tempo limite excedido</p></div>`;
+    stopGame();
+  }
 };
 
 //For calculating moves
 const movesCounter = () => {
   movesCount += 1;
   moves.innerHTML = `<span>Moves:</span>${movesCount}`;
+  
+  // Verificar se passou de 30 movimentos
+  if (movesCount > 30) {
+    result.innerHTML = `<div class='message'><h2 class='lose-msg'>Você perdeu!</h2><p>Limite de movimentos excedido</p></div>`;
+    stopGame();
+  }
 };
 
 //Pick random objects from the items array
@@ -129,8 +141,7 @@ const matrixGenerator = (cardValues, size = 4) => {
             winCount += 1;
             //check if winCount ==half of cardValues
             if (winCount == Math.floor(cardValues.length / 2)) {
-              result.innerHTML = `<h2>Você venceu!</h2>
-            <h4>Moves: ${movesCount}</h4>`;
+              result.innerHTML = `<div class='message'><h2 class='win-msg'>Você venceu!</h2><p>Movimentos: <span>${movesCount}</span></p></div>`;
               shoot();
               
               // Adicionar pontos quando ganhar
@@ -172,7 +183,7 @@ startButton.addEventListener("click", () => {
   //Start timer
   interval = setInterval(timeGenerator, 1000);
   //initial moves
-  moves.innerHTML = `<span>Moves:</span> ${movesCount}`;
+  moves.innerHTML = `<span>Movimentos:</span> ${movesCount}`;
   initializer();
 });
 

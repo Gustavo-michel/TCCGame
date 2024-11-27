@@ -45,8 +45,8 @@ async function fetchHomeData() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': getCSRFToken()
-            }
+            },
+            credentials: 'include'
         });
 
         if (!response.ok) {
@@ -54,48 +54,33 @@ async function fetchHomeData() {
         }
 
         const data = await response.json();
+        console.log("Dados recebidos:", data); // Para debug
 
-        // Função auxiliar para atualizar elemento com segurança
-        const updateElement = (id, value) => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.innerText = value;
-            } else {
-                console.warn(`Elemento com ID '${id}' não encontrado`);
-            }
-        };
+        // Atualiza os elementos na página
+        const levelElement = document.getElementById('level');
+        const pointsElement = document.getElementById('points');
 
-        updateElement('level', data.level);
-        updateElement('points', data.points.toLocaleString());
-        // updateElement('position', `${data.position}º`);
+        if (levelElement) {
+            levelElement.textContent = data.level || 1;
+        }
 
-        // // Atualiza posições do ranking
-        // data.top_positions.forEach((user, idx) => {
-        //     const positionElement = document.getElementById(`position-${idx + 1}`);
-        //     if (positionElement) {
-        //         const rankElement = positionElement.querySelector('h2');
-        //         const nameElement = positionElement.querySelector('p');
-                
-        //         if (rankElement) rankElement.innerText = `${user.rank}º`;
-        //         if (nameElement) nameElement.innerText = user.name;
-        //     } else {
-        //         console.warn(`Elemento position-${idx + 1} não encontrado`);
-        //     }
-        // });
+        if (pointsElement) {
+            pointsElement.textContent = (data.points || 0).toLocaleString();
+        }
 
     } catch (error) {
-        console.error('Erro ao carregar dados:', error.message);
-        // Opcional: Mostrar mensagem de erro para o usuário
-        alert('Não foi possível carregar os dados. Por favor, tente novamente mais tarde.');
+        console.error('Erro ao carregar dados:', error);
+        // Em caso de erro, define valores padrão
+        const levelElement = document.getElementById('level');
+        const pointsElement = document.getElementById('points');
+
+        if (levelElement) levelElement.textContent = '1';
+        if (pointsElement) pointsElement.textContent = '0';
     }
 }
 
-// Pegando token
-function getCSRFToken() {
-    return document.cookie
-        .split('; ')
-        .find(row => row.startsWith('csrftoken'))
-        .split('=')[1];
-}
+// Chama a função quando a página carrega
+document.addEventListener('DOMContentLoaded', fetchHomeData);
 
-window.onload = fetchHomeData;
+// Atualiza os dados a cada 30 segundos (opcional)
+setInterval(fetchHomeData, 30000);
