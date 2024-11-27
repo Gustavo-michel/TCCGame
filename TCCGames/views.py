@@ -211,7 +211,6 @@ def gameHangman(request):
     '''
     return render(request, 'gameHangman.html')
 
-
 @login_required
 def gameMemory(request):
     '''

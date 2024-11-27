@@ -23,5 +23,9 @@
 }
 
 .img-animation {
+<<<<<<< HEAD
     animation: left 2s ease-in forwards, float 6s ease-in-out infinite;
+=======
+    animation: float 6s ease-in-out infinite;
+>>>>>>> ce69f8c558db0c73c89632f5b49cad72069d2ef8
 }

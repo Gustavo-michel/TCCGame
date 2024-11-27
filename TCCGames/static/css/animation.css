@@ -23,5 +23,5 @@
 }
 
 .img-animation {
-    animation: left 2s ease-in forwards, float 6s ease-in-out infinite;
+    animation: float 6s ease-in-out infinite;
 }

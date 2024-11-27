@@ -20,7 +20,7 @@
 
     <main>
         <div class="container">
-            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="img-animation">
+            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="right-img">
         </div>
 
         <div class="content">
@@ -48,7 +48,7 @@
                     <a href="{% url 'forgotPassword' %}">Esqueceu a senha?</a>
                 </div>
     
-                <button type="submit" class="btn-green right-4" id="submit">Entrar</button>
+                <button type="submit" class="btn-green" id="submit">Entrar</button>
 
                 <div class="footer">
                     <p>Ainda não possui uma conta? <a class="link" href="{% url 'register' %}">Criar conta</a></p>

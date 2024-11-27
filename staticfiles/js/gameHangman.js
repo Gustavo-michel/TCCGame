@@ -11,7 +11,7 @@ src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.
 
 //Options values for buttons
 let options = {
-  languages: [
+  Linguagens: [
     "Python",
     "JavaScript",
     "Java",
@@ -25,7 +25,7 @@ let options = {
     "C#",
     "Scala"
   ],
-  frameworks: [
+  Frameworks: [
     "React",
     "Angular",
     "Django",
@@ -39,7 +39,7 @@ let options = {
     "Svelte",
     "Bootstrap"
   ],
-  databases: [
+  "Banco de dados": [
     "MongoDB",
     "PostgreSQL",
     "MySQL",
@@ -64,10 +64,10 @@ let chosenWord = "";
 
 //Display option buttons
 const displayOptions = () => {
-  optionsContainer.innerHTML += `<h3>Please Select An Option</h3>`;
+  optionsContainer.innerHTML += `<h4>Selecione uma opção</h4>`;
   let buttonCon = document.createElement("div");
   for (let value in options) {
-    buttonCon.innerHTML += `<button class="options" onclick="generateWord('${value}')">${value}</button>`;
+    buttonCon.innerHTML += `<button class="btn-border" onclick="generateWord('${value}')">${value}</button>`;
   }
   optionsContainer.appendChild(buttonCon);
 };
@@ -148,7 +148,7 @@ const initializer = () => {
             winCount += 1;
             //if winCount equals word lenfth
             if (winCount == charArray.length) {
-              resultText.innerHTML = `<h2 class='win-msg'>You Win!!</h2><p>The word was <span>${chosenWord}</span></p>`;
+              resultText.innerHTML = `<div class='message'><h2 class='win-msg'>Você venceu!</h2><p>A palavra era: <span>${chosenWord}</span></p></div>`;
               //block all buttons
               blocker();
             }
@@ -161,7 +161,7 @@ const initializer = () => {
         drawMan(count);
         //Count==6 because head,body,left arm, right arm,left leg,right leg
         if (count == 6) {
-          resultText.innerHTML = `<h2 class='lose-msg'>You Lose!!</h2><p>The word was <span>${chosenWord}</span></p>`;
+          resultText.innerHTML = `<div class='message'><h2 class='lose-msg'>Você perdeu!</h2><p>A palavra era: <span>${chosenWord}</span></p></div>`;
           blocker();
         }
       }
