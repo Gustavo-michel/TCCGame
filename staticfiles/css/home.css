@@ -489,7 +489,11 @@ header {
     padding: var(--lg);
 
     background-color: var(--color-grey);
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--color-dark);
     border-radius: var(--sm);
+    box-shadow: var(--boxshadow-lg);
 }
 
 .code-content {

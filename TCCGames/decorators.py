@@ -1,16 +1,16 @@
 from django.shortcuts import redirect
 from django.contrib import messages
 from firebase_admin import auth as firebase_auth
-firebase_auth.generate_password_reset_link
+
 def login_required(function):
     def wrap(request, *args, **kwargs):
-        print(request)
+        print(f"Request para {request.path}")
         if 'uid' in request.session:
             try:
                 uid = request.session['uid']
                 print(f'UID encontrado: {uid[:10]}')
                 decoded_token = firebase_auth.verify_id_token(uid, clock_skew_seconds=10)
-                request.user = decoded_token
+                request.user['user_id'] = decoded_token
                 print('Token decodificado com sucesso!')
             except Exception as e:
                 messages.error(request, f'Sessão expirada ou inválida  {str(e)}. Faça login novamente.')
