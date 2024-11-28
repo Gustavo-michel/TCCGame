@@ -188,7 +188,7 @@ function shoot() {
 // Codigo novo!!!
 
 // pegando o endpoint do update score do backend
-async function updateScore(userId, pointsEarned) {
+async function updateScore(pointsEarned) {
   try {
       const response = await fetch(`/update_score/`, {
           method: 'POST',
@@ -227,15 +227,3 @@ return document.cookie
 
 //   updateScore(userId, pointsEarned);
 // }
-
-// pegar o userId para atualizar X usuario
-async function getUserId() {
-  try {
-      const response = await fetch('/get_user_id/');
-      const data = await response.json();
-      return data.user_id;
-  } catch (error) {
-      console.error('Erro ao obter o ID do usuário:', error);
-      return null;
-  }
-}

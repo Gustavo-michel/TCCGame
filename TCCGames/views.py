@@ -62,22 +62,26 @@ def login(request):
 
         try:
             user = auth.sign_in_with_email_and_password(email, password)
-            session_id = user.uid
-            print(user.uid)
+            session_id = user['localId']
+            print(f"ID do usuário: {session_id}")
+
             request.session['uid'] = session_id
             messages.success(request, 'Login realizado com sucesso!')
-            print(auth.get_account_info(user['idToken']))
+
+            # print(auth.get_account_info(user['idToken']))
             return redirect('home')
         except Exception as e:
             messages.error(request, f'Erro ao fazer login: {str(e)}')
             return redirect('login')
     return render(request, 'userLogin.html')
 
-@login_required
+
 def account(request):
     '''
     Render the user account page.
     '''
+    if 'uid' not in request.session:
+        return redirect('login')
     return render(request, 'userAccount.html')
 
 
@@ -104,11 +108,14 @@ def forgotPassword(request):
     
     return render(request, 'userForgot.html')
 
-@login_required
+
 def logout(request):
     '''
     Release the user's authentication token from the session.
     '''
+    if 'uid' not in request.session:
+        return redirect('home')
+    
     try:
         del request.session['uid']
     except KeyError:
@@ -117,26 +124,16 @@ def logout(request):
     print("Logout realizado com sucesso!")
     return redirect('login')
 
-def get_user_id(request):
-    """
-    Return the authenticated user's ID.
-    """
-    if hasattr(request, 'user') and isinstance(request.user, dict):
-        user_id = request.user.get('user_id', None)
-    else:
-        user_id = None
-        print("Id não encontrado")
-
-    return JsonResponse({'user_id': user_id})
 
 # -------------------- Score logic --------------------
 
-@login_required
+
 def update_user_score(request):
     """
     Update the user's score in the Firebase database.
     """
-    user_id = request.user.get('user_id')
+    user_id = request.session['uid']
+    print(user_id)
 
     if request.method == 'POST':
         try:
@@ -167,7 +164,7 @@ def update_user_score(request):
     
 # Recover user data for listing
 @csrf_exempt
-@login_required
+
 def recover_user_data(request):
     """
     Recover the user's data for listing.
@@ -183,54 +180,67 @@ def recover_user_data(request):
     except Exception as e:
         return JsonResponse({"error": f"Erro ao recuperar dados: {str(e)}"}, status=500)
 
-@login_required
+
 def home_data(request):
     """
     Recover the user's data for listing on the home page.
     """
-    user_id = request.user.get('user_id')
-    
+    user_id = request.session['uid']
+    print(user_id)
     try:
         user_data = db.child("users").child(user_id).get().val()
         if not user_data:
-            user_data = {"points": 0, "level": 1}
+            user_data = {"points": 66, "level": 10}
 
         return JsonResponse({
             "level": user_data["level"],
             "points": user_data["points"],
         })
     except Exception as e:
+        print(f"Erro ao recuperar dados: {str(e)}") 
         return JsonResponse({"error": f"Erro ao recuperar dados da página inicial: {str(e)}"}, status=500)
 
 
 # -------------------- Games --------------------
 
-@login_required
+
 def gameHangman(request):
     '''
     Render the hangman game page.
     '''
+    if 'uid' not in request.session:
+        return redirect('home')
+    
     return render(request, 'gameHangman.html')
 
-@login_required
+
 def gameMemory(request):
     '''
     Render the memory game page.
     '''
+    if 'uid' not in request.session:
+        return redirect('home')
+    
     return render(request, 'gameMemory.html')
 
-@login_required
+
 def gameWordle(request):
     '''
     Render the wordle game page.
     '''
+    if 'uid' not in request.session:
+        return redirect('home')
+    
     return render(request, 'gameWordle.html')
 
-@login_required
+
 def gameLinguage(request):
     '''
     Render the language game page.
     '''
+    if 'uid' not in request.session:
+        return redirect('home')
+    
     return render(request, 'gameLinguage.html')
 
 def privacy(request):
