@@ -1,24 +1,24 @@
 const moviesObject = {
     "☕🍵": "Java",
-    // "🐍🔡": "Python",
-    // "🌐📄": "HTML",
-    // "☕📜": "JavaScript",
-    // "⚙️🐧": "C",
-    // "🖥️🏁": "C++",
-    // "🍵👑": "Kotlin",
-    // "📱🎨": "Swift",
-    // "🔗📚": "C#",
-    // "🌟🎛️": "Ruby",
-    // "🚀🛠️": "Rust",
-    // "🎨📄": "CSS",
-    // "👟🐘": "PHP",
-    // "🔄📄": "TypeScript",
-    // "📱🔗": "ReactNative",
-    // "🧑‍🔬⚙️": "MATLAB",
-    // "📝🔍": "Perl",
-    // "🌈📋": "Dart",
-    // "🐬📘": "Go",
-    // "💻📑": "SQL"
+    "🐍🔡": "Python",
+    "🌐📄": "HTML",
+    "☕📜": "JavaScript",
+    "⚙️🐧": "C",
+    "🖥️🏁": "C++",
+    "🍵👑": "Kotlin",
+    "📱🎨": "Swift",
+    "🔗📚": "C#",
+    "🌟🎛️": "Ruby",
+    "🚀🛠️": "Rust",
+    "🎨📄": "CSS",
+    "👟🐘": "PHP",
+    "🔄📄": "TypeScript",
+    "📱🔗": "ReactNative",
+    "🧑‍🔬⚙️": "MATLAB",
+    "📝🔍": "Perl",
+    "🌈📋": "Dart",
+    "🐬📘": "Go",
+    "💻📑": "SQL"
 };
 
 src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
@@ -122,17 +122,15 @@ const addClickListener = (button, word) => {
           inputSpace[index].innerText = char;
           winCount += 1;
           if (winCount == charArray.length) {
-            resultText.innerHTML = `<div class='message'><h2 class='win-msg'>Você venceu!</h2></div>`;
-            resultText.classList.add("text-sucess");
+            resultText.innerHTML = `<div class='message'><h2 class='win-msg'>Você venceu!</h2><p>A palavra era: <span>${word}</span></p></div>`;
             shoot();
-            console.log("Chamando updateScore...");
-            getUserId().then(userId => {
-                console.log("UserId obtido:", userId);
-                updateScore(userId, 100);
-            }).catch(error => {
-                console.error("Erro ao obter userId:", error);
-            });
             blocker();
+            console.log("Atualizando pontuação...");
+            try {
+                updateScore(100);  // Corrigido de updateUserScore para updateScore
+            } catch (error) {
+                console.error("Erro ao atualizar pontuação:", error);
+            }
           }
         }
       });
@@ -145,7 +143,7 @@ const addClickListener = (button, word) => {
       ).innerHTML = `<span>Jogadas restantes:</span> ${lossCount}`;
       button.classList.add("used");
       if (lossCount == 0) {
-        resultText.innerHTML = `<div class='message'><h2 class='lose-msg'>Você perdeu!</h2></div>`;
+        resultText.innerHTML = `<div class='message'><h2 class='lose-msg'>Você perdeu!</h2><p>A palavra era: <span>${word}</span></p></div>`;
         blocker();
       }
     }
@@ -189,35 +187,58 @@ function shoot() {
 
 // pegando o endpoint do update score do backend
 async function updateScore(pointsEarned) {
-  try {
-      const response = await fetch(`/update_score/`, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'X-CSRFToken': getCSRFToken()
-          },
-          body: JSON.stringify({ points_earned: pointsEarned })
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-          document.getElementById('points').innerText = data.points;
-          document.getElementById('level').innerText = data.level;
-          alert(`Parabéns! Você alcançou o nível ${data.level}`);
-      } else {
-          console.error("Erro ao atualizar pontuação:", data);
-      }
-  } catch (error) {
-      console.error("Erro na requisição:", error);
-  }
+    try {
+        // Verifica se o usuário está autenticado no Firebase
+        const user = firebase.auth().currentUser;
+        if (!user) {
+            console.error("Usuário não está autenticado");
+            return;
+        }
+
+        // Obtém o token de autenticação
+        const idToken = await user.getIdToken();
+        
+        const response = await fetch('/update_score/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken(),
+                'Authorization': `Bearer ${idToken}` // Adiciona o token do Firebase
+            },
+            credentials: 'include',
+            body: JSON.stringify({ 
+                points_earned: pointsEarned,
+                uid: user.uid // Adiciona o ID do usuário
+            })
+        });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Erro ao atualizar pontuação');
+        }
+        
+        const data = await response.json();
+        document.getElementById('points').innerText = data.points;
+        document.getElementById('level').innerText = data.level;
+        alert(`Parabéns! Você alcançou o nível ${data.level}`);
+        
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        // Adiciona um alerta para o usuário
+        alert("Erro ao atualizar pontuação. Por favor, verifique se está logado.");
+    }
 }
 
 function getCSRFToken() {
-return document.cookie
-    .split('; ')
-    .find(row => row.startsWith('csrftoken'))
-    .split('=')[1];
+    const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken'));
+    
+    if (!cookieValue) {
+        return null;
+    }
+    
+    return cookieValue.split('=')[1];
 }
 
 // Esse codigo tem que ser colocado após terminar a fase, ou mudar ele para colocar em determinada parte quando queira que adicione pontos...
