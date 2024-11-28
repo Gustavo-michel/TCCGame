@@ -15,9 +15,13 @@ auth = firebase.auth()
 def home(request):
     return render(request, 'index.html')
 
-# Users
+
+# -------------------- Users --------------------
 
 def register(request):
+    '''
+    Register a new user in the system using email and password for authentication in firebase.
+    '''
     if 'uid' in request.session:
         return redirect('home')
     
@@ -42,6 +46,9 @@ def register(request):
     return render(request, 'userRegister.html')
 
 def login(request):
+    '''
+    Realize the login of a user in the system using email and password for authentication in firebase, saving the authentication token in the user's session.
+    '''
     if 'uid' in request.session:
         return redirect('account')
     
@@ -62,10 +69,16 @@ def login(request):
 
 @login_required
 def account(request):
+    '''
+    Render the user account page.
+    '''
     return render(request, 'userAccount.html')
 
 
 def forgotPassword(request):
+    '''
+    Send a password reset email to the user's email.
+    '''
     if 'uid' in request.session:
         return redirect('account')
 
@@ -84,30 +97,46 @@ def forgotPassword(request):
 
 @login_required
 def logout(request):
+    '''
+    Release the user's authentication token from the session.
+    '''
     try:
         del request.session['uid']
     except KeyError:
         pass
     messages.success(request, 'Logout realizado com sucesso!')
+    print("Logout realizado com sucesso!")
     return redirect('login')
 
 
 def privacy(request):
+    '''
+    Render the privacy policy page.
+    '''
     return render(request, 'privacy.html')
 
 def get_user_id(request):
+    '''
+    Return the authenticated user's ID.
+    '''
     if hasattr(request, 'user') and not request.user.is_anonymous:
-        user_id = request.user.get('user_id', None)
+        if isinstance(request.user, dict):
+            user_id = request.session['uid']
+        else:
+            user_id = getattr(request.user, 'id', None)
     else:
         user_id = None
     return JsonResponse({'user_id': user_id})
 
-# Score logic
+# -------------------- Score logic --------------------
 
 @csrf_exempt
 @login_required
 def update_user_score(request):
-    user_id = request.user['user_id']
+    '''
+    Update the user's score in the firebase database.
+    '''
+    user_id = request.user.get('user_id')
 
     if request.method == 'POST':
 
@@ -126,7 +155,7 @@ def update_user_score(request):
         points = current_points + points_earned
         level = points // 100 + 1
 
-        # Atualiza os dados do usuário no Firebase
+        # Update the user's data in the Firebase database
         db.child("users").child(user_id).update({
             "points": points,
             "level": level
@@ -136,10 +165,13 @@ def update_user_score(request):
     else:
         return JsonResponse({"error": "Método não permitido"}, status=405)
     
-# Recupera os dados do usuario para listagem
+# Recover user data for listing
 @csrf_exempt
 def recover_user_data(request):
-    user_id = request.user['user_id']
+    '''
+    Recover the user's data for listing.
+    '''
+    user_id = request.user.get('user_id')
     
     user_data = db.child("users").child(user_id).get().val()
     
@@ -150,10 +182,13 @@ def recover_user_data(request):
 
 @login_required
 def home_data(request):
+    '''
+    Recover the user's data for listing on the home page.
+    '''
     user_data = None 
     
     if 'uid' in request.session:
-        user_id = request.user['user_id']
+        user_id = request.session['uid']
         try:
             user_data = db.child("users").child(user_id).get().val()
         except Exception as e:
@@ -168,21 +203,34 @@ def home_data(request):
         })
     else:
         return JsonResponse({"error": "Usuário não autenticado"}, status=401)
-        
-# Games
+
+
+# -------------------- Games --------------------
 
 @login_required
 def gameHangman(request):
+    '''
+    Render the hangman game page.
+    '''
     return render(request, 'gameHangman.html')
 
 @login_required
 def gameMemory(request):
+    '''
+    Render the memory game page.
+    '''
     return render(request, 'gameMemory.html')
 
 @login_required
 def gameWordle(request):
+    '''
+    Render the wordle game page.
+    '''
     return render(request, 'gameWordle.html')
 
 @login_required
 def gameLinguage(request):
+    '''
+    Render the language game page.
+    '''
     return render(request, 'gameLinguage.html')
