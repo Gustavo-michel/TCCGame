@@ -63,16 +63,11 @@ def login(request):
         try:
             user = auth.sign_in_with_email_and_password(email, password)
             session_id = user.uid
+            print(user.uid)
             request.session['uid'] = session_id
             messages.success(request, 'Login realizado com sucesso!')
+            print(auth.get_account_info(user['idToken']))
             return redirect('home')
-        
-        except auth.InvalidPasswordError:
-            messages.error(request, 'Senha inválida. Por favor, tente novamente.')
-            return redirect('login')
-        except auth.UserNotFoundError:
-            messages.error(request, 'Usuário não encontrado. Verifique o email ou registre-se.')
-            return redirect('login')
         except Exception as e:
             messages.error(request, f'Erro ao fazer login: {str(e)}')
             return redirect('login')
@@ -96,8 +91,11 @@ def forgotPassword(request):
     if request.method == 'POST':
         email = request.POST.get('email')
 
+        if not email:
+            messages.error(request, 'Por favor, forneça um email válido.')
+            return redirect(reverse('forgotPassword'))
         try:
-            admin_auth.generate_password_reset_link(email)
+            auth.send_password_reset_email(email)
             messages.success(request, "Um e-mail de redefinição de senha foi enviado. Verifique sua caixa de entrada.")
             return redirect(reverse('login'))
         except Exception as e:
@@ -118,13 +116,6 @@ def logout(request):
     messages.success(request, 'Logout realizado com sucesso!')
     print("Logout realizado com sucesso!")
     return redirect('login')
-
-
-def privacy(request):
-    '''
-    Render the privacy policy page.
-    '''
-    return render(request, 'privacy.html')
 
 def get_user_id(request):
     """
@@ -241,3 +232,9 @@ def gameLinguage(request):
     Render the language game page.
     '''
     return render(request, 'gameLinguage.html')
+
+def privacy(request):
+    '''
+    Render the privacy policy page.
+    '''
+    return render(request, 'privacy.html')
