@@ -146,11 +146,7 @@ const matrixGenerator = (cardValues, size = 4) => {
               
               // Adicionar pontos quando ganhar
               const pointsEarned = 100; // Pontos por vitória
-              getUserId().then(userId => {
-                  if (userId) {
-                      updateScore(userId, pointsEarned);
-                  }
-              });
+              updateScore(pointsEarned);
               
               stopGame();
             }
@@ -238,9 +234,9 @@ function shoot() {
 // Codigo novo!!!
 
 // pegando o endpoint do update score do backend
-async function updateScore(userId, pointsEarned) {
+async function updateScore(pointsEarned) {
   try {
-      const response = await fetch(`/update_score/${userId}/`, {
+      const response = await fetch(`update_score/`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -275,17 +271,5 @@ return document.cookie
 //   const pointsEarned = 100;
 //   const userId = getUserId();
 
-//   updateScore(userId, pointsEarned);
+//   updateScore(pointsEarned);
 // }
-
-// pegar o userId para atualizar X usuario
-async function getUserId() {
-  try {
-      const response = await fetch('/get_user_id/');
-      const data = await response.json();
-      return data.user_id;
-  } catch (error) {
-      console.error('Erro ao obter o ID do usuário:', error);
-      return null;
-  }
-}

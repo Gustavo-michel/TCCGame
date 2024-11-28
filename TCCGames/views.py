@@ -56,22 +56,32 @@ def login(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
+        if not email or not password:
+            messages.error(request, 'Email e senha são obrigatórios.')
+            return redirect('login')
+
         try:
             user = auth.sign_in_with_email_and_password(email, password)
-            session_id = user['idToken']
-            request.session['uid'] = str(session_id)
+            session_id = user['localId']
+            print(f"ID do usuário: {session_id}")
+
+            request.session['uid'] = session_id
             messages.success(request, 'Login realizado com sucesso!')
+
+            # print(auth.get_account_info(user['idToken']))
             return redirect('home')
         except Exception as e:
-            messages.error(request, f"Erro ao fazer login: {str(e)}")
-            return render(request, 'userLogin.html')
+            messages.error(request, f'Erro ao fazer login: {str(e)}')
+            return redirect('login')
     return render(request, 'userLogin.html')
 
-@login_required
+
 def account(request):
     '''
     Render the user account page.
     '''
+    if 'uid' not in request.session:
+        return redirect('login')
     return render(request, 'userAccount.html')
 
 
@@ -85,8 +95,11 @@ def forgotPassword(request):
     if request.method == 'POST':
         email = request.POST.get('email')
 
+        if not email:
+            messages.error(request, 'Por favor, forneça um email válido.')
+            return redirect(reverse('forgotPassword'))
         try:
-            admin_auth.generate_password_reset_link(email)
+            auth.send_password_reset_email(email)
             messages.success(request, "Um e-mail de redefinição de senha foi enviado. Verifique sua caixa de entrada.")
             return redirect(reverse('login'))
         except Exception as e:
@@ -95,11 +108,14 @@ def forgotPassword(request):
     
     return render(request, 'userForgot.html')
 
-@login_required
+
 def logout(request):
     '''
     Release the user's authentication token from the session.
     '''
+    if 'uid' not in request.session:
+        return redirect('home')
+    
     try:
         del request.session['uid']
     except KeyError:
@@ -109,128 +125,126 @@ def logout(request):
     return redirect('login')
 
 
-def privacy(request):
-    '''
-    Render the privacy policy page.
-    '''
-    return render(request, 'privacy.html')
-
-def get_user_id(request):
-    '''
-    Return the authenticated user's ID.
-    '''
-    if hasattr(request, 'user') and not request.user.is_anonymous:
-        if isinstance(request.user, dict):
-            user_id = request.session['uid']
-        else:
-            user_id = getattr(request.user, 'id', None)
-    else:
-        user_id = None
-    return JsonResponse({'user_id': user_id})
-
 # -------------------- Score logic --------------------
 
-@csrf_exempt
-@login_required
+
 def update_user_score(request):
-    '''
-    Update the user's score in the firebase database.
-    '''
-    user_id = request.user.get('user_id')
+    """
+    Update the user's score in the Firebase database.
+    """
+    user_id = request.session['uid']
+    print(user_id)
 
     if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            points_earned = int(data.get('points_earned', 0))
 
-        data = json.loads(request.body)
-        points_earned = data.get('points_earned', 0)
+            user_data = db.child("users").child(user_id).get().val()
 
-        user_data = db.child("users").child(user_id).get().val()
+            current_points = user_data.get('points', 0) if user_data else 0
+            current_level = user_data.get('level', 1) if user_data else 1
 
-        if not user_data:
-            current_points = 0
-            current_level = 1
-        else:
-            current_points = user_data['points']
-            current_level = user_data['level']
+            points = current_points + points_earned
+            level = points // 100 + 1
 
-        points = current_points + points_earned
-        level = points // 100 + 1
+            db.child("users").child(user_id).update({
+                "points": points,
+                "level": level
+            })
 
-        # Update the user's data in the Firebase database
-        db.child("users").child(user_id).update({
-            "points": points,
-            "level": level
-        })
+            return JsonResponse({"points": points, "level": level})
 
-        return JsonResponse({"points": points, "level": level})
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Dados inválidos no corpo da requisição"}, status=400)
+        except Exception as e:
+            return JsonResponse({"error": f"Erro ao atualizar pontuação: {str(e)}"}, status=500)
     else:
         return JsonResponse({"error": "Método não permitido"}, status=405)
     
 # Recover user data for listing
 @csrf_exempt
+
 def recover_user_data(request):
-    '''
+    """
     Recover the user's data for listing.
-    '''
+    """
     user_id = request.user.get('user_id')
     
-    user_data = db.child("users").child(user_id).get().val()
-    
-    if not user_data:
-        user_data = {"points": 0, "level": 1}
-    
-    return JsonResponse(user_data)
-
-@login_required
-def home_data(request):
-    '''
-    Recover the user's data for listing on the home page.
-    '''
-    user_data = None 
-    
-    if 'uid' in request.session:
-        user_id = request.session['uid']
-        try:
-            user_data = db.child("users").child(user_id).get().val()
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=401)
-
+    try:
+        user_data = db.child("users").child(user_id).get().val()
         if not user_data:
             user_data = {"points": 0, "level": 1}
-        
+
+        return JsonResponse(user_data)
+    except Exception as e:
+        return JsonResponse({"error": f"Erro ao recuperar dados: {str(e)}"}, status=500)
+
+
+def home_data(request):
+    """
+    Recover the user's data for listing on the home page.
+    """
+    user_id = request.session['uid']
+    print(user_id)
+    try:
+        user_data = db.child("users").child(user_id).get().val()
+        if not user_data:
+            user_data = {"points": 66, "level": 10}
+
         return JsonResponse({
             "level": user_data["level"],
             "points": user_data["points"],
         })
-    else:
-        return JsonResponse({"error": "Usuário não autenticado"}, status=401)
+    except Exception as e:
+        print(f"Erro ao recuperar dados: {str(e)}") 
+        return JsonResponse({"error": f"Erro ao recuperar dados da página inicial: {str(e)}"}, status=500)
 
 
 # -------------------- Games --------------------
 
-@login_required
+
 def gameHangman(request):
     '''
     Render the hangman game page.
     '''
+    if 'uid' not in request.session:
+        return redirect('home')
+    
     return render(request, 'gameHangman.html')
 
-@login_required
+
 def gameMemory(request):
     '''
     Render the memory game page.
     '''
+    if 'uid' not in request.session:
+        return redirect('home')
+    
     return render(request, 'gameMemory.html')
 
-@login_required
+
 def gameWordle(request):
     '''
     Render the wordle game page.
     '''
+    if 'uid' not in request.session:
+        return redirect('home')
+    
     return render(request, 'gameWordle.html')
 
-@login_required
+
 def gameLinguage(request):
     '''
     Render the language game page.
     '''
+    if 'uid' not in request.session:
+        return redirect('home')
+    
     return render(request, 'gameLinguage.html')
+
+def privacy(request):
+    '''
+    Render the privacy policy page.
+    '''
+    return render(request, 'privacy.html')

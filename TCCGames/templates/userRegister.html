@@ -71,12 +71,13 @@
     </main>
 
     {% if messages %}
-    <ul class="messages">
+    <div class="messages-container">
         {% for message in messages %}
-            <i class="fa-solid fa-circle-exclamation"></i>
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        <div class="toast {{ message.tags }}">
+            {{ message }}
+        </div>
         {% endfor %}
-    </ul>
+    </div>
     {% endif %}
 
     <script src="{% static 'js/userRegister.js' %}"></script>
