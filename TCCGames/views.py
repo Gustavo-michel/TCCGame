@@ -56,15 +56,26 @@ def login(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
+        if not email or not password:
+            messages.error(request, 'Email e senha são obrigatórios.')
+            return redirect('login')
+
         try:
             user = auth.sign_in_with_email_and_password(email, password)
-            session_id = user['idToken']
-            request.session['uid'] = str(session_id)
+            session_id = user.uid
+            request.session['uid'] = session_id
             messages.success(request, 'Login realizado com sucesso!')
             return redirect('home')
+        
+        except auth.InvalidPasswordError:
+            messages.error(request, 'Senha inválida. Por favor, tente novamente.')
+            return redirect('login')
+        except auth.UserNotFoundError:
+            messages.error(request, 'Usuário não encontrado. Verifique o email ou registre-se.')
+            return redirect('login')
         except Exception as e:
-            messages.error(request, f"Erro ao fazer login: {str(e)}")
-            return render(request, 'userLogin.html')
+            messages.error(request, f'Erro ao fazer login: {str(e)}')
+            return redirect('login')
     return render(request, 'userLogin.html')
 
 @login_required
@@ -116,93 +127,89 @@ def privacy(request):
     return render(request, 'privacy.html')
 
 def get_user_id(request):
-    '''
+    """
     Return the authenticated user's ID.
-    '''
-    if hasattr(request, 'user') and not request.user.is_anonymous:
-        if isinstance(request.user, dict):
-            user_id = request.session['uid']
-        else:
-            user_id = getattr(request.user, 'id', None)
+    """
+    if hasattr(request, 'user') and isinstance(request.user, dict):
+        user_id = request.user.get('user_id', None)
     else:
         user_id = None
+        print("Id não encontrado")
+
     return JsonResponse({'user_id': user_id})
 
 # -------------------- Score logic --------------------
 
-@csrf_exempt
 @login_required
 def update_user_score(request):
-    '''
-    Update the user's score in the firebase database.
-    '''
+    """
+    Update the user's score in the Firebase database.
+    """
     user_id = request.user.get('user_id')
 
     if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            points_earned = int(data.get('points_earned', 0))
 
-        data = json.loads(request.body)
-        points_earned = data.get('points_earned', 0)
+            user_data = db.child("users").child(user_id).get().val()
 
-        user_data = db.child("users").child(user_id).get().val()
+            current_points = user_data.get('points', 0) if user_data else 0
+            current_level = user_data.get('level', 1) if user_data else 1
 
-        if not user_data:
-            current_points = 0
-            current_level = 1
-        else:
-            current_points = user_data['points']
-            current_level = user_data['level']
+            points = current_points + points_earned
+            level = points // 100 + 1
 
-        points = current_points + points_earned
-        level = points // 100 + 1
+            db.child("users").child(user_id).update({
+                "points": points,
+                "level": level
+            })
 
-        # Update the user's data in the Firebase database
-        db.child("users").child(user_id).update({
-            "points": points,
-            "level": level
-        })
+            return JsonResponse({"points": points, "level": level})
 
-        return JsonResponse({"points": points, "level": level})
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Dados inválidos no corpo da requisição"}, status=400)
+        except Exception as e:
+            return JsonResponse({"error": f"Erro ao atualizar pontuação: {str(e)}"}, status=500)
     else:
         return JsonResponse({"error": "Método não permitido"}, status=405)
     
 # Recover user data for listing
 @csrf_exempt
+@login_required
 def recover_user_data(request):
-    '''
+    """
     Recover the user's data for listing.
-    '''
+    """
     user_id = request.user.get('user_id')
     
-    user_data = db.child("users").child(user_id).get().val()
-    
-    if not user_data:
-        user_data = {"points": 0, "level": 1}
-    
-    return JsonResponse(user_data)
+    try:
+        user_data = db.child("users").child(user_id).get().val()
+        if not user_data:
+            user_data = {"points": 0, "level": 1}
+
+        return JsonResponse(user_data)
+    except Exception as e:
+        return JsonResponse({"error": f"Erro ao recuperar dados: {str(e)}"}, status=500)
 
 @login_required
 def home_data(request):
-    '''
+    """
     Recover the user's data for listing on the home page.
-    '''
-    user_data = None 
+    """
+    user_id = request.user.get('user_id')
     
-    if 'uid' in request.session:
-        user_id = request.session['uid']
-        try:
-            user_data = db.child("users").child(user_id).get().val()
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=401)
-
+    try:
+        user_data = db.child("users").child(user_id).get().val()
         if not user_data:
             user_data = {"points": 0, "level": 1}
-        
+
         return JsonResponse({
             "level": user_data["level"],
             "points": user_data["points"],
         })
-    else:
-        return JsonResponse({"error": "Usuário não autenticado"}, status=401)
+    except Exception as e:
+        return JsonResponse({"error": f"Erro ao recuperar dados da página inicial: {str(e)}"}, status=500)
 
 
 # -------------------- Games --------------------
