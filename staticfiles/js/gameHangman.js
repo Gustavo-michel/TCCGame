@@ -149,6 +149,7 @@ const initializer = () => {
             //if winCount equals word lenfth
             if (winCount == charArray.length) {
               resultText.innerHTML = `<div class='message'><h2 class='win-msg'>Você venceu!</h2><p>A palavra era: <span>${chosenWord}</span></p></div>`;
+              shoot();
               //block all buttons
               blocker();
             }

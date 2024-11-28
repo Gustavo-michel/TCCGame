@@ -1,10 +1,6 @@
 @import url("root.css");
 @import url("animations.css");
 
-.hide {
-    display: none;
-}
-
 /* -------------------- Header -------------------- */
 
 header {
@@ -168,4 +164,8 @@ canvas {
 
 .lose-msg {
     color: var(--color-error);
+}
+
+.hide {
+    display: none;
 }

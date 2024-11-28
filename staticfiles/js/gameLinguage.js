@@ -72,7 +72,7 @@ const generateWord = () => {
       winCount += 1;
       displayItem += `<span class="inputSpace">&nbsp;</span>`;
     } else {
-      displayItem += `<span class="inputSpace">__</span>`;
+      displayItem += `<span class="inputSpace">_</span>`;
     }
   });
   userInputSection.innerHTML = displayItem;
@@ -81,7 +81,7 @@ const generateWord = () => {
 // Initial Function
 const init = () => {
   winCount = 0;
-  lossCount = 5;
+  lossCount = 8;
   document.getElementById(
     "chanceCount"
   ).innerHTML = `<span>Jogadas restantes: ${lossCount}</span>`;
@@ -122,7 +122,7 @@ const addClickListener = (button, word) => {
           inputSpace[index].innerText = char;
           winCount += 1;
           if (winCount == charArray.length) {
-            resultText.innerHTML = "Você venceu!";
+            resultText.innerHTML = `<div class='message'><h2 class='win-msg'>Você venceu!</h2></div>`;
             resultText.classList.add("text-sucess");
             shoot();
             console.log("Chamando updateScore...");
@@ -145,7 +145,7 @@ const addClickListener = (button, word) => {
       ).innerHTML = `<span>Jogadas restantes:</span> ${lossCount}`;
       button.classList.add("used");
       if (lossCount == 0) {
-        resultText.innerHTML = "Você perdeu!";
+        resultText.innerHTML = `<div class='message'><h2 class='lose-msg'>Você perdeu!</h2></div>`;
         blocker();
       }
     }

@@ -50,32 +50,25 @@ header {
     top: 50%;
   }
 
-.container,
-.rules {
-    width: 18.75em;
-    height: 22.5em;
-    position: relative;
-}
-
 .input-group {
     display: grid;
     width: 100%;
     grid-template-columns: auto auto auto auto auto;
-    column-gap: var(--sm);
-    margin: 0.2em 0;
-    gap: var(--sm);
-}
-
-.input-box {
-    font-size: 2em;
-    width: 1.7em;
-    height: 1.7em;
+    margin: var(--md) 0;
+    column-gap: var(--xs);
+    gap: var(--xs);
+  }
+  
+  .input-box {
+    font-size: 20px;
+    width: 56px;
+    height: 56px;
     text-align: center;
     display: block;
     border: 1px solid var(--color-dark);
     line-height: 1;
-    font-weight: 600;
     text-transform: uppercase;
+    padding: 0px;
 }
 
 .input-box:disabled {
@@ -83,7 +76,7 @@ header {
 }
 
 .correct {
-    background-color: var(--color-sucess);
+    background-color: var(--color-success);
 }
 
 .exists {
@@ -110,10 +103,9 @@ header {
 
 .win-screen button {
     font-size: 1.2em;
-    background-color: #7e5bfb;
+    background-color: var(--color-light);
     border: none;
     outline: none;
-    font-weight: 400;
     padding: 0.8em 2em;
     border-radius: 2em;
 }
@@ -129,4 +121,22 @@ header {
     left: 50%;
     top: 0.5em;
     }
+}
+
+/* -------------------- Message -------------------- */
+
+.message {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: var(--md);
+  gap: var(--xs);
+}
+
+.win-msg {
+  color: var(--color-success);
+}
+
+.lose-msg {
+  color: var(--color-error);
 }

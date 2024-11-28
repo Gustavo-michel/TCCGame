@@ -49,10 +49,10 @@ const timeGenerator = () => {
   //format time before displaying
   let secondsValue = seconds < 10 ? `0${seconds}` : seconds;
   let minutesValue = minutes < 10 ? `0${minutes}` : minutes;
-  timeValue.innerHTML = `<span>Time:</span>${minutesValue}:${secondsValue}`;
+  timeValue.innerHTML = `<span>Tempo:</span>${minutesValue}:${secondsValue}`;
 
-  // Verificar se passou de 5 minutos
-  if (minutes >= 5) {
+  // Verificar se passou de 2 minutos
+  if (minutes >= 2) {
     result.innerHTML = `<div class='message'><h2 class='lose-msg'>Você perdeu!</h2><p>Tempo limite excedido</p></div>`;
     stopGame();
   }
@@ -61,10 +61,10 @@ const timeGenerator = () => {
 //For calculating moves
 const movesCounter = () => {
   movesCount += 1;
-  moves.innerHTML = `<span>Moves:</span>${movesCount}`;
+  moves.innerHTML = `<span>Movimentos:</span>${movesCount}`;
   
-  // Verificar se passou de 30 movimentos
-  if (movesCount > 30) {
+  // Verificar se passou de 20 movimentos
+  if (movesCount > 20) {
     result.innerHTML = `<div class='message'><h2 class='lose-msg'>Você perdeu!</h2><p>Limite de movimentos excedido</p></div>`;
     stopGame();
   }
