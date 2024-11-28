@@ -120,7 +120,10 @@ def get_user_id(request):
     Return the authenticated user's ID.
     '''
     if hasattr(request, 'user') and not request.user.is_anonymous:
-        user_id = request.user.get('user_id', None)
+        if isinstance(request.user, dict):
+            user_id = request.session['uid']
+        else:
+            user_id = getattr(request.user, 'id', None)
     else:
         user_id = None
     return JsonResponse({'user_id': user_id})
@@ -185,7 +188,7 @@ def home_data(request):
     user_data = None 
     
     if 'uid' in request.session:
-        user_id = request.user.get('user_id')
+        user_id = request.session['uid']
         try:
             user_data = db.child("users").child(user_id).get().val()
         except Exception as e:
