@@ -41,7 +41,7 @@ $(document).ready(function() {
 //pegando o endpoint para mostrar os dados no home data
 async function fetchHomeData() {
     try {
-        const response = await fetch('/home_data/', {
+        const response = await fetch('/user_data/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

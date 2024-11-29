@@ -128,10 +128,10 @@ def logout(request):
 # -------------------- Score logic --------------------
 
 @csrf_exempt
-def update_user_score(request):
-    """
+def update_score(request):
+    '''
     Update the user's score in the Firebase database.
-    """
+    '''
 
     if request.method == 'POST':
         try:
@@ -166,25 +166,53 @@ def update_user_score(request):
     else:
         return JsonResponse({"error": "Método não permitido"}, status=405)
     
-# Recover user data for listing
+
 @csrf_exempt
-def recover_user_data(request):
-    """
-    Recover the user's data for listing.
-    """
+def position_users(request):
+    '''
+    Recupera a posição do jogador atual e as 3 primeiras posições globais com base nos pontos.
+    '''
     user_id = request.session.get('uid', None)
     
     try:
-        user_data = db.child("users").child(user_id).get().val()
-        if not user_data:
-            user_data = {"points": 0, "level": 1}
+        all_users = db.child("users").get().val()
+        
+        if not all_users:
+            return JsonResponse({"error": "Nenhum dado de usuários encontrado."}, status=404)
 
-        return JsonResponse(user_data)
+        sorted_users = sorted(all_users.items(), key=lambda x: x[1].get('points', 0), reverse=True)
+
+        user_position = None
+        for index, (uid, data) in enumerate(sorted_users, start=1):
+            if uid == user_id:
+                user_position = {
+                    "position": index,
+                    "user_id": uid,
+                    "points": data.get("points", 0),
+                    "level": data.get("level", 0)
+                }
+                break
+
+        top_3 = [
+            {
+                "position": index,
+                "user_id": uid,
+                "points": data.get("points", 0),
+                "level": data.get("level", 0)
+            }
+            for index, (uid, data) in enumerate(sorted_users[:3], start=1)
+        ]
+
+        return JsonResponse({
+            "user_position": user_position,
+            "top_3": top_3
+        })
     except Exception as e:
         return JsonResponse({"error": f"Erro ao recuperar dados: {str(e)}"}, status=500)
 
+
 @csrf_exempt
-def home_data(request):
+def user_data(request):
     """
     Recover the user's data for listing on the home page.
     """
@@ -195,7 +223,7 @@ def home_data(request):
     try:
         user_data = db.child("users").child(user_id).get().val()
         if not user_data:
-            user_data = {"points": 66, "level": 10}
+            user_data = {"points": 0, "level": 0}
 
         return JsonResponse({
             "level": user_data["level"],
