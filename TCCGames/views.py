@@ -127,33 +127,37 @@ def logout(request):
 
 # -------------------- Score logic --------------------
 
-
+@csrf_exempt
 def update_user_score(request):
     """
     Update the user's score in the Firebase database.
     """
-    user_id = request.session['uid']
-    print(user_id)
 
     if request.method == 'POST':
         try:
+            user_id = request.session.get('uid', None)
+            if not user_id:
+                return JsonResponse({"error": "Usuário não autenticado"}, status=401)
+            print(user_id)
+
             data = json.loads(request.body)
             points_earned = int(data.get('points_earned', 0))
 
             user_data = db.child("users").child(user_id).get().val()
+            if not user_data:
+                user_data = {"points": 0, "level": 1}
 
-            current_points = user_data.get('points', 0) if user_data else 0
-            current_level = user_data.get('level', 1) if user_data else 1
-
-            points = current_points + points_earned
-            level = points // 100 + 1
+            points = user_data.get('points', 0) + points_earned
+            level = points // 100
 
             db.child("users").child(user_id).update({
                 "points": points,
                 "level": level
             })
 
-            return JsonResponse({"points": points, "level": level})
+            return JsonResponse(
+                {"points": points, "level": level}
+            )
 
         except json.JSONDecodeError:
             return JsonResponse({"error": "Dados inválidos no corpo da requisição"}, status=400)
@@ -164,12 +168,11 @@ def update_user_score(request):
     
 # Recover user data for listing
 @csrf_exempt
-
 def recover_user_data(request):
     """
     Recover the user's data for listing.
     """
-    user_id = request.user.get('user_id')
+    user_id = request.session.get('uid', None)
     
     try:
         user_data = db.child("users").child(user_id).get().val()
@@ -180,13 +183,15 @@ def recover_user_data(request):
     except Exception as e:
         return JsonResponse({"error": f"Erro ao recuperar dados: {str(e)}"}, status=500)
 
-
+@csrf_exempt
 def home_data(request):
     """
     Recover the user's data for listing on the home page.
     """
-    user_id = request.session['uid']
-    print(user_id)
+    user_id = request.session.get('uid', None)
+    if not user_id:
+        return JsonResponse({"error": "Usuário não autenticado"}, status=401)
+    print(f"uid para request home: {user_id}")
     try:
         user_data = db.child("users").child(user_id).get().val()
         if not user_data:

@@ -126,12 +126,7 @@ const addClickListener = (button, word) => {
             resultText.classList.add("text-sucess");
             shoot();
             console.log("Chamando updateScore...");
-            getUserId().then(userId => {
-                console.log("UserId obtido:", userId);
-                updateScore(userId, 100);
-            }).catch(error => {
-                console.error("Erro ao obter userId:", error);
-            });
+            updateScore(100);
             blocker();
           }
         }
@@ -188,7 +183,7 @@ function shoot() {
 // Codigo novo!!!
 
 // pegando o endpoint do update score do backend
-async function updateScore(userId, pointsEarned) {
+async function updateScore(pointsEarned) {
   try {
       const response = await fetch(`/update_score/`, {
           method: 'POST',
@@ -227,15 +222,3 @@ return document.cookie
 
 //   updateScore(userId, pointsEarned);
 // }
-
-// pegar o userId para atualizar X usuario
-async function getUserId() {
-  try {
-      const response = await fetch('/get_user_id/');
-      const data = await response.json();
-      return data.user_id;
-  } catch (error) {
-      console.error('Erro ao obter o ID do usuário:', error);
-      return null;
-  }
-}
