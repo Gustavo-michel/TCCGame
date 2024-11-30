@@ -4,8 +4,8 @@ from django.urls import reverse
 from app.config import firebase, db
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from firebase_admin import auth as admin_auth
-from .decorators import login_required
+# from firebase_admin import auth as admin_auth
+# from .decorators import login_required
 from django.views.decorators.cache import cache_page
 import json
 

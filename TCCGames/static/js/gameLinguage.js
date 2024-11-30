@@ -183,9 +183,7 @@ function shoot() {
   });
 }
 
-// Codigo novo!!!
-
-// pegando o endpoint do update score do backend
+// Get Endpoint
 async function updateScore(pointsEarned) {
   try {
       const response = await fetch('/update_score/', {

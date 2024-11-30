@@ -231,45 +231,43 @@ function shoot() {
   });
 }
 
-// Codigo novo!!!
-
-// pegando o endpoint do update score do backend
+// Get Endpoint
 async function updateScore(pointsEarned) {
   try {
-      const response = await fetch(`update_score/`, {
+      const response = await fetch('/update_score/', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
-              'X-CSRFToken': getCSRFToken()
+              'X-CSRFToken': getCSRFToken(),
           },
+          credentials: 'include',
           body: JSON.stringify({ points_earned: pointsEarned })
       });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-          document.getElementById('points').innerText = data.points;
-          document.getElementById('level').innerText = data.level;
-          alert(`Parabéns! Você alcançou o nível ${data.level}`);
-      } else {
-          console.error("Erro ao atualizar pontuação:", data);
+
+      if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Erro ao atualizar pontuação');
       }
+
+      const data = await response.json();
+      document.getElementById('points').innerText = data.points;
+      document.getElementById('level').innerText = data.level;
+      alert(`Parabéns! Você alcançou o nível ${data.level}`);
   } catch (error) {
       console.error("Erro na requisição:", error);
+      alert("Erro ao atualizar pontuação. Por favor, tente novamente.");
   }
 }
 
+
 function getCSRFToken() {
-return document.cookie
-    .split('; ')
-    .find(row => row.startsWith('csrftoken'))
-    .split('=')[1];
+    const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken'));
+    
+    if (!cookieValue) {
+        return null;
+    }
+    
+    return cookieValue.split('=')[1];
 }
-
-// Esse codigo tem que ser colocado após terminar a fase, ou mudar ele para colocar em determinada parte quando queira que adicione pontos...
-// function onLevelComplete() {
-//   const pointsEarned = 100;
-//   const userId = getUserId();
-
-//   updateScore(pointsEarned);
-// }
