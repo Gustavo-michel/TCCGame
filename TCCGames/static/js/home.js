@@ -59,6 +59,7 @@ async function fetchHomeData() {
         // Atualiza os elementos na página
         const levelElement = document.getElementById('level');
         const pointsElement = document.getElementById('points');
+        alert(`Parabéns! Você alcançou o nível ${data.levelElement}`);
 
         if (levelElement) {
             levelElement.textContent = data.level || 1;

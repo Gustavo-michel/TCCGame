@@ -314,8 +314,8 @@ async function updateScore(pointsEarned) {
       }
 
       const data = await response.json();
-      document.getElementById('points').innerText = data.points;
-      document.getElementById('level').innerText = data.level;
+      // document.getElementById('points').innerText = data.points;
+      // document.getElementById('level').innerText = data.level;
       alert(`Parabéns! Você alcançou o nível ${data.level}`);
   } catch (error) {
       console.error("Erro na requisição:", error);
