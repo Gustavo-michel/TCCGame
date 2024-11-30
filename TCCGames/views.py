@@ -11,7 +11,7 @@ import json
 
 auth = firebase.auth()
 
-# @cache_page(15 * 1)
+@cache_page(10 * 1)
 def home(request):
     return render(request, 'index.html')
 
