@@ -242,6 +242,7 @@ def gameHangman(request):
     Render the hangman game page.
     '''
     if 'uid' not in request.session:
+        messages.error(request, f'Você precisa estar logado para executar essa ação')
         return redirect('home')
     
     return render(request, 'gameHangman.html')
@@ -252,6 +253,7 @@ def gameMemory(request):
     Render the memory game page.
     '''
     if 'uid' not in request.session:
+        messages.error(request, f'Você precisa estar logado para executar essa ação')
         return redirect('home')
     
     return render(request, 'gameMemory.html')
@@ -262,6 +264,7 @@ def gameWordle(request):
     Render the wordle game page.
     '''
     if 'uid' not in request.session:
+        messages.error(request, f'Você precisa estar logado para executar essa ação')
         return redirect('home')
     
     return render(request, 'gameWordle.html')
@@ -272,6 +275,7 @@ def gameLinguage(request):
     Render the language game page.
     '''
     if 'uid' not in request.session:
+        messages.error(request, f'Você precisa estar logado para executar essa ação')
         return redirect('home')
     
     return render(request, 'gameLinguage.html')
