@@ -37,10 +37,25 @@ def register(request):
 
         try:
             user = auth.create_user_with_email_and_password(email, password)
+            db.child("users").child(user['localId']).set({
+                "name": name,
+                "points": 0,
+                "level": 1
+            })
+
             messages.success(request, f'Usuário {name} registrado com sucesso!')
             return redirect('login')
         except Exception as e:
-            messages.error(request, f'Erro ao registrar: {str(e)}')
+            error_message = "Erro ao registrar. Por favor, tente novamente."
+            error_str = str(e)
+
+            if "EMAIL_EXISTS" in error_str:
+                error_message = "O e-mail já está registrado."
+            elif "WEAK_PASSWORD" in error_str:
+                error_message = "A senha deve ter pelo menos 6 caracteres."
+            elif "TOO_MANY_ATTEMPTS_TRY_LATER" in error_str:
+                error_message = "Muitas tentativas de registro. Tente novamente mais tarde."
+            messages.error(request, error_message)
             return redirect('register')
 
     return render(request, 'userRegister.html')
@@ -71,7 +86,18 @@ def login(request):
             # print(auth.get_account_info(user['idToken']))
             return redirect('home')
         except Exception as e:
-            messages.error(request, f'Erro ao fazer login: {str(e)}')
+            error_message = "Erro ao fazer login. Por favor, tente novamente."
+            error_str = str(e)
+
+            if "INVALID_PASSWORD" in error_str:
+                error_message = "Senha incorreta. Por favor, tente novamente."
+            elif "EMAIL_NOT_FOUND" in error_str:
+                error_message = "E-mail não registrado. Verifique os dados ou registre-se."
+            elif "USER_DISABLED" in error_str:
+                error_message = "Esta conta foi desativada. Entre em contato com o suporte."
+            elif "TOO_MANY_ATTEMPTS_TRY_LATER" in error_str:
+                error_message = "Muitas tentativas de login. Tente novamente mais tarde."
+            messages.error(request, error_message)
             return redirect('login')
     return render(request, 'userLogin.html')
 
@@ -188,6 +214,7 @@ def position_users(request):
                 user_position = {
                     "position": index,
                     "user_id": uid,
+                    "name": data.get("name", "Anônimo"),
                     "points": data.get("points", 0),
                     "level": data.get("level", 0)
                 }
@@ -197,6 +224,7 @@ def position_users(request):
             {
                 "position": index,
                 "user_id": uid,
+                "name": data.get("name", "Anônimo"),
                 "points": data.get("points", 0),
                 "level": data.get("level", 0)
             }
