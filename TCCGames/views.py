@@ -78,12 +78,10 @@ def login(request):
         try:
             user = auth.sign_in_with_email_and_password(email, password)
             session_id = user['localId']
+            request.session['uid'] = session_id
             print(f"ID do usuário: {session_id}")
 
-            request.session['uid'] = session_id
             messages.success(request, 'Login realizado com sucesso!')
-
-            # print(auth.get_account_info(user['idToken']))
             return redirect('home')
         except Exception as e:
             error_message = "Erro ao fazer login. Por favor, tente novamente."
@@ -260,6 +258,34 @@ def user_data(request):
     except Exception as e:
         print(f"Erro ao recuperar dados: {str(e)}") 
         return JsonResponse({"error": f"Erro ao recuperar dados da página inicial: {str(e)}"}, status=500)
+    
+@csrf_exempt
+def update_name(request):
+    """
+    Updates the user's name in the Firebase database.
+    """
+    if request.method == 'POST':
+        try:
+            user_id = request.session.get('uid', None)
+            if not user_id:
+                return JsonResponse({"error": "Usuário não autenticado"}, status=401)
+
+            data = json.loads(request.body)
+            new_name = data.get('name')
+
+            if not new_name:
+                return JsonResponse({"error": "Escolha um novo nome para aplicar"}, status=400)
+
+            db.child("users").child(user_id).update({
+                "name": new_name
+            })
+
+            return JsonResponse({"message": "Nome atualizado com sucesso!"})
+        except Exception as e:
+            return JsonResponse({"error": f"Erro ao atualizar nome: {str(e)}"}, status=500)
+    else:
+        return JsonResponse({"error": "Método não permitido"}, status=405)
+
 
 
 # -------------------- Games --------------------

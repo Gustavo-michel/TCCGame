@@ -20,4 +20,5 @@ urlpatterns = [
     path('update_score/', views.update_score, name='update_score'),
     path('position_users/', views.position_users, name='position_users'),
     path('user_data/', views.user_data, name='user_data'),
+    path('update_name/', views.update_name, name='update_name'),
 ]

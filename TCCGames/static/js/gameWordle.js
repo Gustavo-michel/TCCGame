@@ -109,8 +109,7 @@ const validateWord = async () => {
             <div class='message'><h2 class='win-msg'>Você venceu!</h2><p>Você acertou em: <span>${tryCount}</span> tentativas</p></div>
             <button class="btn-green" onclick="location.reload()">Novo Jogo</button>`;
         // Adiciona pontos
-        const pointsEarned = 100;
-        updateScore(pointsEarned);
+        updateScore(30);
     }
     // Se acabaram as tentativas
     else if (tryCount === maxGuesses) {

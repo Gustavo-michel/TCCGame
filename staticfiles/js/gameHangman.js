@@ -294,3 +294,44 @@ window.onload = initializer;
       shapes: ['circle']
     });
   }
+
+  // Get Endpoint
+async function updateScore(pointsEarned) {
+  try {
+      const response = await fetch('/update_score/', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCSRFToken(),
+          },
+          credentials: 'include',
+          body: JSON.stringify({ points_earned: pointsEarned })
+      });
+
+      if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Erro ao atualizar pontuação');
+      }
+
+      const data = await response.json();
+      // document.getElementById('points').innerText = data.points;
+      // document.getElementById('level').innerText = data.level;
+      alert(`Parabéns! Você alcançou o nível ${data.level}`);
+  } catch (error) {
+      console.error("Erro na requisição:", error);
+      alert("Erro ao atualizar pontuação. Por favor, tente novamente.");
+  }
+}
+
+
+function getCSRFToken() {
+    const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken'));
+    
+    if (!cookieValue) {
+        return null;
+    }
+    
+    return cookieValue.split('=')[1];
+}
