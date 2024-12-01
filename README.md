@@ -54,9 +54,10 @@ Contém as seguintes funcionalidades principais:
    - `update_score`: Atualiza a pontuação e nível do usuário.
    - `position_users`: Recupera a posição do usuário e os três melhores do ranking.
    - `user_data`: Obtém os dados do usuário para exibição na página inicial.
+   - `update_name`: Permite o usuário realizar a alteração de seu nome.
 
 4. **Outros**
-   - `privacy`: Página da política de privacidade.
+   - `privacy`: Página das políticas de privacidade.
 
 ### **Templates**
 - **`index.html`**: Página inicial.
@@ -75,23 +76,23 @@ Contém as seguintes funcionalidades principais:
 
 1. Clone o repositório do GitHub.
 
-2. pegue a chave de api(package-lock.json), variaveis de ambiente(.env).
+2. Pegue a chave de api(package-lock.json), variaveis de ambiente(.env).
 
-3. build container(primeira vez executando ou após mudança no dockerfile):
+3. Build container(primeira vez executando ou após mudança no dockerfile):
 ```bash
 docker-compose build
 ```
-ou para contruir o container e subir ao mesmo tempo:
+Ou para construir e subir o container ao mesmo tempo:
 ```bash
 docker-compose up --build
 ```
 
-4. subindo o container (toda vez que for executar o projeto):
+4. Subindo o container (toda vez que for executar o projeto sem alterações no docker):
 ```bash
 docker-compose up
 ```
 
-3. acessar localhost:8000 e verificar o funcionamento.
+3. Acessar localhost:8000 e verificar o funcionamento.
 
 ## Melhorias Futuras
 - Adição mais jogos educativos.
