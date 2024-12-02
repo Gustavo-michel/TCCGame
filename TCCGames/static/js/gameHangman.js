@@ -1,4 +1,5 @@
-//Initial References
+src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
+
 const letterContainer = document.getElementById("letter-container");
 const optionsContainer = document.getElementById("options-container");
 const userInputSection = document.getElementById("user-input-section");
@@ -7,9 +8,6 @@ const newGameButton = document.getElementById("new-game-button");
 const canvas = document.getElementById("canvas");
 const resultText = document.getElementById("result-text");
 
-src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
-
-//Options values for buttons
 let options = {
   Linguagens: [
     "Python",
@@ -150,8 +148,13 @@ const initializer = () => {
             if (winCount == charArray.length) {
               resultText.innerHTML = `<div class='message'><h2 class='win-msg'>Você venceu!</h2><p>A palavra era: <span>${chosenWord}</span></p></div>`;
               shoot();
-              //block all buttons
               blocker();
+              console.log("Atualizando pontuação...");
+              try {
+                  updateScore(10);  // Corrigido de updateUserScore para updateScore
+              } catch (error) {
+                  console.error("Erro ao atualizar pontuação:", error);
+              }
             }
           }
         });
@@ -295,7 +298,7 @@ window.onload = initializer;
     });
   }
 
-  // Get Endpoint
+// Get Endpoint
 async function updateScore(pointsEarned) {
   try {
       const response = await fetch('/update_score/', {
@@ -316,13 +319,12 @@ async function updateScore(pointsEarned) {
       const data = await response.json();
       // document.getElementById('points').innerText = data.points;
       // document.getElementById('level').innerText = data.level;
-      alert(`Parabéns! Você alcançou o nível ${data.level}`);
+      // alert(`Parabéns! Você alcançou o nível ${data.level}`);
   } catch (error) {
       console.error("Erro na requisição:", error);
       alert("Erro ao atualizar pontuação. Por favor, tente novamente.");
   }
 }
-
 
 function getCSRFToken() {
     const cookieValue = document.cookie

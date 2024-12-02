@@ -19,7 +19,7 @@
 
     <main>
         <div class="container">
-            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="img-animation">
+            <img src="{% static '..\static\images\main.svg' %}" alt="Principal" class="img">
         </div>
 
         <div class="content">
@@ -34,25 +34,25 @@
                 </div>
     
                 <!-- Name -->
-                <div class="inp-content  right-1">
+                <div class="inp-content">
                     <label>Nome<span>*</span></label>
                     <input type="text" id="name" name="name" placeholder="Informe seu nome" />
                 </div>
     
                 <!-- Email -->
-                <div class="inp-content  right-2">
+                <div class="inp-content">
                     <label>Email<span>*</span></label>
                     <input type="text" id="email" name="email" placeholder="Informe seu email" />
                 </div>
     
                 <!-- Password -->
-                <div class="inp-content  right-3">
+                <div class="inp-content">
                     <label>Senha<span>*</span></label>
                     <input type="password" id="password" name="password" placeholder="Informe uma senha" />
                 </div>
     
                 <!-- Confirm -->
-                <div class="inp-content right-4">
+                <div class="inp-content">
                     <label>Confirme a senha<span>*</span></label>
                     <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirme sua senha" />
                 </div>
@@ -63,7 +63,7 @@
     
                 <button type="submit" class="btn-green" id="submit">Criar conta</button>
 
-                <div class="footer right-8">
+                <div class="footer">
                     <p>Já possui uma conta? <a href="{% url 'login' %}">Entrar</a></p>
                 </div>
             </form>       

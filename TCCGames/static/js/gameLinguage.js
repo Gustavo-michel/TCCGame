@@ -1,3 +1,5 @@
+src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
+
 const moviesObject = {
     "☕🍵": "Java",
     "🐍🔡": "Python",
@@ -18,10 +20,8 @@ const moviesObject = {
     "📝🔍": "Perl",
     "🌈📋": "Dart",
     "🐬📘": "Go",
-    "💻📑": "SQL"
+    "💻📑": "SQL",
 };
-
-src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
 
 const container = document.querySelector(".container");
 const controls = document.querySelector(".controls-container");
@@ -127,7 +127,7 @@ const addClickListener = (button, word) => {
             blocker();
             console.log("Atualizando pontuação...");
             try {
-                updateScore(25);  // Corrigido de updateUserScore para updateScore
+                updateScore(10);
             } catch (error) {
                 console.error("Erro ao atualizar pontuação:", error);
             }
@@ -156,7 +156,6 @@ window.onload = () => {
 };
 
 // Confetti animaton
-
 function shoot() {
 
   var defaults = {
@@ -210,7 +209,6 @@ async function updateScore(pointsEarned) {
       alert("Erro ao atualizar pontuação. Por favor, tente novamente.");
   }
 }
-
 
 function getCSRFToken() {
     const cookieValue = document.cookie

@@ -1,3 +1,5 @@
+src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
+
 const moves = document.getElementById("moves-count");
 const timeValue = document.getElementById("time");
 const startButton = document.getElementById("start");
@@ -5,7 +7,6 @@ const stopButton = document.getElementById("stop");
 const gameContainer = document.querySelector(".game-container");
 const result = document.getElementById("result");
 const controls = document.querySelector(".controls-container");
-
 const imageBasePath = '../images/';
 
 let cards;
@@ -13,9 +14,6 @@ let interval;
 let firstCard = false;
 let secondCard = false;
 
-src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
-
-//Items array
 const items = [
   { name: "c#", image: `${STATIC_URL}images/csharp.svg` },
   { name: "c++", image: `${STATIC_URL}images/c++.svg` },
@@ -34,6 +32,7 @@ const items = [
 //Initial Time
 let seconds = 0,
   minutes = 0;
+
 //Initial moves and win count
 let movesCount = 0,
   winCount = 0;
@@ -143,10 +142,12 @@ const matrixGenerator = (cardValues, size = 4) => {
             if (winCount == Math.floor(cardValues.length / 2)) {
               result.innerHTML = `<div class='message'><h2 class='win-msg'>Você venceu!</h2><p>Movimentos: <span>${movesCount}</span></p></div>`;
               shoot();
-              
-
-              updateScore(35);
-              
+              console.log("Atualizando pontuação...");
+              try {
+                  updateScore(10);  
+              } catch (error) {
+                  console.error("Erro ao atualizar pontuação:", error);
+              }
               stopGame();
             }
           } else {
@@ -257,7 +258,6 @@ async function updateScore(pointsEarned) {
       alert("Erro ao atualizar pontuação. Por favor, tente novamente.");
   }
 }
-
 
 function getCSRFToken() {
     const cookieValue = document.cookie
