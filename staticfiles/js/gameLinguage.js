@@ -127,7 +127,7 @@ const addClickListener = (button, word) => {
             blocker();
             console.log("Atualizando pontuação...");
             try {
-                updateScore(100);  // Corrigido de updateUserScore para updateScore
+                updateScore(25);  // Corrigido de updateUserScore para updateScore
             } catch (error) {
                 console.error("Erro ao atualizar pontuação:", error);
             }

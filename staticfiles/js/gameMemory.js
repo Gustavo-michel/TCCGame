@@ -144,9 +144,8 @@ const matrixGenerator = (cardValues, size = 4) => {
               result.innerHTML = `<div class='message'><h2 class='win-msg'>Você venceu!</h2><p>Movimentos: <span>${movesCount}</span></p></div>`;
               shoot();
               
-              // Adicionar pontos quando ganhar
-              const pointsEarned = 100; // Pontos por vitória
-              updateScore(pointsEarned);
+
+              updateScore(35);
               
               stopGame();
             }

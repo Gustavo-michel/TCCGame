@@ -84,13 +84,13 @@ def login(request):
             messages.success(request, 'Login realizado com sucesso!')
             return redirect('home')
         except Exception as e:
-            error_message = "Erro ao fazer login. Por favor, tente novamente."
+            error_message = f"Erro ao fazer login. Por favor, tente novamente."
             error_str = str(e)
 
-            if "INVALID_PASSWORD" in error_str:
-                error_message = "Senha incorreta. Por favor, tente novamente."
-            elif "EMAIL_NOT_FOUND" in error_str:
+            if "EMAIL_NOT_FOUND" in error_str:
                 error_message = "E-mail não registrado. Verifique os dados ou registre-se."
+            elif "INVALID_LOGIN_CREDENTIALS" in error_str:
+                error_message = "As suas credenciais estão incorretas, tenta novamente."
             elif "USER_DISABLED" in error_str:
                 error_message = "Esta conta foi desativada. Entre em contato com o suporte."
             elif "TOO_MANY_ATTEMPTS_TRY_LATER" in error_str:
