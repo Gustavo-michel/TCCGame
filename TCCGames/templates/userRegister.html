@@ -23,12 +23,13 @@
         </div>
 
         <div class="content">
-
-
             <form action="{% url 'register' %}" method="post" autocomplete="off" class="form">
                 {% csrf_token %}
 
                 <div class="title-content">
+                    <a href="javascript:history.back()" class="btn-border small">
+                        <i class="fa-solid fa-arrow-left"></i>Voltar
+                    </a>
                     <h2>Criar conta</h2>
                     <span class="error-message">*obrigatório</span>
                 </div>
@@ -70,16 +71,9 @@
         </div>
     </main>
 
-    {% if messages %}
-    <div class="messages-container">
-        {% for message in messages %}
-        <div class="toast {{ message.tags }}">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
+    {% include 'messages.html' %}
 
+    <script src="{% static 'js/messages.js' %}"></script>
     <script src="{% static 'js/userRegister.js' %}"></script>
 </body>
 </html>

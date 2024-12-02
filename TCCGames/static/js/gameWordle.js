@@ -11,45 +11,45 @@ let tryCount = 0; // Número de tentativas feitas
 
 let words = [
     "ARRAY",
-    "CLASS",
-    "DEBUG",
-    "ERROR",
-    "FLOAT",
-    "INPUT",
-    "LINUX",
-    "MACRO",
-    "MYSQL",
-    "PARSE",
-    "PRINT",
-    "PROXY",
-    "QUERY",
-    "REACT",
-    "REDIS",
-    "REGEX",
-    "SCOPE",
-    "SHELL",
-    "STACK",
-    "STYLE",
-    "SWIFT",
-    "TABLE",
-    "THROW",
-    "TOKEN",
-    "TUPLE",
-    "TYPES",
-    "UNITY",
-    "VALUE",
-    "WHILE",
-    "XPATH",
-    "YIELD",
-    "ASYNC",
-    "BREAK",
-    "CATCH",
-    "CONST",
-    "FETCH",
-    "FINAL",
-    "MAVEN",
-    "QUEUE",
-    "WRITE"
+    // "CLASS",
+    // "DEBUG",
+    // "ERROR",
+    // "FLOAT",
+    // "INPUT",
+    // "LINUX",
+    // "MACRO",
+    // "MYSQL",
+    // "PARSE",
+    // "PRINT",
+    // "PROXY",
+    // "QUERY",
+    // "REACT",
+    // "REDIS",
+    // "REGEX",
+    // "SCOPE",
+    // "SHELL",
+    // "STACK",
+    // "STYLE",
+    // "SWIFT",
+    // "TABLE",
+    // "THROW",
+    // "TOKEN",
+    // "TUPLE",
+    // "TYPES",
+    // "UNITY",
+    // "VALUE",
+    // "WHILE",
+    // "XPATH",
+    // "YIELD",
+    // "ASYNC",
+    // "BREAK",
+    // "CATCH",
+    // "CONST",
+    // "FETCH",
+    // "FINAL",
+    // "MAVEN",
+    // "QUEUE",
+    // "WRITE"
 ];
 
 // Seleciona uma palavra aleatória
@@ -106,6 +106,7 @@ const validateWord = async () => {
     if (successCount === 5) {
         // Mostra tela de vitória
         winScreen.classList.remove("hide");
+        submitButton.classList.add("hide");
         winScreen.innerHTML = `
             <div class='message'><h2 class='win-msg'>Você venceu!</h2><p>Você acertou em: <span>${tryCount}</span> tentativas</p></div>
             <button class="btn-green" onclick="location.reload()">Novo Jogo</button>`;
@@ -120,6 +121,7 @@ const validateWord = async () => {
     // Se acabaram as tentativas
     else if (tryCount === maxGuesses) {
         winScreen.classList.remove("hide");
+        submitButton.classList.add("hide");
         winScreen.innerHTML = `
             <div class='message'><h2 class='lose-msg'>Você perdeu!</h2><p>A palavra era: <span>${word}</span></p></div>
             <button class="btn-green" onclick="location.reload()">Tentar Novamente</button>`;
@@ -146,12 +148,14 @@ const eventListeners = () => {
         }
     });
 
-    // Permite usar backspace para voltar
+    // Permite usar backspace para voltar e Enter para enviar
     container.addEventListener("keydown", (e) => {
         if (e.target.classList.contains("input-box")) {
             if (e.key === "Backspace" && !e.target.value && e.target.previousElementSibling) {
                 e.target.previousElementSibling.focus();
                 inputCount--;
+            } else if (e.key === "Enter" && finalWord.length === 5) {
+                validateWord();
             }
         }
     });

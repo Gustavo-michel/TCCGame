@@ -70,7 +70,7 @@
         <!-- info -->
         <section id="info">
             <p>Para mudar o email ou excluir a conta entre em contado com o suporte através do email</p>
-            <span>BrainQuest2024@gmail.com</span>
+            <span>BrainQuest2k24@gmail.com</span>
         </section>
     </main>
 
@@ -79,16 +79,10 @@
         <a href="{% url 'privacy' %}">Política de privacidade</a>
     </footer>
 
-    <!-- Script -->
+    {% include 'messages.html' %}
+
+    <script src="{% static 'js/messages.js' %}"></script>
     <script src="{% static 'js/home.js' %}"></script>
     <script src="{% static 'js/userAccount.js' %}"></script>
-
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
 </body>
 </html>

@@ -82,4 +82,3 @@ submitButton.addEventListener("click", () => {
     alert("Error");
   }
 });
-

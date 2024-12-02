@@ -125,55 +125,70 @@ const initializer = () => {
   newGameContainer.classList.add("hide");
   letterContainer.innerHTML = "";
 
-  //For creating letter buttons
+  // Função para processar tentativa de letra
+  const processGuess = (letter) => {
+    if (!chosenWord) return; // Se não houver palavra escolhida, retorna
+    
+    let charArray = chosenWord.split("");
+    let dashes = document.getElementsByClassName("dashes");
+    
+    if (charArray.includes(letter)) {
+      charArray.forEach((char, index) => {
+        if (char === letter) {
+          dashes[index].innerText = char;
+          winCount += 1;
+          if (winCount == charArray.length) {
+            resultText.innerHTML = `<div class='message'><h2 class='win-msg'>Você venceu!</h2><p>A palavra era: <span>${chosenWord}</span></p></div>`;
+            shoot();
+            blocker();
+            try {
+              updateScore(10);
+            } catch (error) {
+              console.error("Erro ao atualizar pontuação:", error);
+            }
+          }
+        }
+      });
+    } else {
+      count += 1;
+      drawMan(count);
+      if (count == 6) {
+        resultText.innerHTML = `<div class='message'><h2 class='lose-msg'>Você perdeu!</h2><p>A palavra era: <span>${chosenWord}</span></p></div>`;
+        blocker();
+      }
+    }
+  };
+
+  // Criar botões de letras
   for (let i = 65; i < 91; i++) {
     let button = document.createElement("button");
     button.classList.add("letters");
-    //Number to ASCII[A-Z]
     button.innerText = String.fromCharCode(i);
-    //character button click
+    
     button.addEventListener("click", () => {
-      let charArray = chosenWord.split("");
-      let dashes = document.getElementsByClassName("dashes");
-      //if array contains clciked value replace the matched dash with letter else dram on canvas
-      if (charArray.includes(button.innerText)) {
-        charArray.forEach((char, index) => {
-          //if character in array is same as clicked button
-          if (char === button.innerText) {
-            //replace dash with letter
-            dashes[index].innerText = char;
-            //increment counter
-            winCount += 1;
-            //if winCount equals word lenfth
-            if (winCount == charArray.length) {
-              resultText.innerHTML = `<div class='message'><h2 class='win-msg'>Você venceu!</h2><p>A palavra era: <span>${chosenWord}</span></p></div>`;
-              shoot();
-              blocker();
-              console.log("Atualizando pontuação...");
-              try {
-                  updateScore(10);  // Corrigido de updateUserScore para updateScore
-              } catch (error) {
-                  console.error("Erro ao atualizar pontuação:", error);
-              }
-            }
-          }
-        });
-      } else {
-        //lose count
-        count += 1;
-        //for drawing man
-        drawMan(count);
-        //Count==6 because head,body,left arm, right arm,left leg,right leg
-        if (count == 6) {
-          resultText.innerHTML = `<div class='message'><h2 class='lose-msg'>Você perdeu!</h2><p>A palavra era: <span>${chosenWord}</span></p></div>`;
-          blocker();
-        }
+      if (!button.disabled) {
+        processGuess(button.innerText);
+        button.disabled = true;
       }
-      //disable clicked button
-      button.disabled = true;
     });
+    
     letterContainer.append(button);
   }
+
+  // Adicionar evento de tecla pressionada
+  document.addEventListener("keyup", (e) => {
+    const key = e.key.toUpperCase();
+    // Verifica se é uma letra de A-Z
+    if (/^[A-Z]$/.test(key)) {
+      const buttons = document.querySelectorAll('.letters');
+      buttons.forEach(button => {
+        if (button.innerText === key && !button.disabled) {
+          processGuess(key);
+          button.disabled = true;
+        }
+      });
+    }
+  });
 
   displayOptions();
   //Call to canvasCreator (for clearing previous canvas and creating initial canvas)

@@ -28,6 +28,9 @@
                 {% csrf_token %}
 
                 <div class="title-content">
+                    <a href="javascript:history.back()" class="btn-border small">
+                        <i class="fa-solid fa-arrow-left"></i>Voltar
+                    </a>
                     <h2>Entrar</h2>
                     <span class="error-message">*obrigatório</span>
                 </div>
@@ -56,15 +59,10 @@
             </form>       
         </div>
     </main>
-    
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
 
+    {% include 'messages.html' %}
+
+    <script src="{% static 'js/messages.js' %}"></script>
     <script src="{% static 'js/userLogin.js' %}"></script>
 </body>
 </html>

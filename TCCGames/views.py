@@ -254,6 +254,7 @@ def user_data(request):
         return JsonResponse({
             "level": user_data["level"],
             "points": user_data["points"],
+            "name": user_data["name"],
         })
     except Exception as e:
         print(f"Erro ao recuperar dados: {str(e)}") 

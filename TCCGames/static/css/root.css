@@ -243,50 +243,10 @@ label {
     transform: translateY(2px);
 }
 
-/* -------------------- */
-
-.btn-ghost {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-
-    background-color: transparent;
-    border: none;
-    font-size: 18px;
-    color: var(--color-dark);
-
-    text-decoration: none;
-    cursor: pointer;
-    user-select: none;
-    transition: 0.2s;
-}
-
-.btn-ghost:hover {
-    color: var(--color-green);
-}
-
-/* -------------------- Error -------------------- */
-
-.error {
-    height: 56px;
-    padding: 0 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-
-    font-size: 18px;
-    background-color: var(--color-error);
-    color: var(--color-light);
-    border: none;
-    border-radius: var(--xs);
-    box-shadow: var(--boxshadow);
-
-    text-decoration: none;
-    cursor: pointer;
-    user-select: none;
-    transition: 0.2s;
+.small {
+    height: 48px;
+    padding: 0 20px;
+    margin-bottom: var(--sm);
 }
 
 /* -------------------- Title -------------------- */
@@ -434,30 +394,82 @@ input:focus {
     border-color: var(--color-green);
 }
 
+/* -------------------- Messages -------------------- */
+
+.messages {
+    position: fixed;
+    top: var(--md);
+    right: var(--md);
+    height: 56px;
+    padding: 0 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    z-index: 1000;
+
+    border: none;
+    border-radius: var(--xs);
+    box-shadow: var(--boxshadow);
+
+    animation: slideIn 0.5s ease-in-out;
+}
+
+.messages p {
+    font-size: 18px;
+    color: var(--color-light);
+}
+
+.messages i {
+    color: var(--color-light);
+}
+
+.messages[data-type="error"] {
+    background-color: var(--color-error);
+}
+
+.messages[data-type="success"] {
+    background-color: var(--color-success);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
 /* -------------------- Animation -------------------- */
 
 @keyframes float {
     0% {
-        transform: translateY(0px);
+        transform: translateY(0);
     }
-
-    25% {
-        transform: translateY(-20px);
-    }
-
+    
     50% {
-        transform: translateY(0px);
-    }
-
-    75% {
-        transform: translateY(20px);
+        transform: translateY(-15px);
     }
 
     100% {
-        transform: translateY(0px);
+        transform: translateY(0);
     }
 }
 
 .img {
-    animation: float 6s ease-in-out infinite;
+    animation: float 4s ease-in-out infinite;
 }

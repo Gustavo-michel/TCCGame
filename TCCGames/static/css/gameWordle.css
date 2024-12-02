@@ -47,7 +47,7 @@ header {
     transform: translate(-50%, -50%);
     left: 50%;
     top: 50%;
-  }
+}
 
 .input-group {
     display: grid;
@@ -56,7 +56,7 @@ header {
     margin: var(--md) 0;
     column-gap: var(--xs);
     gap: var(--xs);
-  }
+}
   
   .input-box {
     font-size: 20px;
@@ -86,31 +86,29 @@ header {
     background-color: var(--color-error);
 }
 
+.submit {
+  width: 100%;
+}
+
 .win-screen {
     position: absolute;
     height: 100%;
     width: 100%;
     top: 0;
     left: 0;
-    border-radius: 0.5em;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 1em;
     background-color: var(--color-light);
-}
-
-.hide {
-    display: none;
 }
 
 @media screen and (max-width: 700px) {
     .wrapper {
-    flex-direction: column;
-    transform: translateX(-50%);
-    left: 50%;
-    top: 0.5em;
+      flex-direction: column;
+      transform: translateX(-50%);
+      left: 50%;
+      top: 0.5em;
     }
 }
 
@@ -130,4 +128,8 @@ header {
 
 .lose-msg {
   color: var(--color-error);
+}
+
+.hide {
+  display: none;
 }

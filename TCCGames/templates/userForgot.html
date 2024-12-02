@@ -28,6 +28,9 @@
                 {% csrf_token %}
 
                 <div class="title-content">
+                    <a href="javascript:history.back()" class="btn-border small">
+                        <i class="fa-solid fa-arrow-left"></i>Voltar
+                    </a>
                     <h2>Esqueceu a senha?</h2>
                     <p class="text">Informe seu email para recuperar a conta</p>
                 </div>
@@ -43,14 +46,9 @@
         </div>
     </main>
 
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    {% include 'messages.html' %}
 
+    <script src="{% static 'js/messages.js' %}"></script>
     <script src="{% static 'js/userForgot.js' %}"></script>
 </body>
 

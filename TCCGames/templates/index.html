@@ -93,7 +93,7 @@
                 </h1>
 
                 <p class="description">
-                    Aprenda sobre linguagemns de programação jogando
+                    Aprenda sobre linguagens de programação jogando
                 </p>
 
                 <div class="cta-buttons">
@@ -270,7 +270,7 @@
                     </div>
                 </a>
 
-                <a href="https://www.instagram.com/_perteli/profilecard/?igsh=eXY3MnRxaGdzcnlj">
+                <a href="https://www.instagram.com/professor.kinho.gingarte/profilecard/?igsh=MTUzNHE0NnR6Z3E1aA==">
                     <div class="card-team">
                         <div class="card-team-content">
                             <img src="{% static '..\static\images\avatar\eric.png' %}" alt="Avatar">
@@ -341,7 +341,7 @@
                     </a>
                 </div>
                 <div class="code-image">
-                    <img src="{% static '..\static\images\code.svg' %}" alt="Código" class="img-animation">
+                    <img src="{% static '..\static\images\code.svg' %}" alt="Código" class="img">
                 </div>
             </div>
         </section>
@@ -376,6 +376,9 @@
         </div>
     </footer>
 
+    {% include 'messages.html' %}
+
+    <script src="{% static 'js/messages.js' %}"></script>
     <script src="{% static 'js/home.js' %}"></script>
 </body>
 </html>
