@@ -10,45 +10,45 @@ let tryCount = 0; // Número de tentativas feitas
 // Lista de palavras possíveis (relacionadas a programação)
 let words = [
     "ARRAY",
-    // "CLASS",
-    // "DEBUG",
-    // "ERROR",
-    // "FLOAT",
-    // "INPUT",
-    // "LINUX",
-    // "MACRO",
-    // "MYSQL",
-    // "PARSE",
-    // "PRINT",
-    // "PROXY",
-    // "QUERY",
-    // "REACT",
-    // "REDIS",
-    // "REGEX",
-    // "SCOPE",
-    // "SHELL",
-    // "STACK",
-    // "STYLE",
-    // "SWIFT",
-    // "TABLE",
-    // "THROW",
-    // "TOKEN",
-    // "TUPLE",
-    // "TYPES",
-    // "UNITY",
-    // "VALUE",
-    // "WHILE",
-    // "XPATH",
-    // "YIELD",
-    // "ASYNC",
-    // "BREAK",
-    // "CATCH",
-    // "CONST",
-    // "FETCH",
-    // "FINAL",
-    // "MAVEN",
-    // "QUEUE",
-    // "WRITE"
+    "CLASS",
+    "DEBUG",
+    "ERROR",
+    "FLOAT",
+    "INPUT",
+    "LINUX",
+    "MACRO",
+    "MYSQL",
+    "PARSE",
+    "PRINT",
+    "PROXY",
+    "QUERY",
+    "REACT",
+    "REDIS",
+    "REGEX",
+    "SCOPE",
+    "SHELL",
+    "STACK",
+    "STYLE",
+    "SWIFT",
+    "TABLE",
+    "THROW",
+    "TOKEN",
+    "TUPLE",
+    "TYPES",
+    "UNITY",
+    "VALUE",
+    "WHILE",
+    "XPATH",
+    "YIELD",
+    "ASYNC",
+    "BREAK",
+    "CATCH",
+    "CONST",
+    "FETCH",
+    "FINAL",
+    "MAVEN",
+    "QUEUE",
+    "WRITE"
 ];
 
 // Seleciona uma palavra aleatória
@@ -106,22 +106,18 @@ const validateWord = async () => {
         // Mostra tela de vitória
         winScreen.classList.remove("hide");
         winScreen.innerHTML = `
-            <div class='message'><h2 class='win-msg'>Você venceu!</h2><p>Você acertou em: <span>${tryCount}</span> tentativas</p>
-            <button class="btn-default" onclick="location.reload()">Novo Jogo</button></div>`;
+            <div class='message'><h2 class='win-msg'>Você venceu!</h2><p>Você acertou em: <span>${tryCount}</span> tentativas</p></div>
+            <button class="btn-green" onclick="location.reload()">Novo Jogo</button>`;
         // Adiciona pontos
         const pointsEarned = 100;
-        getUserId().then(userId => {
-            if (userId) {
-                updateScore(userId, pointsEarned);
-            }
-        });
+        updateScore(pointsEarned);
     }
     // Se acabaram as tentativas
     else if (tryCount === maxGuesses) {
         winScreen.classList.remove("hide");
         winScreen.innerHTML = `
-            <div class='message'><h2 class='lose-msg'>Você perdeu!</h2><p>A palavra era: <span>${word}</span></p>
-            <button class="btn-default" onclick="location.reload()">Tentar Novamente</button></div>`;
+            <div class='message'><h2 class='lose-msg'>Você perdeu!</h2><p>A palavra era: <span>${word}</span></p></div>
+            <button class="btn-green" onclick="location.reload()">Tentar Novamente</button>`;
     }
     // Próxima tentativa
     else {
@@ -179,3 +175,45 @@ window.onload = () => {
     createInputs();
     eventListeners();
 };
+
+// Get Endpoint
+async function updateScore(pointsEarned) {
+    try {
+        const response = await fetch('/update_score/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken(),
+            },
+            credentials: 'include',
+            body: JSON.stringify({ points_earned: pointsEarned })
+        });
+  
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Erro ao atualizar pontuação');
+        }
+  
+        const data = await response.json();
+        // document.getElementById('points').innerText = data.points;
+        // document.getElementById('level').innerText = data.level;
+        // alert(`Parabéns! Você alcançou o nível ${data.level}`);
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        alert("Erro ao atualizar pontuação. Por favor, tente novamente.");
+    }
+  }
+  
+  
+  function getCSRFToken() {
+      const cookieValue = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('csrftoken'));
+      
+      if (!cookieValue) {
+          return null;
+      }
+      
+      return cookieValue.split('=')[1];
+  }
+  

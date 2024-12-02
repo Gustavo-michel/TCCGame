@@ -38,7 +38,7 @@
                     <label>Nome</label>
                     <input type="text" id="name" name="name" placeholder="Informe seu nome" />
                 </div>
-                <button class="btn-green">Alterar</button>
+                <button class="btn-green"  onclick="updateUserName()">Alterar</button>
             </div>
         </section>
 
@@ -78,6 +78,7 @@
 
     <!-- Script -->
     <script src="{% static 'js/home.js' %}"></script>
+    <script src="{% static 'js/userAccount.js' %}"></script>
 
     <!-- {% if messages %}
     <ul class="messages">

@@ -127,7 +127,7 @@ const addClickListener = (button, word) => {
             blocker();
             console.log("Atualizando pontuação...");
             try {
-                updateScore(100);  // Corrigido de updateUserScore para updateScore
+                updateScore(25);  // Corrigido de updateUserScore para updateScore
             } catch (error) {
                 console.error("Erro ao atualizar pontuação:", error);
             }
@@ -183,51 +183,34 @@ function shoot() {
   });
 }
 
-// Codigo novo!!!
-
-// pegando o endpoint do update score do backend
+// Get Endpoint
 async function updateScore(pointsEarned) {
-    try {
-        // Verifica se o usuário está autenticado no Firebase
-        const user = firebase.auth().currentUser;
-        if (!user) {
-            console.error("Usuário não está autenticado");
-            return;
-        }
+  try {
+      const response = await fetch('/update_score/', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCSRFToken(),
+          },
+          credentials: 'include',
+          body: JSON.stringify({ points_earned: pointsEarned })
+      });
 
-        // Obtém o token de autenticação
-        const idToken = await user.getIdToken();
-        
-        const response = await fetch('/update_score/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCSRFToken(),
-                'Authorization': `Bearer ${idToken}` // Adiciona o token do Firebase
-            },
-            credentials: 'include',
-            body: JSON.stringify({ 
-                points_earned: pointsEarned,
-                uid: user.uid // Adiciona o ID do usuário
-            })
-        });
-        
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Erro ao atualizar pontuação');
-        }
-        
-        const data = await response.json();
-        document.getElementById('points').innerText = data.points;
-        document.getElementById('level').innerText = data.level;
-        alert(`Parabéns! Você alcançou o nível ${data.level}`);
-        
-    } catch (error) {
-        console.error("Erro na requisição:", error);
-        // Adiciona um alerta para o usuário
-        alert("Erro ao atualizar pontuação. Por favor, verifique se está logado.");
-    }
+      if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Erro ao atualizar pontuação');
+      }
+
+      const data = await response.json();
+      // document.getElementById('points').innerText = data.points;
+      // document.getElementById('level').innerText = data.level;
+      // alert(`Parabéns! Você alcançou o nível ${data.level}`);
+  } catch (error) {
+      console.error("Erro na requisição:", error);
+      alert("Erro ao atualizar pontuação. Por favor, tente novamente.");
+  }
 }
+
 
 function getCSRFToken() {
     const cookieValue = document.cookie
@@ -240,11 +223,3 @@ function getCSRFToken() {
     
     return cookieValue.split('=')[1];
 }
-
-// Esse codigo tem que ser colocado após terminar a fase, ou mudar ele para colocar em determinada parte quando queira que adicione pontos...
-// function onLevelComplete() {
-//   const pointsEarned = 100;
-//   const userId = getUserId();
-
-//   updateScore(userId, pointsEarned);
-// }

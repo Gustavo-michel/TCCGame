@@ -162,6 +162,7 @@ header {
   text-align: center;
   margin-bottom: var(--md);
   gap: var(--xs);
+  z-index: 10;
 }
 
 .win-msg {

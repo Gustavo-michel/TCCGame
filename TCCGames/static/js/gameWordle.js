@@ -109,12 +109,7 @@ const validateWord = async () => {
             <div class='message'><h2 class='win-msg'>Você venceu!</h2><p>Você acertou em: <span>${tryCount}</span> tentativas</p></div>
             <button class="btn-green" onclick="location.reload()">Novo Jogo</button>`;
         // Adiciona pontos
-        const pointsEarned = 100;
-        getUserId().then(userId => {
-            if (userId) {
-                updateScore(userId, pointsEarned);
-            }
-        });
+        updateScore(30);
     }
     // Se acabaram as tentativas
     else if (tryCount === maxGuesses) {
@@ -179,3 +174,45 @@ window.onload = () => {
     createInputs();
     eventListeners();
 };
+
+// Get Endpoint
+async function updateScore(pointsEarned) {
+    try {
+        const response = await fetch('/update_score/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken(),
+            },
+            credentials: 'include',
+            body: JSON.stringify({ points_earned: pointsEarned })
+        });
+  
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Erro ao atualizar pontuação');
+        }
+  
+        const data = await response.json();
+        // document.getElementById('points').innerText = data.points;
+        // document.getElementById('level').innerText = data.level;
+        // alert(`Parabéns! Você alcançou o nível ${data.level}`);
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        alert("Erro ao atualizar pontuação. Por favor, tente novamente.");
+    }
+  }
+  
+  
+  function getCSRFToken() {
+      const cookieValue = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('csrftoken'));
+      
+      if (!cookieValue) {
+          return null;
+      }
+      
+      return cookieValue.split('=')[1];
+  }
+  

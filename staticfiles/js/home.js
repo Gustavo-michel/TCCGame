@@ -38,10 +38,10 @@ $(document).ready(function() {
     });
 });
 
-//pegando o endpoint para mostrar os dados no home data
+// pegando o endpoint para mostrar os dados no home data
 async function fetchHomeData() {
     try {
-        const response = await fetch('/home_data/', {
+        const response = await fetch('/user_data/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -59,6 +59,7 @@ async function fetchHomeData() {
         // Atualiza os elementos na página
         const levelElement = document.getElementById('level');
         const pointsElement = document.getElementById('points');
+        // alert(`Parabéns! Você alcançou o nível ${data.level}`);
 
         if (levelElement) {
             levelElement.textContent = data.level || 1;
@@ -79,8 +80,44 @@ async function fetchHomeData() {
     }
 }
 
-// Chama a função quando a página carrega
 document.addEventListener('DOMContentLoaded', fetchHomeData);
+setInterval(fetchHomeData, 10000);
 
-// Atualiza os dados a cada 30 segundos (opcional)
-setInterval(fetchHomeData, 30000);
+function fetchAndDisplayPositionData() {
+    fetch('/position_users/', {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Erro na requisição: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const userPosition = data.user_position;
+            if (userPosition) {
+                document.getElementById("level").textContent = userPosition.level || "N/A";
+                document.getElementById("position").textContent = userPosition.position || "N/A";
+                document.getElementById("points").textContent = userPosition.points || "N/A";
+            }
+
+            const top3 = data.top_3 || [];
+            for (let i = 0; i < top3.length; i++) {
+                const positionElement = document.getElementById(`position-${i + 1}`);
+                if (positionElement) {
+                    positionElement.querySelector("h2").textContent = `${String(i + 1).padStart(2, "0")}º`;
+                    positionElement.querySelector("p").textContent = top3[i].name || "Anônimo";
+                }
+            }
+        })
+        .catch((error) => {
+            console.error("Erro ao carregar os dados:", error);
+        });
+}
+
+document.addEventListener("DOMContentLoaded", fetchAndDisplayPositionData);
+setInterval(fetchAndDisplayPositionData, 10000);
