@@ -19,10 +19,6 @@ main {
   }
 }
 
-.hide {
-  display: none;
-}
-
 /* -------------------- Header -------------------- */
 
 header {
@@ -288,4 +284,8 @@ footer a:hover {
 
 .messages i {
   font-size: 1.25rem;
+}
+
+.hide {
+  display: none;
 }

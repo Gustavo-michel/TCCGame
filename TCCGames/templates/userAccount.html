@@ -30,6 +30,7 @@
     </header>
 
     <main>
+        <!-- Edit -->
         <section id="edit">
             <h3>Editar nome</h3>
             <div class="form">
@@ -38,10 +39,11 @@
                     <label>Nome</label>
                     <input type="text" id="name" name="name" placeholder="Informe seu nome" />
                 </div>
-                <button class="btn-green"  onclick="updateUserName()">Alterar</button>
+                <button class="btn-green" onclick="updateUserName()">Alterar</button>
             </div>
         </section>
 
+        <!-- Pontuation -->
         <section id="pontuation">
             <div class="pontuation-container">
                 <div class="pontuation-content">
@@ -65,6 +67,7 @@
             </div>
         </section>
 
+        <!-- info -->
         <section id="info">
             <p>Para mudar o email ou excluir a conta entre em contado com o suporte através do email</p>
             <span>BrainQuest2024@gmail.com</span>
@@ -80,12 +83,12 @@
     <script src="{% static 'js/home.js' %}"></script>
     <script src="{% static 'js/userAccount.js' %}"></script>
 
-    <!-- {% if messages %}
+    {% if messages %}
     <ul class="messages">
         {% for message in messages %}
             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}
     </ul>
-    {% endif %} -->
+    {% endif %}
 </body>
 </html>

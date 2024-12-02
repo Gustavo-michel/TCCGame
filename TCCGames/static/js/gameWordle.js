@@ -1,3 +1,5 @@
+src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
+
 let container = document.querySelector(".container");
 let winScreen = document.querySelector(".win-screen");
 let submitButton = document.querySelector(".submit");
@@ -7,7 +9,6 @@ let inputCount = 0;
 let finalWord = ""; // Palavra atual sendo digitada
 let tryCount = 0; // Número de tentativas feitas
 
-// Lista de palavras possíveis (relacionadas a programação)
 let words = [
     "ARRAY",
     "CLASS",
@@ -108,8 +109,13 @@ const validateWord = async () => {
         winScreen.innerHTML = `
             <div class='message'><h2 class='win-msg'>Você venceu!</h2><p>Você acertou em: <span>${tryCount}</span> tentativas</p></div>
             <button class="btn-green" onclick="location.reload()">Novo Jogo</button>`;
-        // Adiciona pontos
-        updateScore(30);
+        shoot();
+        console.log("Atualizando pontuação...");
+        try {
+            updateScore(10);
+        } catch (error) {
+            console.error("Erro ao atualizar pontuação:", error);
+        }
     }
     // Se acabaram as tentativas
     else if (tryCount === maxGuesses) {
@@ -169,6 +175,34 @@ const eventListeners = () => {
     submitButton.addEventListener("click", validateWord);
 };
 
+// Confetti animaton
+function shoot() {
+
+    var defaults = {
+      spread: 360,
+      ticks: 100,
+      gravity: 0,
+      decay: 1,
+      startVelocity: 10,
+      colors: ['FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8']
+    };
+  
+  
+    confetti({
+      ...defaults,
+      particleCount: 30,
+      scalar: 1.5,
+      shapes: ['star']
+    });
+  
+    confetti({
+      ...defaults,
+      particleCount: 10,
+      scalar: 1,
+      shapes: ['circle']
+    });
+  }
+
 // Inicializa o jogo
 window.onload = () => {
     createInputs();
@@ -203,7 +237,6 @@ async function updateScore(pointsEarned) {
     }
   }
   
-  
   function getCSRFToken() {
       const cookieValue = document.cookie
           .split('; ')
@@ -215,4 +248,3 @@ async function updateScore(pointsEarned) {
       
       return cookieValue.split('=')[1];
   }
-  
