@@ -6,18 +6,18 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 # from firebase_admin import auth as admin_auth
 # from .decorators import login_required
-from django.views.decorators.cache import cache_page
+# from django.views.decorators.cache import cache_page
 import json
 
 auth = firebase.auth()
 
-@cache_page(10 * 1)
 def home(request):
     return render(request, 'index.html')
 
 
 # -------------------- Users --------------------
 
+@csrf_exempt
 def register(request):
     '''
     Register a new user in the system using email and password for authentication in firebase.
@@ -60,6 +60,7 @@ def register(request):
 
     return render(request, 'userRegister.html')
 
+@csrf_exempt
 def login(request):
     '''
     Realize the login of a user in the system using email and password for authentication in firebase, saving the authentication token in the user's session.
@@ -108,7 +109,7 @@ def account(request):
         return redirect('login')
     return render(request, 'userAccount.html')
 
-
+@csrf_exempt
 def forgotPassword(request):
     '''
     Send a password reset email to the user's email.
