@@ -1,3 +1,5 @@
+src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
+
 let container = document.querySelector(".container");
 let winScreen = document.querySelector(".win-screen");
 let submitButton = document.querySelector(".submit");
@@ -7,48 +9,47 @@ let inputCount = 0;
 let finalWord = ""; // Palavra atual sendo digitada
 let tryCount = 0; // Número de tentativas feitas
 
-// Lista de palavras possíveis (relacionadas a programação)
 let words = [
     "ARRAY",
-    "CLASS",
-    "DEBUG",
-    "ERROR",
-    "FLOAT",
-    "INPUT",
-    "LINUX",
-    "MACRO",
-    "MYSQL",
-    "PARSE",
-    "PRINT",
-    "PROXY",
-    "QUERY",
-    "REACT",
-    "REDIS",
-    "REGEX",
-    "SCOPE",
-    "SHELL",
-    "STACK",
-    "STYLE",
-    "SWIFT",
-    "TABLE",
-    "THROW",
-    "TOKEN",
-    "TUPLE",
-    "TYPES",
-    "UNITY",
-    "VALUE",
-    "WHILE",
-    "XPATH",
-    "YIELD",
-    "ASYNC",
-    "BREAK",
-    "CATCH",
-    "CONST",
-    "FETCH",
-    "FINAL",
-    "MAVEN",
-    "QUEUE",
-    "WRITE"
+    // "CLASS",
+    // "DEBUG",
+    // "ERROR",
+    // "FLOAT",
+    // "INPUT",
+    // "LINUX",
+    // "MACRO",
+    // "MYSQL",
+    // "PARSE",
+    // "PRINT",
+    // "PROXY",
+    // "QUERY",
+    // "REACT",
+    // "REDIS",
+    // "REGEX",
+    // "SCOPE",
+    // "SHELL",
+    // "STACK",
+    // "STYLE",
+    // "SWIFT",
+    // "TABLE",
+    // "THROW",
+    // "TOKEN",
+    // "TUPLE",
+    // "TYPES",
+    // "UNITY",
+    // "VALUE",
+    // "WHILE",
+    // "XPATH",
+    // "YIELD",
+    // "ASYNC",
+    // "BREAK",
+    // "CATCH",
+    // "CONST",
+    // "FETCH",
+    // "FINAL",
+    // "MAVEN",
+    // "QUEUE",
+    // "WRITE"
 ];
 
 // Seleciona uma palavra aleatória
@@ -105,15 +106,22 @@ const validateWord = async () => {
     if (successCount === 5) {
         // Mostra tela de vitória
         winScreen.classList.remove("hide");
+        submitButton.classList.add("hide");
         winScreen.innerHTML = `
             <div class='message'><h2 class='win-msg'>Você venceu!</h2><p>Você acertou em: <span>${tryCount}</span> tentativas</p></div>
             <button class="btn-green" onclick="location.reload()">Novo Jogo</button>`;
-        // Adiciona pontos
-        updateScore(30);
+        shoot();
+        console.log("Atualizando pontuação...");
+        try {
+            updateScore(10);
+        } catch (error) {
+            console.error("Erro ao atualizar pontuação:", error);
+        }
     }
     // Se acabaram as tentativas
     else if (tryCount === maxGuesses) {
         winScreen.classList.remove("hide");
+        submitButton.classList.add("hide");
         winScreen.innerHTML = `
             <div class='message'><h2 class='lose-msg'>Você perdeu!</h2><p>A palavra era: <span>${word}</span></p></div>
             <button class="btn-green" onclick="location.reload()">Tentar Novamente</button>`;
@@ -140,12 +148,14 @@ const eventListeners = () => {
         }
     });
 
-    // Permite usar backspace para voltar
+    // Permite usar backspace para voltar e Enter para enviar
     container.addEventListener("keydown", (e) => {
         if (e.target.classList.contains("input-box")) {
             if (e.key === "Backspace" && !e.target.value && e.target.previousElementSibling) {
                 e.target.previousElementSibling.focus();
                 inputCount--;
+            } else if (e.key === "Enter" && finalWord.length === 5) {
+                validateWord();
             }
         }
     });
@@ -168,6 +178,34 @@ const eventListeners = () => {
 
     submitButton.addEventListener("click", validateWord);
 };
+
+// Confetti animaton
+function shoot() {
+
+    var defaults = {
+      spread: 360,
+      ticks: 100,
+      gravity: 0,
+      decay: 1,
+      startVelocity: 10,
+      colors: ['FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8']
+    };
+  
+  
+    confetti({
+      ...defaults,
+      particleCount: 30,
+      scalar: 1.5,
+      shapes: ['star']
+    });
+  
+    confetti({
+      ...defaults,
+      particleCount: 10,
+      scalar: 1,
+      shapes: ['circle']
+    });
+  }
 
 // Inicializa o jogo
 window.onload = () => {
@@ -203,7 +241,6 @@ async function updateScore(pointsEarned) {
     }
   }
   
-  
   function getCSRFToken() {
       const cookieValue = document.cookie
           .split('; ')
@@ -215,4 +252,3 @@ async function updateScore(pointsEarned) {
       
       return cookieValue.split('=')[1];
   }
-  

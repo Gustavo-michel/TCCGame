@@ -9,7 +9,13 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = [
+    "brainquest.site",
+    "brainquestcc.web.app",
+    "brainquestcc.firebaseapp.com",
+    "django-app-production-acfe.up.railway.app",
+    "localhost",
+]
 
 
 
@@ -77,14 +83,19 @@ DATABASES = {
     }
 }
 
-# -------------------- REDIS CACHE --------------------
+# -------------------- CACHE --------------------
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://redis:6379/1',
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#         }
+#     }
+# }
 CACHES = {
     'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://redis:6379/1',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',  # Cache em memória local
     }
 }
 # SESSION_ENGINE = "django.contrib.sessions.backends.cache"
