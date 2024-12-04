@@ -78,9 +78,20 @@
                 </li>
             </ul>
 
-            <a href="{% url 'login' %}" class="btn-default">
-                Login
-            </a>
+            {% if not 'uid' in request.session %}
+                <a href="{% url 'login' %}" id="small" class="btn-border">
+                    Login
+                </a>
+                <a href="{% url 'register' %}" id="small" class="btn-default">
+                    Registrar
+                </a>
+            {% endif %}
+
+            {% if 'uid' in request.session %}
+                <a href="{% url 'account' %}" id="small" class="btn-border">
+                    Conta
+                </a>
+            {% endif %}
         </div>
     </header>
 
