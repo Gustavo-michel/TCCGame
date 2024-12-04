@@ -169,7 +169,7 @@ def update_score(request):
 
             user_data = db.child("users").child(user_id).get().val()
             if not user_data:
-                user_data = {"points": 0, "level": 1}
+                user_data = {"points": 0, "level": 0}
 
             points = user_data.get('points', 0) + points_earned
             level = points // 100

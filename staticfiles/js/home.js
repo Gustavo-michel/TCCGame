@@ -59,6 +59,7 @@ async function fetchHomeData() {
         // Atualiza os elementos na página
         const levelElement = document.getElementById('level');
         const pointsElement = document.getElementById('points');
+        const nameElement = document.getElementById('name');
         // alert(`Parabéns! Você alcançou o nível ${data.level}`);
 
         if (levelElement) {
@@ -68,6 +69,11 @@ async function fetchHomeData() {
         if (pointsElement) {
             pointsElement.textContent = (data.points || 0).toLocaleString();
         }
+
+        if (nameElement) {
+            nameElement.value = data.name;
+        }
+
 
     } catch (error) {
         console.error('Erro ao carregar dados:', error);
@@ -100,9 +106,9 @@ function fetchAndDisplayPositionData() {
         .then((data) => {
             const userPosition = data.user_position;
             if (userPosition) {
-                document.getElementById("level").textContent = userPosition.level || "N/A";
+                document.getElementById("level").textContent = userPosition.level || "0";
                 document.getElementById("position").textContent = userPosition.position || "N/A";
-                document.getElementById("points").textContent = userPosition.points || "N/A";
+                document.getElementById("points").textContent = userPosition.points || "0";
             }
 
             const top3 = data.top_3 || [];
