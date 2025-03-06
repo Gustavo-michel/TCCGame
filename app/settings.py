@@ -9,14 +9,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = [
-    "brainquest.site",
-    "brainquestcc.web.app",
-    "brainquestcc.firebaseapp.com",
-    "django-app-production-acfe.up.railway.app",
-    "localhost",
-]
-
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
 
 # -------------------- APPS E BACKENDS DJANGO --------------------
